@@ -1,7 +1,8 @@
 package berryStreet.bluering.backend.controller;
 
 import berryStreet.bluering.backend.entity.Department;
-import berryStreet.bluering.backend.dao.DepartmentDao;
+import berryStreet.bluering.backend.mapper.DeptMapper;
+import berryStreet.bluering.backend.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,16 +13,16 @@ import java.util.List;
 @RestController
 public class DepartmentController {
     @Autowired
-    DepartmentDao departmentDao;
+    private DeptService deptService;
 
     @GetMapping("/getDepartments")
     public List<Department> getDepartments(){
-        return departmentDao.getDepartments();
+        return deptService.selectDeptList();
     }
 
     // 查询全部部门
     @GetMapping("/getDepartment/{id}")
     public Department getDepartment(@PathVariable("id") Integer id){
-        return departmentDao.getDepartment(id);
+        return deptService.selectDeptById(id);
     }
 }
