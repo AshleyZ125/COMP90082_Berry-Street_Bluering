@@ -33,7 +33,7 @@ record
 主键：RID
 做题date
 试卷内容
-reflection diary
+reflection diary（用户save）
 外键：FID
 UID（做题的）/ Anonymous
 isSaved
@@ -42,6 +42,7 @@ share
 主键：SID
 发送者
 接受者
+reflection diary（用户share）
 外键：RID
 
 
