@@ -33,7 +33,7 @@ foreign key(quiz_feed_ID) references quiz(QID)
 );
 create table project.record(
 RID int not null primary key, 
-rdate date not null,
+rDate date not null,
 quizContent varchar(1000) not null,
 savedReflection varchar(500), # null => not saved
 feedID int not null,
