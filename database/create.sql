@@ -35,10 +35,9 @@ create table project.record(
 RID int not null primary key, 
 rdate date not null,
 quizContent varchar(1000) not null,
-savedReflection varchar(500),
+savedReflection varchar(500), # null => not saved
 feedID int not null,
-userID int,# Anonymous UID=null
-isSaved char(1) not null check(isSaved in('Y', 'N')),
+userID int,# Anonymous userID=null
 foreign key(feedID) references feedback(FID)
 );
 create table project.share(
