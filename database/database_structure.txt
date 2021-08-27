@@ -36,7 +36,7 @@ record
 reflection diary（用户save）
 外键：FID
 UID（做题的）/ Anonymous
-isSaved
+####isSaved 讨论后不需要，通过reflection diary判断，没save的话reflection diary=null，save后reflection diary!=null（空为“”）
 
 share
 主键：SID
