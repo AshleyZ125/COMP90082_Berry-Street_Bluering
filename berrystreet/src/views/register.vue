@@ -9,7 +9,7 @@
                     <el-input style="width:300px" v-model="email"></el-input>
                 </el-form-item>
                 <el-form-item label="Password">
-                    <el-input style="width:300px" type="password" v-model="password"></el-input>
+                    <el-input style="width:300px" type="password" show-password="true" v-model="password"></el-input>
                 </el-form-item>
                 <el-form-item label="Username">
                     <el-input style="width:300px" v-model="username"></el-input>
@@ -49,10 +49,9 @@ export default {
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
     .body{
-
         .panel{
             width: 400px;
-            height: 600px;
+            height: 580px;
             margin: 150px auto;
             border-radius: 15px;
             background-color: #50A7C2;

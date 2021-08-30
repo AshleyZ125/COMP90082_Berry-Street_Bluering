@@ -2,7 +2,7 @@
   <div class="main">
       <nav-header></nav-header>
       <div class="body">
-          <div class="panel">
+          <div class="signin-panel">
               <div class="title-container"><span class="title">Sign In</span></div>
               <el-form ref=""  label-width="100px" label-position="top" style="margin:30px 0 0 50px">
                 <el-form-item label="Email" >
@@ -52,8 +52,7 @@ export default {
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
     .body{
-
-        .panel{
+        .signin-panel{
             width: 400px;
             height: 500px;
             margin: 150px auto;
