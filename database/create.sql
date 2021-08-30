@@ -1,6 +1,6 @@
 create schema project;
 create table project.user(
-UID int not null primary key,
+UID int not null auto_increment primary key ,
 email varchar(50) not null,
 username varchar(20) not null,
 password varchar(20) not null,
