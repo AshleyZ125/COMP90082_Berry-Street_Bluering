@@ -3,7 +3,7 @@
       <nav-header></nav-header>
       <div class="body">
           <div class="panel">
-              <div class="title-container"><span class="title">Sign In</span></div>
+              <div class="title-container"><span class="title">Create an account</span></div>
               <el-form ref=""  label-width="100px" label-position="top" style="margin:30px 0 0 50px">
                 <el-form-item label="Email" >
                     <el-input style="width:300px" v-model="email"></el-input>
@@ -11,13 +11,14 @@
                 <el-form-item label="Password">
                     <el-input style="width:300px" type="password" v-model="password"></el-input>
                 </el-form-item>
-                
+                <el-form-item label="Username">
+                    <el-input style="width:300px" v-model="username"></el-input>
+                </el-form-item>
                 <el-form-item>
-                    <el-button style="margin:20px 0 0 110px">Log In</el-button>
+                    <el-button style="margin:20px 0 0 100px">Register</el-button>
                 </el-form-item>
             </el-form>
-            <span class="hyperlink" @click="gotoReset()" style="margin-left:50px">Forgot my password</span>
-            <span class="hyperlink" @click="gotoRegister()" style="margin-left:70px">Create an account</span>
+            
           </div>
           
       </div>
@@ -30,20 +31,16 @@ export default {
     data() {
         return {
         email: '',
-        password:''
+        password:'',
+        username:''
         }
     },
-    name:'signin',
+    name:'register',
     components:{
         NavHeader
     },
     methods:{
-        gotoReset(){
-            this.$router.push('/')
-        },
-        gotoRegister(){
-            this.$router.push('/register')
-        }
+        
     }
 
 }
@@ -55,7 +52,7 @@ export default {
 
         .panel{
             width: 400px;
-            height: 500px;
+            height: 600px;
             margin: 150px auto;
             border-radius: 15px;
             background-color: #50A7C2;

@@ -2,11 +2,11 @@
   <div>
       <nav-header></nav-header>
       <div class="container">
-          <div class="card" id="lec" v-on:click="gotoQuiz()">
+          <div class="card" id="lec" @click="gotoQuiz()">
                 <span>I'm a person with lived experience</span>
                 <img src="./../assets/student.png" alt="">
           </div>
-          <div class="card" id="sup" v-on:click="gotoSignin()">
+          <div class="card" id="sup" @click="gotoSignin()">
               <span>I'm a person who supervises people with lived experience</span>
               <img src="./../assets/teacher.png" alt="" id="teacher">
           </div>
@@ -23,7 +23,7 @@ export default {
     },
     methods:{
         gotoSignin(){
-            alert("11")
+            this.$router.push('/signin')
         },
         gotoQuiz(){
             alert("22")
