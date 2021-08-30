@@ -4,26 +4,18 @@ import lombok.Data;
 
 @Data
 public class User {
-    private Integer uid;
-    private String username;
+    private int UID;
     private String email;
-    private String role;
+    private String username;
     private String password;
+    private String role;
 
-    public Integer getUid() {
-        return uid;
+    public int getUID() {
+        return UID;
     }
 
-    public void setUid(Integer uid) {
-        this.uid = uid;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUID(int UID) {
+        this.UID = UID;
     }
 
     public String getEmail() {
@@ -34,12 +26,12 @@ public class User {
         this.email = email;
     }
 
-    public String getRole() {
-        return role;
+    public String getUsername() {
+        return username;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -48,5 +40,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

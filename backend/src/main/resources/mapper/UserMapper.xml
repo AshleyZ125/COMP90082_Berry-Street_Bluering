@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="berryStreet.bluering.backend.mapper.LoginMapper">
     <resultMap type="User" id="UserResult">
-        <id  property="uid"  column="uid"/>
+        <id  property="UID"  column="UID"/>
         <id  property="username"  column="username"/>
         <id  property="email"  column="email"/>
         <id  property="role"  column="role"/>
@@ -12,7 +12,7 @@
     </resultMap>
 
     <select id="login" parameterType="User" resultMap="UserResult">
-		select u.uid,u.username
+		select u.UID,u.username
 		from User u
 		where u.email = #{email} and u.password=#{password} and u.role=#{role}
 	</select>
