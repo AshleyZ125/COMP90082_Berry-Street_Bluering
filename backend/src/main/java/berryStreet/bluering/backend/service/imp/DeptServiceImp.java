@@ -1,4 +1,4 @@
-package berryStreet.bluering.backend.service;
+package berryStreet.bluering.backend.service.imp;
 
 import berryStreet.bluering.backend.entity.Department;
 import berryStreet.bluering.backend.mapper.DeptMapper;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class DeptService {
+public class DeptServiceImp {
     @Autowired
     private DeptMapper deptMapper;
 
