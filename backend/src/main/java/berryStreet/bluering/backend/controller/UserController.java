@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import berryStreet.bluering.backend.service.RegisterService;
+import berryStreet.bluering.backend.service.ResetService;
+import berryStreet.bluering.backend.service.DeleteService;
 import java.util.Map;
 
 @RestController
@@ -17,6 +19,10 @@ public class UserController {
     private LoginService loginService;
     @Autowired
     private RegisterService registerService;
+    @Autowired
+    private ResetService ResetService;
+    @Autowired
+    private DeleteService DeleteService;
 
     @PostMapping("/superLogin")
     public AjaxResult superLogin(@RequestBody Map<String, Object> map) {
@@ -29,7 +35,7 @@ public class UserController {
             if (result.getUid() != null) {
                 return AjaxResult.success(result);
             } else {
-                return AjaxResult.warn("The user is not exist!");
+                return AjaxResult.warn("The user does not exist!");
             }
         } else {
             return AjaxResult.error("Input Empty!");
@@ -40,6 +46,57 @@ public class UserController {
     public int register(User user) {
         int result = registerService.register(user);
         return result;
+    }
+
+    @PostMapping("/superResetPassword")
+    public AjaxResult superResetPassword(@RequestBody Map<String, Object> map) {
+        if (map != null) {
+            User userQueried = userMapper.queryUserByEmail(map.get("email") + "");
+            if(userQueried!=null){
+                if(userQueried.getPassword().equals(map.get("oldPassword") + "")){
+                    ResetService.resetPassword(userQueried.getUID(), map.get("newPassword") + "");
+                    return AjaxResult.success("Reset password successfully");
+                }else{
+                    return AjaxResult.warn("Password is wrong!");
+                }
+            }else{
+                return AjaxResult.warn("The user does not exist!");
+            }
+        } else {
+            return AjaxResult.error("Input Empty!");
+        }
+    }
+    @PostMapping("/superResetEmail")
+    public AjaxResult superResetEmail(@RequestBody Map<String, Object> map) {
+        if (map != null) {
+            User userQueried = userMapper.queryUserByUID((int)map.get("UID"));
+            if(userQueried!=null){
+                if(userMapper.queryUserByUID(map.get("newEmail")+"")!=null){
+                    return AjaxResult.warn("New email has been bound!");
+                }else{
+                    ResetService.resetEmail(userQueried.getUID(), map.get("newEmail")+"");
+                    return AjaxResult.success("Reset email successfully");
+                }
+            }else{
+                return AjaxResult.warn("The user does not exist!");
+            }
+        } else {
+            return AjaxResult.error("Input Empty!");
+        }
+    }
+    @PostMapping("/superDelete")
+    public AjaxResult superDelete(@RequestBody Map<String, Object> map) {
+        if (map != null) {
+            User userQueried = userMapper.queryUserByUID((int)map.get("UID"));
+            if(userQueried!=null){
+                DeleteService.deleteUser(userQueried.getUID());
+                return AjaxResult.success("Delete user successfully");
+            }else{
+                return AjaxResult.warn("The user does not exist!");
+            }
+        } else {
+            return AjaxResult.error("Input Empty!");
+        }
     }
 }
 
