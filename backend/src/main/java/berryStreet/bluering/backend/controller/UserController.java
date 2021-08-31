@@ -26,12 +26,21 @@ public class UserController {
 
     @PostMapping("/superLogin")
     public AjaxResult superLogin(@RequestBody Map<String, Object> map) {
+        return login(map,"supervisor");
+    }
+
+    @PostMapping("/lecLogin")
+    public AjaxResult superLogin(@RequestBody Map<String, Object> map) {
+        return login(map,"LEC");
+    }
+
+    private AjaxResult login(@RequestBody Map<String, Object> map, String role){
         if (map != null) {
             User user = new User();
             user.setEmail(map.get("email") + "");
-            user.setPassword(map.get("email") + "");
-            user.setRole("supervisor");
-            User result = loginService.login(user);
+            user.setPassword(map.get("password") + "");
+            user.setRole(role);
+            User result = loginService.checkUserExist(user);
             if (result.getUid() != null) {
                 return AjaxResult.success(result);
             } else {

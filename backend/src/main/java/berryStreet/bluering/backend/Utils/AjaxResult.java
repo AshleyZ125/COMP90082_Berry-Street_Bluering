@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class AjaxResult extends HashMap<String, Object>
 {
-    public static final String CODE_TAG = "code";
+    public static final String STATUS_TAG = "status";
     public static final String MSG_TAG = "msg";
     public static final String DATA_TAG = "data";
 
@@ -14,7 +14,7 @@ public class AjaxResult extends HashMap<String, Object>
     public enum Type
     {
         SUCCESS(0),
-        WARN(301),
+        WARN(400),
         ERROR(500);
         private final int value;
         Type(int value)
@@ -40,7 +40,7 @@ public class AjaxResult extends HashMap<String, Object>
      */
     public AjaxResult(Type type, String msg)
     {
-        super.put(CODE_TAG, type.value);
+        super.put(STATUS_TAG, type.value);
         super.put(MSG_TAG, msg);
     }
 
@@ -51,7 +51,7 @@ public class AjaxResult extends HashMap<String, Object>
      */
     public AjaxResult(Type type, String msg, Object data)
     {
-        super.put(CODE_TAG, type.value);
+        super.put(STATUS_TAG, type.value);
         super.put(MSG_TAG, msg);
         if (data != null)
         {

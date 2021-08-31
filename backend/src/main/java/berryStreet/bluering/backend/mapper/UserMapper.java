@@ -12,7 +12,9 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface UserMapper {
 
-    public User login(User u);
+    @Select("select UID,email,username from user where email = #{u.email} and password=#{u.password} and role=#{u.role}")
+    public User checkUserExist(@Param("u") User user);
+    //public User checkUserExist(User u);
 
     @Select("select * from user where email = #{email}")
     public User queryUserByEmail(@Param("email") String email);

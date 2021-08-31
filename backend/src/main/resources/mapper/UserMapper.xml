@@ -11,7 +11,7 @@
         <result property="password"   column="password"/>
     </resultMap>
 
-    <select id="login" parameterType="User" resultMap="UserResult">
+    <select id="checkUserExist" parameterType="User" resultMap="UserResult">
 		select u.UID,u.username
 		from User u
 		where u.email = #{email} and u.password=#{password} and u.role=#{role}

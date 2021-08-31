@@ -11,7 +11,7 @@ public class LoginServiceImp implements LoginService {
     @Autowired
     private UserMapper userMapper;
     @Override
-    public User login(User user) {
-        return userMapper.login(user);
+    public User checkUserExist(User user) {
+        return userMapper.checkUserExist(user);
     }
 }
