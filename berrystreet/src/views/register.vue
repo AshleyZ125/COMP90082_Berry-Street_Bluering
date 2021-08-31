@@ -4,18 +4,18 @@
       <div class="body">
           <div class="panel">
               <div class="title-container"><span class="title">Create an account</span></div>
-              <el-form ref=""  label-width="100px" label-position="top" style="margin:30px 0 0 50px">
-                <el-form-item label="Email" >
-                    <el-input style="width:300px" v-model="email"></el-input>
+              <el-form :model="registerForm" ref="registerForm"  label-width="100px" label-position="top" :rules="registerFormRules" style="margin:30px 0 0 50px">
+                <el-form-item label="Email" prop="email">
+                    <el-input style="width:300px" v-model="registerForm.email"></el-input>
                 </el-form-item>
-                <el-form-item label="Password">
-                    <el-input style="width:300px" type="password" show-password="true" v-model="password"></el-input>
+                <el-form-item label="Password" prop="password">
+                    <el-input style="width:300px" type="password" show-password="true" v-model="registerForm.password"></el-input>
                 </el-form-item>
-                <el-form-item label="Username">
-                    <el-input style="width:300px" v-model="username"></el-input>
+                <el-form-item label="Username" prop="username">
+                    <el-input style="width:300px" v-model="registerForm.username"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button style="margin:20px 0 0 100px">Register</el-button>
+                    <el-button @click="submitForm('registerForm')" style="margin:20px 0 0 100px">Register</el-button>
                 </el-form-item>
             </el-form>
             
@@ -30,9 +30,26 @@ import NavHeader from './../components/NavHeader.vue'
 export default {
     data() {
         return {
-        email: '',
-        password:'',
-        username:''
+            registerForm:{
+                email: '',
+                password:'',
+                username:''
+            },
+            registerFormRules:{
+                email: [
+                    { required: true, message: 'Please enter your email', trigger: 'blur' },
+                    { type:'email',message: 'Please enter correct email address', trigger: ['blur','change'] },
+                ],
+                password: [
+                    { required: true, message: 'Please enter your password', trigger: 'blur' },
+                    { min: 8, max: 16, message: 'Password length should between 8 to 16', trigger: ['blur','change'] },
+                ],
+                username:[
+                    { required: true, message: 'Please enter your name', trigger: 'blur' },
+                    { min: 2, max: 16, message: 'Your name length should between 2 to 16', trigger: ['blur','change'] },
+                ]
+            }
+            
         }
     },
     name:'register',
@@ -40,7 +57,21 @@ export default {
         NavHeader
     },
     methods:{
-        
+        submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!');
+            //todo: axios
+          } else {
+              this.$message({
+                showClose: true,
+                message: 'Oops, Please check the information is valid',
+                type: 'error'
+            });
+            return false;
+          }
+        });
+      },
     }
 
 }

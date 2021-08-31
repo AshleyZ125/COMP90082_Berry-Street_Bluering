@@ -4,16 +4,15 @@
       <div class="body">
           <div class="signin-panel">
               <div class="title-container"><span class="title">Sign In</span></div>
-              <el-form ref=""  label-width="100px" label-position="top" style="margin:30px 0 0 50px">
-                <el-form-item label="Email" >
-                    <el-input style="width:300px" v-model="email"></el-input>
+              <el-form :model="signinForm" ref="signinForm" :rules="signinFormRules" hide-required-asterisk label-width="100px" label-position="top" style="margin:30px 0 0 50px">
+                <el-form-item label="Email" prop="email">
+                    <el-input style="width:300px" v-model="signinForm.email"></el-input>
                 </el-form-item>
-                <el-form-item label="Password">
-                    <el-input style="width:300px" type="password" v-model="password"></el-input>
+                <el-form-item label="Password" prop="password">
+                    <el-input style="width:300px" type="password" v-model="signinForm.password"></el-input>
                 </el-form-item>
-                
                 <el-form-item>
-                    <el-button style="margin:20px 0 0 110px">Log In</el-button>
+                    <el-button @click="submitForm('signinForm')" :loading="signinLoading" style="margin:20px 0 0 110px">Log In</el-button>
                 </el-form-item>
             </el-form>
             <span class="hyperlink" @click="gotoReset()" style="margin-left:50px">Forgot my password</span>
@@ -28,9 +27,23 @@
 import NavHeader from './../components/NavHeader.vue'
 export default {
     data() {
+        
         return {
-        email: '',
-        password:''
+            signinForm:{
+                email: '',
+                password:'',
+            },
+            signinFormRules: {
+                email: [
+                    { required: true, message: 'Please enter your email', trigger: 'blur' },
+                    { type:'email',message: 'Please enter correct email address', trigger: ['blur','change'] },
+                ],
+                password: [
+                    { required: true, message: 'Please enter your password', trigger: 'blur' },
+                   
+                ],
+            },
+            signinLoading:false
         }
     },
     name:'signin',
@@ -43,7 +56,22 @@ export default {
         },
         gotoRegister(){
             this.$router.push('/register')
-        }
+        },
+        submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!');
+            //todo: axios
+          } else {
+              this.$message({
+                showClose: true,
+                message: 'Oops, Please check your email and password are valid',
+                type: 'error'
+            });
+            return false;
+          }
+        });
+      },
     }
 
 }
