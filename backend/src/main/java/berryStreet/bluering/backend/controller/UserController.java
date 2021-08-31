@@ -20,9 +20,9 @@ public class UserController {
     @Autowired
     private RegisterService registerService;
     @Autowired
-    private ResetService ResetService;
+    private ResetService resetService;
     @Autowired
-    private DeleteService DeleteService;
+    private DeleteService deleteService;
 
     @PostMapping("/superLogin")
     public AjaxResult superLogin(@RequestBody Map<String, Object> map) {
@@ -54,7 +54,7 @@ public class UserController {
             User userQueried = userMapper.queryUserByEmail(map.get("email") + "");
             if(userQueried!=null){
                 if(userQueried.getPassword().equals(map.get("oldPassword") + "")){
-                    ResetService.resetPassword(userQueried.getUID(), map.get("newPassword") + "");
+                    resetService.resetPassword(userQueried.getUID(), map.get("newPassword") + "");
                     return AjaxResult.success("Reset password successfully");
                 }else{
                     return AjaxResult.warn("Password is wrong!");
@@ -74,7 +74,7 @@ public class UserController {
                 if(userMapper.queryUserByUID(map.get("newEmail")+"")!=null){
                     return AjaxResult.warn("New email has been bound!");
                 }else{
-                    ResetService.resetEmail(userQueried.getUID(), map.get("newEmail")+"");
+                    resetService.resetEmail(userQueried.getUID(), map.get("newEmail")+"");
                     return AjaxResult.success("Reset email successfully");
                 }
             }else{
@@ -89,7 +89,7 @@ public class UserController {
         if (map != null) {
             User userQueried = userMapper.queryUserByUID((int)map.get("UID"));
             if(userQueried!=null){
-                DeleteService.deleteUser(userQueried.getUID());
+                deleteService.deleteUser(userQueried.getUID());
                 return AjaxResult.success("Delete user successfully");
             }else{
                 return AjaxResult.warn("The user does not exist!");
