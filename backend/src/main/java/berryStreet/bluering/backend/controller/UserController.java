@@ -63,8 +63,12 @@ public class UserController {
             User userQueried = userMapper.queryUserByEmail(map.get("email") + "");
             if(userQueried!=null){
                 if(userQueried.getPassword().equals(map.get("oldPassword") + "")){
-                    resetService.resetPassword(userQueried.getUID(), map.get("newPassword") + "");
-                    return AjaxResult.success("Reset password successfully");
+                    int result = resetService.resetPassword(userQueried.getUID(), map.get("newPassword") + "");
+                    if(result==0){
+                        return AjaxResult.warn("Fail in password reset!");
+                    }else {
+                        return AjaxResult.success("Reset password successfully");
+                    }
                 }else{
                     return AjaxResult.warn("Password is wrong!");
                 }
@@ -83,8 +87,12 @@ public class UserController {
                 if(userMapper.queryUserByUID(map.get("newEmail")+"")!=null){
                     return AjaxResult.warn("New email has been bound!");
                 }else{
-                    resetService.resetEmail(userQueried.getUID(), map.get("newEmail")+"");
-                    return AjaxResult.success("Reset email successfully");
+                    int result = resetService.resetEmail(userQueried.getUID(), map.get("newEmail")+"");
+                    if(result==0){
+                        return AjaxResult.warn("Fail in email reset!");
+                    }else {
+                        return AjaxResult.success("Reset email successfully");
+                    }
                 }
             }else{
                 return AjaxResult.warn("The user does not exist!");
@@ -98,8 +106,12 @@ public class UserController {
         if (map != null) {
             User userQueried = userMapper.queryUserByUID((int)map.get("UID"));
             if(userQueried!=null){
-                deleteService.deleteUser(userQueried.getUID());
-                return AjaxResult.success("Delete user successfully");
+                int result = deleteService.deleteUser(userQueried.getUID());
+                if(result==0){
+                    return AjaxResult.warn("Fail in user deletion!");
+                }else {
+                    return AjaxResult.success("Delete user successfully");
+                }
             }else{
                 return AjaxResult.warn("The user does not exist!");
             }

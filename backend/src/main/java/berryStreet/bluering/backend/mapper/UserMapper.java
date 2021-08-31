@@ -30,11 +30,11 @@ public interface UserMapper {
     public int insertUser(@Param("user") User user);
 
     @Update("update user set password = #{password} where UID = #{UID}")
-    public boolean resetPassword(@Param("password") String password, @Param("UID") int UID);
+    public int resetPassword(@Param("password") String password, @Param("UID") int UID);
 
     @Update("update user set email = #{email} where UID = #{UID}")
-    public boolean resetEmail(@Param("email") String email, @Param("UID") int UID);
+    public int resetEmail(@Param("email") String email, @Param("UID") int UID);
 
     @Delete("delete from user where UID = #{UID}")
-    public boolean deleteUserByUID(@Param("UID") int UID);
+    public int deleteUserByUID(@Param("UID") int UID);
 }
