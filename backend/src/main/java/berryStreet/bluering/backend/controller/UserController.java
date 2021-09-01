@@ -24,13 +24,13 @@ public class UserController {
     @Autowired
     private DeleteService deleteService;
 
-    @PostMapping("/superLogin")
+    @PostMapping("/user/superLogin")
     public AjaxResult superLogin(@RequestBody Map<String, Object> map) {
         return login(map,"supervisor");
     }
 
-    @PostMapping("/lecLogin")
-    public AjaxResult superLogin(@RequestBody Map<String, Object> map) {
+    @PostMapping("/user/lecLogin")
+    public AjaxResult lecLogin(@RequestBody Map<String, Object> map) {
         return login(map,"LEC");
     }
 
@@ -41,7 +41,7 @@ public class UserController {
             user.setPassword(map.get("password") + "");
             user.setRole(role);
             User result = loginService.checkUserExist(user);
-            if (result.getUid() != null) {
+            if (result.getUsername() != null) {
                 return AjaxResult.success(result);
             } else {
                 return AjaxResult.warn("The user does not exist!");
@@ -51,16 +51,16 @@ public class UserController {
         }
     }
 
-    @PostMapping("/register")
+    @PostMapping("/user/register")
     public int register(User user) {
         int result = registerService.register(user);
         return result;
     }
 
-    @PostMapping("/superResetPassword")
+    @PostMapping("/user/superResetPassword")
     public AjaxResult superResetPassword(@RequestBody Map<String, Object> map) {
         if (map != null) {
-            User userQueried = userMapper.queryUserByEmail(map.get("email") + "");
+            User userQueried = resetService.queryUserByEmail(map.get("email") + "");
             if(userQueried!=null){
                 if(userQueried.getPassword().equals(map.get("oldPassword") + "")){
                     int result = resetService.resetPassword(userQueried.getUID(), map.get("newPassword") + "");
@@ -79,12 +79,12 @@ public class UserController {
             return AjaxResult.error("Input Empty!");
         }
     }
-    @PostMapping("/superResetEmail")
+    @PostMapping("/user/superResetEmail")
     public AjaxResult superResetEmail(@RequestBody Map<String, Object> map) {
         if (map != null) {
-            User userQueried = userMapper.queryUserByUID((int)map.get("UID"));
+            User userQueried = resetService.queryUserByUID((int)map.get("UID"));
             if(userQueried!=null){
-                if(userMapper.queryUserByUID(map.get("newEmail")+"")!=null){
+                if(resetService.queryUserByEmail(map.get("newEmail")+"")!=null){
                     return AjaxResult.warn("New email has been bound!");
                 }else{
                     int result = resetService.resetEmail(userQueried.getUID(), map.get("newEmail")+"");
@@ -101,10 +101,10 @@ public class UserController {
             return AjaxResult.error("Input Empty!");
         }
     }
-    @PostMapping("/superDelete")
+    @PostMapping("/user/superDelete")
     public AjaxResult superDelete(@RequestBody Map<String, Object> map) {
         if (map != null) {
-            User userQueried = userMapper.queryUserByUID((int)map.get("UID"));
+            User userQueried = resetService.queryUserByUID((int)map.get("UID"));
             if(userQueried!=null){
                 int result = deleteService.deleteUser(userQueried.getUID());
                 if(result==0){

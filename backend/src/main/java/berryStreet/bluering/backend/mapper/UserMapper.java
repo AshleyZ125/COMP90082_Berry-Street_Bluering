@@ -1,11 +1,8 @@
 package berryStreet.bluering.backend.mapper;
 
 import berryStreet.bluering.backend.entity.User;
-<<<<<<< HEAD
 import org.apache.ibatis.annotations.Mapper;
-=======
 import org.apache.ibatis.annotations.*;
->>>>>>> origin/20210901-backend-dev
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -30,10 +27,10 @@ public interface UserMapper {
     public int insertUser(@Param("user") User user);
 
     @Update("update user set password = #{password} where UID = #{UID}")
-    public int resetPassword(@Param("password") String password, @Param("UID") int UID);
+    public int resetPassword(@Param("UID") int UID, @Param("password") String password);
 
     @Update("update user set email = #{email} where UID = #{UID}")
-    public int resetEmail(@Param("email") String email, @Param("UID") int UID);
+    public int resetEmail(@Param("UID") int UID, @Param("email") String email);
 
     @Delete("delete from user where UID = #{UID}")
     public int deleteUserByUID(@Param("UID") int UID);
