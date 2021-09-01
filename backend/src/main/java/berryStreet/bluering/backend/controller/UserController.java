@@ -60,7 +60,7 @@ public class UserController {
     @PostMapping("/user/superResetPassword")
     public AjaxResult superResetPassword(@RequestBody Map<String, Object> map) {
         if (map != null) {
-            User userQueried = resetService.queryUserByEmail(map.get("email") + "");
+            User userQueried = resetService.queryUserByUID((int)map.get("UID"));
             if(userQueried!=null){
                 if(userQueried.getPassword().equals(map.get("oldPassword") + "")){
                     int result = resetService.resetPassword(userQueried.getUID(), map.get("newPassword") + "");
