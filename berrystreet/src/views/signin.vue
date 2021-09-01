@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="sign-main">
       <nav-header></nav-header>
       <div class="body">
           <div class="signin-panel">
@@ -43,7 +43,8 @@ export default {
                    
                 ],
             },
-            signinLoading:false
+            signinLoading:false,
+            userId:''
         }
     },
     name:'signin',
@@ -57,11 +58,36 @@ export default {
         gotoRegister(){
             this.$router.push('/register')
         },
+        signin(){
+             //console.log(this.signinForm.email,this.signinForm.password)
+             this.axios.post('/user/superLogin',{
+                 email:this.signinForm.email,
+                 password:this.signinForm.password
+             }).then((res)=>{
+                 console.log(res)
+                 if(res.status==0){
+                     console.log(res)
+                     //this.$cookie.set('userId',res.UID,{expires: '1M'});
+                     //todo:vuex save username
+                     //this.$router.push('/myspace')
+				}
+				else{
+                    console.log(res)
+                    this.$message({
+                        message: '获取失败，请重试',
+                        type: 'error'
+                    })
+                }
+                
+             })
+        },
         submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!');
+
             //todo: axios
+            this.signin()
           } else {
               this.$message({
                 showClose: true,
@@ -72,6 +98,7 @@ export default {
           }
         });
       },
+      
     }
 
 }

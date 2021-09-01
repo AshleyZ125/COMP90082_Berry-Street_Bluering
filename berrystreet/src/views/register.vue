@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="register-main">
       <nav-header></nav-header>
       <div class="body">
           <div class="panel">

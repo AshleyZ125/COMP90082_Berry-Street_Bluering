@@ -1,20 +1,27 @@
 <template>
-  <div class="nav-header">
-      <img src="./../assets/lexm.png" alt="">
-      <span>Welcome to LEx Mirror!</span>
+  <div>
+      <div class="space-header">
+        <img src="./../assets/lexm.png" alt="">
+        <span class="header-content">Hi Jenny</span>
+        <el-button @click="logout()" style="float:right;margin-right:25px;margin-top:25px;">Logout</el-button>
+      </div>
   </div>
 </template>
 
 <script>
 export default {
-    name:'nav-header'
-
+    name:'space-header',
+    methods:{
+        logout(){
+            alert("logout");
+        }
+    }
 }
 </script>
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
-    .nav-header{
+    .space-header{
         height: 90px;
         line-height: 90px;
         background-color: #50A7C2;
@@ -30,10 +37,11 @@ export default {
             left: 10px;
             margin: auto;
         }
-        span{
+        .header-content{
             font-size: 45px;
             font-family: 'Acme', sans-serif;  
             color: #F8F8FF;
         }
+        
     }
 </style>
