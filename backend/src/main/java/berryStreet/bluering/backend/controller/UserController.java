@@ -5,6 +5,7 @@ import berryStreet.bluering.backend.Utils.AjaxResult;
 import berryStreet.bluering.backend.entity.User;
 import berryStreet.bluering.backend.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import berryStreet.bluering.backend.service.DeleteService;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 public class UserController {
     @Autowired
     private LoginService loginService;
@@ -34,19 +36,22 @@ public class UserController {
         return login(map,"LEC");
     }
 
-    private AjaxResult login(@RequestBody Map<String, Object> map, String role){
+    private AjaxResult login(Map<String, Object> map, String role){
+        System.out.println("login start");
         if (map != null) {
             User user = new User();
             user.setEmail(map.get("email") + "");
             user.setPassword(map.get("password") + "");
             user.setRole(role);
             User result = loginService.checkUserExist(user);
-            if (result.getUsername() != null) {
+            if (result.getUsername() != null) {System.out.println(result);
                 return AjaxResult.success(result);
             } else {
+                System.out.println("warn");
                 return AjaxResult.warn("The user does not exist!");
             }
         } else {
+            System.out.println("error");
             return AjaxResult.error("Input Empty!");
         }
     }
