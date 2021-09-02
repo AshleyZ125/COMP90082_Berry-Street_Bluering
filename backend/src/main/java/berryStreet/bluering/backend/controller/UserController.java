@@ -66,7 +66,7 @@ public class UserController {
                 if(userQueried.getPassword().equals(map.get("oldPassword") + "")){
                     int result = resetService.resetPassword(userQueried.getUID(), map.get("newPassword") + "");
                     if(result==0){
-                        return AjaxResult.warn("Fail in password reset!");
+                        return AjaxResult.error("Fail in password reset!");
                     }else {
                         return AjaxResult.success("Reset password successfully");
                     }
@@ -90,7 +90,7 @@ public class UserController {
                 }else{
                     int result = resetService.resetEmail(userQueried.getUID(), map.get("newEmail")+"");
                     if(result==0){
-                        return AjaxResult.warn("Fail in email reset!");
+                        return AjaxResult.error("Fail in email reset!");
                     }else {
                         return AjaxResult.success("Reset email successfully");
                     }
@@ -109,7 +109,7 @@ public class UserController {
             if(userQueried!=null){
                 int result = deleteService.deleteUser(userQueried.getUID());
                 if(result==0){
-                    return AjaxResult.warn("Fail in user deletion!");
+                    return AjaxResult.error("Fail in user deletion!");
                 }else {
                     return AjaxResult.success("Delete user successfully");
                 }
