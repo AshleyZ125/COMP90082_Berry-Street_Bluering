@@ -1,9 +1,7 @@
 package berryStreet.bluering.backend.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder
@@ -13,15 +11,15 @@ public class RegisterUser {
     private String username;
     private String password;
     private String role;
-    private String inviteCode;
+    private String code;
 
-    public RegisterUser(int UID, String email, String username, String password, String role, String inviteCode) {
+    public RegisterUser(int UID, String email, String username, String password, String role, String code) {
         this.UID = UID;
         this.email = email;
         this.username = username;
         this.password = password;
         this.role = role;
-        this.inviteCode = inviteCode;
+        this.code = code;
     }
 
     public RegisterUser() {
@@ -67,11 +65,11 @@ public class RegisterUser {
         this.role = role;
     }
 
-    public String getInviteCode() {
-        return inviteCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setInviteCode(String inviteCode) {
-        this.inviteCode = inviteCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 }

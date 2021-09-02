@@ -25,7 +25,7 @@ public class RegisterServiceImp implements RegisterService {
         }
         if(registerUser.getRole().equals("supervisor")){
             Set<String> inviteCodes  = adminConfig.getInviteCodes();
-            if(!inviteCodes.contains(registerUser.getInviteCode())){
+            if(!inviteCodes.contains(registerUser.getCode())){
                 return Constant.WRONG_INVITECODE;
             }
         }

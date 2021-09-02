@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/api/user/register")
-    public AjaxResult register(RegisterUser user) {
+    public AjaxResult register(@RequestBody RegisterUser user) {
         int result = registerService.register(user);
         switch (result) {
             case 0:

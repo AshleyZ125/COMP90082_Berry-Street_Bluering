@@ -16,7 +16,7 @@ public class UserTest {
                 .password("123456").role("supervisor").build();
         userController.register(registerUser);
         RegisterUser supervisor = RegisterUser.builder().username("guan").email("4444@qq.com")
-                .password("223").role("supervisor").inviteCode("123123123")
+                .password("223").role("supervisor").code("123123123")
                 .build();
         userController.register(supervisor);
     }
