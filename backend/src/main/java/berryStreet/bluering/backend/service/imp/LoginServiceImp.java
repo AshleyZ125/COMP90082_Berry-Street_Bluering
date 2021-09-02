@@ -12,6 +12,13 @@ public class LoginServiceImp implements LoginService {
     private UserMapper userMapper;
     @Override
     public User checkUserExist(User user) {
-        return userMapper.checkUserExist(user);
+        User result=userMapper.queryUserByEmail(user.getEmail());
+        if(result==null)return null;
+        if(user.getPassword().equals(result.getPassword())){
+            result.setPassword(null);
+        }else{
+            result.setUID(-1);
+        }
+        return result;
     }
 }
