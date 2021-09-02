@@ -27,28 +27,27 @@ public class UserController {
     @Autowired
     private DeleteService deleteService;
 
-    @PostMapping("/api/user/superLogin")
-    public AjaxResult superLogin(@RequestBody User user) { return login(user,"supervisor"); }
+    //@PostMapping("/api/user/superLogin")
+    //public AjaxResult superLogin(@RequestBody User user) { return login(user,"supervisor"); }
+    //@PostMapping("/api/user/lecLogin")
+    //public AjaxResult lecLogin(@RequestBody User user) { return login(user,"LEC"); }
 
-    @PostMapping("/api/user/lecLogin")
-    public AjaxResult lecLogin(@RequestBody User user) {
-        return login(user,"LEC");
-    }
-
-    private AjaxResult login(User user, String role){
+    @PostMapping("/api/user/login")
+    private AjaxResult login(@RequestBody User user){
         System.out.println("login start,user: "+ user.toString());
         if (user.getEmail() != null && user.getPassword() !=null) {
-            user.setRole(role);
             User result = loginService.checkUserExist(user);
             if (result != null) {
                 System.out.println(result.toString());
-                return AjaxResult.success(result);
+                if(result.getUID()>0)
+                    return AjaxResult.success(result);
+                else{
+                    return AjaxResult.warn(" Login fail! Please check your password!");
+                }
             } else {
-                System.out.println("warn");
-                return AjaxResult.warn("The user does not exist!");
+                return AjaxResult.warn("The user does not exist! Please check your email!");
             }
         } else {
-            System.out.println("error");
             return AjaxResult.error("Input Empty!");
         }
     }
