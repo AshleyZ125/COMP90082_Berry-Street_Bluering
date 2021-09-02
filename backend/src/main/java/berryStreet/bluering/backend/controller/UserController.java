@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import berryStreet.bluering.backend.service.RegisterService;
 import berryStreet.bluering.backend.service.ResetService;
 import berryStreet.bluering.backend.service.DeleteService;
+
 import java.util.Map;
 
 @RestController
@@ -33,15 +34,15 @@ public class UserController {
     //public AjaxResult lecLogin(@RequestBody User user) { return login(user,"LEC"); }
 
     @PostMapping("/api/user/login")
-    private AjaxResult login(@RequestBody User user){
-        System.out.println("login start,user: "+ user.toString());
-        if (user.getEmail() != null && user.getPassword() !=null) {
+    private AjaxResult login(@RequestBody User user) {
+        System.out.println("login start,user: " + user.toString());
+        if (user.getEmail() != null && user.getPassword() != null) {
             User result = loginService.checkUserExist(user);
             if (result != null) {
                 System.out.println(result.toString());
-                if(result.getUID()>0)
+                if (result.getUID() > 0)
                     return AjaxResult.success(result);
-                else{
+                else {
                     return AjaxResult.warn(" Login fail! Please check your password!");
                 }
             } else {
@@ -53,67 +54,80 @@ public class UserController {
     }
 
     @PostMapping("/api/user/register")
-    public int register(RegisterUser user) {
+    public AjaxResult register(RegisterUser user) {
         int result = registerService.register(user);
-        return result;
+        switch (result) {
+            case 0:
+                return AjaxResult.success();
+            case 1:
+                return AjaxResult.error("register failed,please retry");
+            case 2:
+                return AjaxResult.error("email exist");
+            case 3:
+                return AjaxResult.error("wrong invite code");
+            default:
+                return AjaxResult.error("unknown error,please retry");
+        }
     }
 
     @PostMapping("/api/user/superResetPassword")
     public AjaxResult superResetPassword(@RequestBody Map<String, Object> map) {
         if (map != null) {
-            User userQueried = resetService.queryUserByUID((int)map.get("UID"));
-            if(userQueried!=null){
-                if(userQueried.getPassword().equals(map.get("oldPassword") + "")){
+            User userQueried = resetService.queryUserByUID((int) map.get("UID"));
+            if (userQueried != null) {
+                if (userQueried.getPassword().equals(map.get("oldPassword") + "")) {
                     int result = resetService.resetPassword(userQueried.getUID(), map.get("newPassword") + "");
-                    if(result==0){
+                    if (result == 0) {
                         return AjaxResult.warn("Fail in password reset!");
-                    }else {
+                    } else {
                         return AjaxResult.success("Reset password successfully");
                     }
-                }else{
+                } else {
                     return AjaxResult.warn("Password is wrong!");
                 }
-            }else{
+            } else {
                 return AjaxResult.warn("The user does not exist!");
             }
         } else {
             return AjaxResult.error("Input Empty!");
         }
     }
+
     @PostMapping("/api/user/superResetEmail")
     public AjaxResult superResetEmail(@RequestBody Map<String, Object> map) {
         if (map != null) {
-            User userQueried = resetService.queryUserByUID((int)map.get("UID"));
-            if(userQueried!=null){
-                if(resetService.queryUserByEmail(map.get("newEmail")+"")!=null){
+            User userQueried = resetService.queryUserByUID((int) map.get("UID"));
+            if (userQueried != null) {
+                if (resetService.queryUserByEmail(map.get("newEmail") + "") != null) {
                     return AjaxResult.warn("New email has been bound!");
-                }else{
-                    int result = resetService.resetEmail(userQueried.getUID(), map.get("newEmail")+"");
-                    if(result==0){
+                } else {
+                    int result = resetService.resetEmail(userQueried.getUID(), map.get("newEmail") + "");
+                    if (result == 0) {
                         return AjaxResult.warn("Fail in email reset!");
-                    }else {
+                    } else {
                         return AjaxResult.success("Reset email successfully");
                     }
                 }
-            }else{
+            } else {
                 return AjaxResult.warn("The user does not exist!");
             }
         } else {
             return AjaxResult.error("Input Empty!");
         }
     }
+
     @PostMapping("/api/user/superDelete")
     public AjaxResult superDelete(@RequestBody Map<String, Object> map) {
         if (map != null) {
-            User userQueried = resetService.queryUserByUID((int)map.get("UID"));
-            if(userQueried!=null){
+            User userQueried = resetService.queryUserByUID((int) map.get("UID"));
+            if (userQueried != null) {
                 int result = deleteService.deleteUser(userQueried.getUID());
-                if(result==0){
+                if (result == 0) {
                     return AjaxResult.warn("Fail in user deletion!");
-                }else {
+                } else {
                     return AjaxResult.success("Delete user successfully");
                 }
-            }else{
+            } else {
                 return AjaxResult.warn("The user does not exist!");
             }
         } else {
