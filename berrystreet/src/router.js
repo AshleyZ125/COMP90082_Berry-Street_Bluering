@@ -3,11 +3,10 @@ import Router from 'vue-router'
 import Home from './views/home'
 import Signin from './views/signin'
 import Register from './views/register'
-import Myspace from './views/myspace'
+import Reset_password from './views/reset_password'
 
 Vue.use(Router);
 export default new Router({
-    mode:'history',
     routes:[
         {
             path:'/',
@@ -25,10 +24,9 @@ export default new Router({
             component:Register,
         },
         {
-            path:'/myspace',
-            name:'myspace',
-            component:Myspace,
-
+            path:'/reset_password',
+            name:'reset_password',
+            component: Reset_password,
         }
     ]
 });
