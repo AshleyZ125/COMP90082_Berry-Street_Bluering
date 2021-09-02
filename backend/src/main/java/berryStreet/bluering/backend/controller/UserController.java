@@ -2,6 +2,7 @@ package berryStreet.bluering.backend.controller;
 
 
 import berryStreet.bluering.backend.Utils.AjaxResult;
+import berryStreet.bluering.backend.entity.RegisterUser;
 import berryStreet.bluering.backend.entity.User;
 import berryStreet.bluering.backend.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping("/api/user/register")
-    public int register(User user) {
+    public int register(RegisterUser user) {
         int result = registerService.register(user);
         return result;
     }
