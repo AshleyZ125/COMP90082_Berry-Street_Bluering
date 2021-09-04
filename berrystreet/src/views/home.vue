@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home-main">
       <nav-header></nav-header>
       <div class="container">
           <div class="card" id="lec" @click="gotoQuiz()">

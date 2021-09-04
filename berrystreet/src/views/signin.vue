@@ -12,7 +12,7 @@
                     <el-input style="width:300px" type="password" v-model="signinForm.password"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button @click="submitForm('signinForm')" :loading="signinLoading" style="margin:20px 0 0 110px">Log In</el-button>
+                    <el-button @click="submitForm('signinForm')" style="margin:20px 0 0 110px">Log In</el-button>
                 </el-form-item>
             </el-form>
             <span class="hyperlink" @click="gotoReset()" style="margin-left:50px">Forgot my password</span>
@@ -43,7 +43,6 @@ export default {
                    
                 ],
             },
-            signinLoading:false,
             userId:''
         }
     },
@@ -52,29 +51,32 @@ export default {
         NavHeader
     },
     methods:{
-        gotoReset(){
-            this.$router.push('/')
-        },
+        // gotoReset(){
+        //     this.$router.push('/')
+        // },
         gotoRegister(){
             this.$router.push('/register')
         },
         signin(){
-             //console.log(this.signinForm.email,this.signinForm.password)
-             this.axios.post('/user/superLogin',{
+             console.log(this.signinForm.email,this.signinForm.password)
+             this.axios.post('/api/user/login',{
                  email:this.signinForm.email,
                  password:this.signinForm.password
              }).then((res)=>{
-                 console.log(res)
-                 if(res.status==0){
-                     console.log(res)
-                     //this.$cookie.set('userId',res.UID,{expires: '1M'});
-                     //todo:vuex save username
-                     //this.$router.push('/myspace')
+                 //console.log(res)
+                 if(res.data.status==0){
+                     console.log(res.data.data.username)
+                     //console.log(res.data.data.uid)
+                     this.$cookie.set('userId',res.data.data.uid,{expires: '1M'});
+                     this.$cookie.set('userName',res.data.data.username,{expires: '1M'});
+                     this.$store.dispatch('saveUserName',res.data.data.username)
+
+                     this.$router.push('/myspace')
+                     
 				}
 				else{
-                    console.log(res)
                     this.$message({
-                        message: '获取失败，请重试',
+                        message: res.data.msg,
                         type: 'error'
                     })
                 }
@@ -84,9 +86,6 @@ export default {
         submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
-
-            //todo: axios
             this.signin()
           } else {
               this.$message({

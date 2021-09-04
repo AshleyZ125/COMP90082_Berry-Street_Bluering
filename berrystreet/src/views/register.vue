@@ -9,10 +9,13 @@
                     <el-input style="width:300px" v-model="registerForm.email"></el-input>
                 </el-form-item>
                 <el-form-item label="Password" prop="password">
-                    <el-input style="width:300px" type="password" show-password="true" v-model="registerForm.password"></el-input>
+                    <el-input style="width:300px" type="password" show-password v-model="registerForm.password"></el-input>
                 </el-form-item>
                 <el-form-item label="Username" prop="username">
                     <el-input style="width:300px" v-model="registerForm.username"></el-input>
+                </el-form-item>
+                <el-form-item label="Code" prop="code">
+                    <el-input style="width:300px" type="password" show-password v-model="registerForm.code"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button @click="submitForm('registerForm')" style="margin:20px 0 0 100px">Register</el-button>
@@ -30,10 +33,12 @@ import NavHeader from './../components/NavHeader.vue'
 export default {
     data() {
         return {
+            role:'supervisor',
             registerForm:{
                 email: '',
                 password:'',
-                username:''
+                username:'',
+                code:''
             },
             registerFormRules:{
                 email: [
@@ -47,7 +52,12 @@ export default {
                 username:[
                     { required: true, message: 'Please enter your name', trigger: 'blur' },
                     { min: 2, max: 16, message: 'Your name length should between 2 to 16', trigger: ['blur','change'] },
-                ]
+                ],
+                code:[
+                    { required: true, message: 'Please enter the code', trigger: 'blur' },
+                    { min: 6, max: 16, message: 'The code should between 6-16', trigger: ['blur','change'] },
+                ],
+
             }
             
         }
@@ -57,11 +67,43 @@ export default {
         NavHeader
     },
     methods:{
+        register(){
+             //console.log(this.registerForm.email,this.registerForm.password,this.registerForm.username,this.registerForm.code)
+             this.axios.post('/api/user/register',{
+                 role:this.role,
+                 email:this.registerForm.email,
+                 password:this.registerForm.password,
+                 username:this.registerForm.username,
+                 code:this.registerForm.code,
+
+             }).then((res)=>{
+                 console.log(res)
+                 if(res.status==200){
+                     this.$message({
+                        message: 'Success!!Please Sign in!',
+                        showClose: true,
+                        duration:2000,
+                        type: 'success',
+                         onClose:()=>{
+                            this.$router.push('/signin')
+                         }
+                        
+                    })
+                    
+				}
+				else{
+                    this.$message({
+                        message: res.data.msg,
+                        type: 'error'
+                    })
+                }
+                
+             })
+        },
         submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
-            //todo: axios
+            this.register();
           } else {
               this.$message({
                 showClose: true,
@@ -82,8 +124,8 @@ export default {
     .body{
         .panel{
             width: 400px;
-            height: 580px;
-            margin: 150px auto;
+            height: 670px;
+            margin: 80px auto;
             border-radius: 15px;
             background-color: #50A7C2;
             .title-container{

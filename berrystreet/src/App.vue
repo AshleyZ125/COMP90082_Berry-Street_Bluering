@@ -11,6 +11,14 @@ export default {
   name: 'App',
   components: {
     
+  },
+  methods:{
+    getid(){
+      this.$store.dispatch('saveUserName',this.$cookie.get('userName'))
+    }
+  },
+  mounted(){
+    this.getid()
   }
 }
 </script>

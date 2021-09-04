@@ -1,13 +1,29 @@
 <template>
-  <div>
+  <div class="space-main">
       <space-header></space-header>
-      <div class="container">
-          <div class="card" id="lec" @click="gotoQuiz()">
-                <span>I'm a person with lived experience</span>
+      <div class="drop-div">
+          <el-dropdown style="cursor: pointer;float:right;margin-right:25px;margin-top:20px;font-weight:bold;font-size:20px">
+            <span class="el-dropdown-link">
+                Settings<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item><span @click="gotoReset()">Reset Password</span></el-dropdown-item>
+                <el-dropdown-item><span @click="gotoResetEmail()">Reset Email</span></el-dropdown-item>
+                <el-dropdown-item><a href="/">Account Settings</a></el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+      </div>
+      <div class="space-container">
+          <div class="card" id="quiz" @click="gotoQuiz()">
+                <span>My Quizzes</span>
                 <img src="./../assets/student.png" alt="">
           </div>
-          <div class="card" id="sup" @click="gotoSignin()">
-              <span>I'm a person who supervises people with lived experience</span>
+          <div class="card" id="lecs" @click="gotoSignin()">
+              <span>My LECs</span>
+              <img src="./../assets/teacher.png" alt="" id="teacher">
+          </div>
+          <div class="card" id="experience" @click="gotoSignin()">
+              <span>User Experience Comments</span>
               <img src="./../assets/teacher.png" alt="" id="teacher">
           </div>
       </div>
@@ -18,22 +34,52 @@
 import SpaceHeader from './../components/SpaceHeader.vue'
 export default {
     name:'myspace',
+    data(){
+        return{
+           userId:''
+        }
+    },
     components:{
         SpaceHeader
     },
     methods:{
-        
+        // getId(){
+        //     this.userId = this.$cookie.get('userId')
+        // },
+        gotoReset(){
+            this.$router.push('/resetPassword')
+            // this.$router.push({
+            //     name: 'resetPassword',
+            //     params: {
+            //         id: this.userId
+            //     }
+            // })
+        },
+        gotoResetEmail(){
+            this.$router.push('/resetEmail')
+        }
+    },
+    mounted(){
+        // this.getId();
     }
+    
 }
 </script>
 
 <style lang="scss">
 
 @import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
+    .drop-div{
+        float: right;
+        height: 50px;
+        width: 100%;
+        
+    }
 
-.container{
+.space-container{
     display: flex;
-    padding: 10% 0;
+    padding: 7% 0;
+    width: 100%;
     .card{
         width: 350px;
         height: 300px;
@@ -63,14 +109,18 @@ export default {
             bottom: 25px;
         }
     }
-    #lec{
+    #quiz{
         margin-right: 50px;
-        background-image: linear-gradient(60deg, #B7F8DB 0%, #50A7C2 100%);
+        background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
     }
-    #sup{
-        margin-left: 50px;
-        background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+    #lecs{
+        margin-right: 50px;
+        background-image: linear-gradient(60deg, #96deda 0%, #50c9c3 100%);
     }
+    #experience{
+        background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+    }
+
     
 }
 </style>

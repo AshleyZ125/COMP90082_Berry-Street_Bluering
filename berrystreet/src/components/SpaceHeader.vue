@@ -2,7 +2,7 @@
   <div>
       <div class="space-header">
         <img src="./../assets/lexm.png" alt="">
-        <span class="header-content">Hi Jenny</span>
+        <span class="header-content">{{username}}</span>
         <el-button @click="logout()" style="float:right;margin-right:25px;margin-top:25px;">Logout</el-button>
       </div>
   </div>
@@ -11,10 +11,28 @@
 <script>
 export default {
     name:'space-header',
+    data(){
+        return{
+
+        }
+    },
+    props:{
+        title:String
+    },
+    computed:{
+        username(){
+            return this.$store.state.username
+        }
+    },
     methods:{
         logout(){
             alert("logout");
-        }
+            this.$cookie.set('userId','',{expires: '-1'})
+            this.$cookie.set('userName','',{expires: '-1'})
+            this.$store.dispatch('saveUserName','')
+            this.$router.push('/')
+        },
+        
     }
 }
 </script>
