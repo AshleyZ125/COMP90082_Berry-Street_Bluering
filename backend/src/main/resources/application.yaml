@@ -1,10 +1,11 @@
 spring:
   datasource:
     username: root
-    password: 105699371Gyj,
+    password: navicat2019
+    #password: 123456
     #?serverTimezone=UTC解决时区的报错
-    url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
     #url: jdbc:mysql://localhost:3306/berrystreet?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/project?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 
@@ -25,3 +26,9 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: berryStreet.bluering.backend.entity
+
+admin:
+  inviteCodes:
+    - 123123123
+    - 1513212
+    - 123123
