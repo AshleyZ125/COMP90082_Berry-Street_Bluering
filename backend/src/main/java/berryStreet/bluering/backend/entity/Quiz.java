@@ -4,6 +4,24 @@ public class Quiz {
     private int QID;
     private String topic;
     private String overview;
+    private int status;
+    private int creatorID;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getCreatorID() {
+        return creatorID;
+    }
+
+    public void setCreatorID(int creatorID) {
+        this.creatorID = creatorID;
+    }
 
     public int getQID() {
         return QID;
