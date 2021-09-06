@@ -2,7 +2,7 @@
     <div class = "createQuizHeader"> 
         <img src = "./../scss/lexm.png" alt = "icon picture">
         <span class = "createQuizText"> Create Quiz </span>
-        <el-button @click="logIn()" style = "float:right;margin-right:25px;margin-top:25px;"> Login </el-button>
+        <el-button @click="logIn()" style = "float:right;margin-right:25px;margin-top:25px;"> Log in </el-button>
     </div>
 </template>
 

@@ -2,7 +2,7 @@
     <div class = "myQuizzesHeader"> 
         <img src = "./../scss/lexm.png" alt = "icon picture">
         <span class = "myQuizzesText"> My Quizzes </span>
-        <el-button @click="logIn()" style = "float:right;margin-right:25px;margin-top:25px;"> Log in </el-button>
+        <el-button @click="logOut()" style = "float:right;margin-right:25px;margin-top:25px;"> Log Out </el-button>
     </div>
 </template>
 
@@ -10,8 +10,8 @@
 export default{
     name:'myQuizzes-header',
     methods:{
-        logIn(){
-            alert("logIn");
+        logOut(){
+            alert("logOut");
         }
     }
 }
