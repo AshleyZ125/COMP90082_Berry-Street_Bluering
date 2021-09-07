@@ -28,4 +28,9 @@ public class GetQuizServiceImp implements GetQuizService {
         List<Quiz> list=quizMapper.queryQuizList();
         return list;
     }
+
+    @Override
+    public Quiz queryQuizByQID(int QID) {
+        return quizMapper.queryQuizByQID(QID);
+    }
 }
