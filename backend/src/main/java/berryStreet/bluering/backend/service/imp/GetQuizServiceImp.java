@@ -1,5 +1,8 @@
 package berryStreet.bluering.backend.service.imp;
 
+import berryStreet.bluering.backend.Constant.QuizStatus;
+import berryStreet.bluering.backend.entity.Feedback;
+import berryStreet.bluering.backend.entity.Question;
 import berryStreet.bluering.backend.entity.Quiz;
 import berryStreet.bluering.backend.mapper.QuizMapper;
 import berryStreet.bluering.backend.service.GetQuizService;
@@ -16,8 +19,8 @@ public class GetQuizServiceImp implements GetQuizService {
     @Override
     public HashMap<String,List<Quiz>> querySuperList(int UID) {
         HashMap<String,List<Quiz>> lists= new HashMap<>();
-        List<Quiz> pubQuizes=quizMapper.queryPubQuizList(UID);
-        List<Quiz> priQuizes=quizMapper.queryPriQuizList(UID);
+        List<Quiz> pubQuizes=quizMapper.queryPubQuizList(UID, QuizStatus.QUIZ_PUBLIC);
+        List<Quiz> priQuizes=quizMapper.queryPriQuizList(UID, QuizStatus.QUIZ_PUBLIC);
         lists.put("public",pubQuizes);
         lists.put("private",priQuizes);
         return lists;
@@ -25,12 +28,22 @@ public class GetQuizServiceImp implements GetQuizService {
 
     @Override
     public List<Quiz> queryLecList() {
-        List<Quiz> list=quizMapper.queryQuizList();
+        List<Quiz> list=quizMapper.queryQuizList(QuizStatus.QUIZ_PUBLIC);
         return list;
     }
 
     @Override
     public Quiz queryQuizByQID(int QID) {
         return quizMapper.queryQuizByQID(QID);
+    }
+
+    @Override
+    public List<Question> queryQuestionByQID(int quizID) {
+        return quizMapper.queryQuestionByQID(quizID);
+    }
+
+    @Override
+    public List<Feedback> queryFeedbackByQID(int quiz_feed_ID) {
+        return quizMapper.queryFeedbackByQID(quiz_feed_ID);
     }
 }

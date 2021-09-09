@@ -6,6 +6,16 @@ public class Question {
     private String options;
     private int quizID;
 
+    public Question(int qID,String qContent,String options,int quizID){
+        this.qID=qID;
+        this.qContent=qContent;
+        this.options=options;
+        this.quizID=quizID;
+    }
+    public Question(){
+
+    }
+
     public int getqID() {
         return qID;
     }
@@ -36,5 +46,15 @@ public class Question {
 
     public void setQuizID(int quizID) {
         this.quizID = quizID;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "qID=" + qID +
+                ", qContent='" + qContent + '\'' +
+                ", options='" + options + '\'' +
+                ", quizID=" + quizID +
+                '}';
     }
 }
