@@ -1,6 +1,7 @@
 package berryStreet.bluering.backend.service.imp;
 
 import berryStreet.bluering.backend.Constant.QuizStatus;
+import berryStreet.bluering.backend.entity.Feedback;
 import berryStreet.bluering.backend.entity.Question;
 import berryStreet.bluering.backend.entity.Quiz;
 import berryStreet.bluering.backend.mapper.QuizMapper;
@@ -39,5 +40,20 @@ public class SetQuizServiceImp implements SetQuizService {
     @Override
     public int deleteQuestions(List<Question> questions) {
         return quizMapper.deleteQuestions(questions);
+    }
+
+    @Override
+    public int setFeedbacks(List<Feedback> feedbacks) {
+        return quizMapper.setFeedbacks(feedbacks);
+    }
+
+    @Override
+    public int deleteFeedbacks(List<Feedback> feedbacks) {
+        return quizMapper.deleteFeedbacks(feedbacks);
+    }
+
+    @Override
+    public int setQuizStatus(int QID, int status) {
+        return quizMapper.setQuizStatus(QID,status);
     }
 }

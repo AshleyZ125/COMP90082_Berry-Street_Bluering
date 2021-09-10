@@ -1,7 +1,9 @@
 package berryStreet.bluering.backend.controller;
 
+import berryStreet.bluering.backend.Constant.QuizStatus;
 import berryStreet.bluering.backend.Constant.TestCase;
 import berryStreet.bluering.backend.Utils.AjaxResult;
+import berryStreet.bluering.backend.entity.Feedback;
 import berryStreet.bluering.backend.entity.Question;
 import berryStreet.bluering.backend.entity.Quiz;
 import berryStreet.bluering.backend.service.GetQuizService;
@@ -92,10 +94,8 @@ public class QuizController {
                         break;
                     }
                 }
-                if(isCreated)
-                    currQues.setqID(0);
-                else
-                    isCreated=true;
+                if(isCreated) currQues.setqID(0);
+                else isCreated=true;
             }
             System.out.println("delete:"+prevQuestions.toString());
             if(!prevQuestions.isEmpty()){
@@ -108,10 +108,51 @@ public class QuizController {
             result=setQuizService.setQuestions(questions);
         }
         System.out.println("set:"+questions.toString());
-        if(result!=0)
-            return AjaxResult.success("Successful update!");
-        else
-            return AjaxResult.error("Insert fail!");
+        if(result!=0) return AjaxResult.success("Successful update!");
+        else return AjaxResult.error("Insert fail!");
+    }
+
+
+    @PostMapping("/api/quiz/setFeedback")
+    private AjaxResult setFeedback(@RequestBody List<Feedback> feedbacks){
+        if(feedbacks==null)
+            return AjaxResult.error("Input empty!");
+        int quizID=feedbacks.get(0).getQuiz_feed_ID();
+        List<Feedback> prevFeedbacks=getQuizService.queryFeedbackByQID(quizID);
+        int result=0;
+        boolean toSave=false;
+        System.out.println("input:"+feedbacks.toString());
+        System.out.println("prev:"+prevFeedbacks.toString());
+        if(!prevFeedbacks.isEmpty()){
+            for(int i=0;i<feedbacks.size();i++){
+                Feedback currFeed=feedbacks.get(i);
+                for(int j=0;j<prevFeedbacks.size();j++){
+                    if(currFeed.getQuiz_feed_ID()==prevFeedbacks.get(j).getQuiz_feed_ID()){
+                        prevFeedbacks.remove(j);
+                        break;
+                    }
+                }
+            }
+            System.out.println("delete:"+prevFeedbacks.toString());
+            if(!prevFeedbacks.isEmpty()){
+                int deleteResult=setQuizService.deleteFeedbacks(prevFeedbacks);
+                if(deleteResult==0){
+                    System.out.println("Delete fail!");
+                    return AjaxResult.error(" Fail! delete fail!");
+                }
+            }
+        }else toSave=true;
+        System.out.println("set:"+feedbacks.toString());
+        result=setQuizService.setFeedbacks(feedbacks);
+        if(result==0) return AjaxResult.error("Insert fail!");
+        if(toSave){
+            int saveResult=setQuizService.setQuizStatus(quizID, QuizStatus.QUIZ_SAVED);
+            if(saveResult==0){
+                System.out.println("Status change fail!");
+                return AjaxResult.error(" Fail! Status change fail!");
+            }
+        }
+        return AjaxResult.success("Successful update!");
     }
 
 }

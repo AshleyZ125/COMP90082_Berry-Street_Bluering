@@ -6,6 +6,25 @@ public class Feedback {
     private String remark;
     private int quiz_feed_ID;
 
+    public Feedback(int fid,String scoreRange, String remark, int quiz_feed_ID) {
+        this.scoreRange = scoreRange;
+        this.remark = remark;
+        this.quiz_feed_ID = quiz_feed_ID;
+        this.FID=fid;
+    }
+    public Feedback(){
+
+    }
+    @Override
+    public String toString() {
+        return "Feedback{" +
+                "FID=" + FID +
+                ", scoreRange='" + scoreRange + '\'' +
+                ", remark='" + remark + '\'' +
+                ", quiz_feed_ID=" + quiz_feed_ID +
+                '}';
+    }
+
     public int getFID() {
         return FID;
     }

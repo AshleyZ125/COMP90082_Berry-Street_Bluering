@@ -1,5 +1,6 @@
 package berryStreet.bluering.backend.service;
 
+import berryStreet.bluering.backend.entity.Feedback;
 import berryStreet.bluering.backend.entity.Question;
 import berryStreet.bluering.backend.entity.Quiz;
 
@@ -11,4 +12,7 @@ public interface SetQuizService {
     public int createQuestions(List<Question> questions);
     public int setQuestions(List<Question> questions);
     public int deleteQuestions(List<Question> questions);
+    public int setFeedbacks(List<Feedback> feedbacks);
+    public int deleteFeedbacks(List<Feedback> feedbacks);
+    public int setQuizStatus(int QID,int status);
 }
