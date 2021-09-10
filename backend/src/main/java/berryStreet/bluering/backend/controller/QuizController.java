@@ -21,11 +21,14 @@ public class QuizController {
     @Autowired
     private SetQuizService setQuizService;
 
+
     @PostMapping("/api/quiz/superQuizList")
     private AjaxResult superQuizList(@RequestBody Quiz quiz){
-        if (quiz==null||quiz.getCreatorID()<=0)
+        //int currSupervisor=1;
+        int currSupervisor=quiz.getCreatorID();
+        if (quiz==null||currSupervisor<=0)
             return AjaxResult.error("Input empty!");
-        HashMap<String,List<Quiz>> quizList=getQuizService.querySuperList(quiz.getCreatorID());
+        HashMap<String,List<Quiz>> quizList=getQuizService.querySuperList(currSupervisor);
         if(quizList==null){
             return AjaxResult.warn("No quiz now.");
         }
@@ -41,20 +44,24 @@ public class QuizController {
         return AjaxResult.success(quizList);
     }
 
+
     @PostMapping("/api/quiz/setQuiz")
     private AjaxResult setQuiz(@RequestBody Quiz quiz){
+        System.out.println("input:"+quiz);
         if(quiz==null)
             return AjaxResult.error("Input empty!");
         //Quiz checkQuiz=getQuizService.queryQuizByQID(quiz.getQID());
         //if(checkQuiz==null){
-        if(quiz.getQID()==0){
+        if(quiz.getQID()<=0){
             int result=setQuizService.createQuiz(quiz);
+            System.out.println("create:"+quiz);
             if(result!=0)
                 return AjaxResult.success("Successful creation!");
             else
                 return AjaxResult.error("Insert fail!");
         }else{
             int result=setQuizService.setQuiz(quiz);
+            System.out.println("set:"+quiz);
             if(result!=0)
                 return AjaxResult.success("Successful update!");
             else

@@ -7,6 +7,27 @@ public class Quiz {
     private int status;
     private int creatorID;
 
+    @Override
+    public String toString() {
+        return "Quiz{" +
+                "QID=" + QID +
+                ", topic='" + topic + '\'' +
+                ", overview='" + overview + '\'' +
+                ", status=" + status +
+                ", creatorID=" + creatorID +
+                '}';
+    }
+
+    public Quiz(String topic, String overview, int status, int creatorID) {
+        this.topic = topic;
+        this.overview = overview;
+        this.status = status;
+        this.creatorID = creatorID;
+    }
+    public Quiz(){
+
+    }
+
     public int getStatus() {
         return status;
     }

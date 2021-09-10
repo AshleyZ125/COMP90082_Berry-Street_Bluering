@@ -27,10 +27,10 @@ public interface QuizMapper {
     public List<Feedback> queryFeedbackByQID(@Param("quiz_feed_ID") int quiz_feed_ID);
 
 
-    @Insert("insert into `quiz` values(#{quiz.QID},#{quiz.topic},#{quiz.overview},#{quiz.status},#{quiz.creatorID})")
+    @Insert("insert into quiz(topic,overview,status,creatorID) values(#{quiz.topic},#{quiz.overview},#{quiz.status},#{quiz.creatorID})")
     @Options(useGeneratedKeys = true, keyProperty = "QID", keyColumn = "QID")
     public int createQuiz(@Param("quiz") Quiz quiz);
-    @Update("update quiz set topic = #{Quiz.topic},overview = #{Quiz.overview} where QID = #{Quiz.QID}")
+    @Update("update quiz set topic = #{quiz.topic},overview = #{quiz.overview} where QID = #{quiz.QID}")
     public int setQuiz(@Param("quiz") Quiz quiz);
     @Update("update quiz set status = #{status} where QID = #{QID}")
     public int setQuizStatus(@Param("QID") int QID,@Param("status") int status);
