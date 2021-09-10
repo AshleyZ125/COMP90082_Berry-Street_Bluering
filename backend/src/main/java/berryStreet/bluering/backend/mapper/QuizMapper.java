@@ -23,8 +23,12 @@ public interface QuizMapper {
     public Quiz queryQuizByQID(@Param("QID") int QID);
     @Select("select * from question where quizID=#{quizID}")
     public List<Question> queryQuestionByQID(@Param("quizID") int quizID);
+    @Select("select count(qID) from question where quizID=#{quizID}")
+    public int checkQuestionNumber(@Param("quizID") int quizID);
     @Select("select * from feedback where quiz_feed_ID=#{quiz_feed_ID}")
     public List<Feedback> queryFeedbackByQID(@Param("quiz_feed_ID") int quiz_feed_ID);
+    @Select("select count(FID) from feedback where quiz_feed_ID=#{quiz_feed_ID}")
+    public int checkFeedbackNumber(@Param("quiz_feed_ID") int quiz_feed_ID);
 
 
     // Quiz creation and update
@@ -38,6 +42,18 @@ public interface QuizMapper {
 
 
     // Question creation and update
+    @Insert("<script> insert into question (qID,qContent,options,quizID) values  " +
+            "(#{question.qID},#{question.qContent},#{question.options},#{question.quizID}) " +
+            "ON DUPLICATE KEY UPDATE "+
+            "qContent = IF(quizID = values(quizID),values(qContent),qContent), "+
+            "options = IF(quizID = values(quizID),values(options),options) "+
+            "   </script>")
+    @Options(useGeneratedKeys = true, keyProperty = "qID", keyColumn = "qID")
+    public int setQuestion(@Param("question") Question question);
+
+    @Delete("delete from question where qID=#{qID} ")
+    public int deleteQuestion(@Param("qID") int qID);
+
     @Insert("<script> insert into question (qContent,options,quizID) values  " +
             "  <foreach collection='questions' item='item' separator=',' > " +
             "  (#{item.qContent},#{item.options},#{item.quizID}) </foreach>" +
@@ -62,14 +78,20 @@ public interface QuizMapper {
     public int deleteQuestions(@Param("questions") List<Question> questions);
 
 
-//    @Insert("<script> insert into feedback (scoreRange,remark,quiz_feed_ID) values  " +
-//            "  <foreach collection='feedbacks' item='item' separator=',' > " +
-//            "  (#{item.scoreRange},#{item.remark},#{item.quiz_feed_ID}) </foreach>" +
-//            "   </script>")
-//    @Options(useGeneratedKeys = true, keyProperty = "FID", keyColumn = "FID")
-//    public int createFeedbacks(@Param("feedbacks") List<Feedback> feedbacks);
 
     // Feedback creation and update
+    @Insert("<script> insert into feedback (FID,scoreRange,remark,quiz_feed_ID) values " +
+            "(#{feedback.FID},#{feedback.scoreRange},#{feedback.remark},#{feedback.quiz_feed_ID}) " +
+            "ON DUPLICATE KEY UPDATE "+
+            "scoreRange = IF(quiz_feed_ID = values(quiz_feed_ID),values(scoreRange),scoreRange), "+
+            "remark = IF(quiz_feed_ID = values(quiz_feed_ID),values(remark),remark) "+
+            "   </script>")
+    @Options(useGeneratedKeys = true, keyProperty = "FID", keyColumn = "FID")
+    public int setFeedback(@Param("feedback") Feedback feedback);
+
+    @Delete("delete from feedback where FID=#{FID} ")
+    public int deleteFeedback(@Param("FID") int FID);
+
     @Insert("<script> insert into feedback (FID,scoreRange,remark,quiz_feed_ID) values  " +
             "  <foreach collection='feedbacks' item='item' separator=',' > " +
             "  (#{item.FID},#{item.scoreRange},#{item.remark},#{item.quiz_feed_ID}) </foreach>" +

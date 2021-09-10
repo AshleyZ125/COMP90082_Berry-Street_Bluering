@@ -28,6 +28,16 @@ public class SetQuizServiceImp implements SetQuizService {
     }
 
     @Override
+    public int setQuestion(Question question) {
+        return quizMapper.setQuestion(question);
+    }
+
+    @Override
+    public int deleteQuestion(int qID) {
+        return quizMapper.deleteQuestion(qID);
+    }
+
+    @Override
     public int createQuestions(List<Question> questions) {
         return quizMapper.createQuestions(questions);
     }
@@ -43,6 +53,16 @@ public class SetQuizServiceImp implements SetQuizService {
     }
 
     @Override
+    public int setFeedback(Feedback feedback) {
+        return quizMapper.setFeedback(feedback);
+    }
+
+    @Override
+    public int deleteFeedback(int FID) {
+        return quizMapper.deleteFeedback(FID);
+    }
+
+    @Override
     public int setFeedbacks(List<Feedback> feedbacks) {
         return quizMapper.setFeedbacks(feedbacks);
     }
@@ -53,7 +73,16 @@ public class SetQuizServiceImp implements SetQuizService {
     }
 
     @Override
-    public int setQuizStatus(int QID, int status) {
-        return quizMapper.setQuizStatus(QID,status);
+    public int checkQuizStatus(int QID) {
+        int currStatus=quizMapper.queryQuizByQID(QID).getStatus();
+        int quesNum=quizMapper.checkQuestionNumber(QID);
+        int feedNum=quizMapper.checkFeedbackNumber(QID);
+        if(quesNum==0||feedNum==0) {
+            System.out.println("edit:"+QID);
+            return quizMapper.setQuizStatus(QID, QuizStatus.QUIZ_EDIT);
+        }else if(currStatus==QuizStatus.QUIZ_EDIT) {
+            System.out.println("save:"+QID);
+            return quizMapper.setQuizStatus(QID, QuizStatus.QUIZ_SAVED);
+        }else return 1;
     }
 }

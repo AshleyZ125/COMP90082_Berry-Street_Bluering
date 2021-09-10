@@ -85,8 +85,6 @@ public class QuizController {
         System.out.println("input:"+quiz);
         if(quiz==null)
             return AjaxResult.error("Input empty!");
-        //Quiz checkQuiz=getQuizService.queryQuizByQID(quiz.getQID());
-        //if(checkQuiz==null){
         if(quiz.getQID()<=0){
             int result=setQuizService.createQuiz(quiz);
             System.out.println("create:"+quiz);
@@ -102,6 +100,52 @@ public class QuizController {
             else
                 return AjaxResult.error("update fail!");
         }
+    }
+
+
+    @PostMapping("/api/quiz/setQuestion")
+    private AjaxResult setQuestion(@RequestBody Question question){
+        if(question==null)
+            return AjaxResult.error("Input empty!");
+        int result;
+        if(question.getQuizID()<=0){
+            result=setQuizService.deleteQuestion(question.getqID());
+            if(result==0) return AjaxResult.error("delete fail!");
+        }else{
+            result=setQuizService.setQuestion(question);
+            if(result==0) return AjaxResult.error("update fail!");
+        }
+        return AjaxResult.success("Successful update!");
+    }
+
+    //@RequestBody Feedback feedback
+    @GetMapping("/api/quiz/setFeedback")
+    private AjaxResult setFeedback(){
+        Feedback feedback=TestCase.F4;
+        if(feedback==null)
+            return AjaxResult.error("Input empty!");
+        int result;
+        if(feedback.getQuiz_feed_ID()<=0){
+            result=setQuizService.deleteFeedback(feedback.getFID());
+            if(result==0) return AjaxResult.error("delete fail!");
+        }else{
+            result=setQuizService.setFeedback(feedback);
+            if(result==0) return AjaxResult.error("update fail!");
+        }
+        return AjaxResult.success("Successful update!");
+    }
+
+
+    @PostMapping("/api/quiz/checkQuizStatus")
+    private AjaxResult checkQuizStatus(@RequestBody Quiz quiz){
+        if(quiz==null)
+            return AjaxResult.error("Input empty!");
+        int result=setQuizService.checkQuizStatus(quiz.getQID());
+        if(result==0){
+            System.out.println("Status check fail!");
+            return AjaxResult.error(" Fail! Status check fail!");
+        }else
+            return AjaxResult.success("Quiz status check pass!");
     }
 
 
@@ -141,8 +185,13 @@ public class QuizController {
             result=setQuizService.setQuestions(questions);
         }
         System.out.println("set:"+questions.toString());
-        if(result!=0) return AjaxResult.success("Successful update!");
-        else return AjaxResult.error("Insert fail!");
+        if(result==0) return AjaxResult.error("Update fail!");
+        result=setQuizService.checkQuizStatus(quizID);
+        if(result==0){
+            System.out.println("Status change fail!");
+            return AjaxResult.error(" Fail! Status change fail!");
+        }
+        return AjaxResult.success("Successful update!");
     }
 
 
@@ -153,7 +202,7 @@ public class QuizController {
         int quizID=feedbacks.get(0).getQuiz_feed_ID();
         List<Feedback> prevFeedbacks=getQuizService.queryFeedbackByQID(quizID);
         int result=0;
-        boolean toSave=false;
+        //boolean toSave=false;
         System.out.println("input:"+feedbacks.toString());
         System.out.println("prev:"+prevFeedbacks.toString());
         if(!prevFeedbacks.isEmpty()){
@@ -174,16 +223,14 @@ public class QuizController {
                     return AjaxResult.error(" Fail! delete fail!");
                 }
             }
-        }else toSave=true;
+        }
         System.out.println("set:"+feedbacks.toString());
         result=setQuizService.setFeedbacks(feedbacks);
-        if(result==0) return AjaxResult.error("Insert fail!");
-        if(toSave){
-            int saveResult=setQuizService.setQuizStatus(quizID, QuizStatus.QUIZ_SAVED);
-            if(saveResult==0){
-                System.out.println("Status change fail!");
-                return AjaxResult.error(" Fail! Status change fail!");
-            }
+        if(result==0) return AjaxResult.error("update fail!");
+        result=setQuizService.checkQuizStatus(quizID);
+        if(result==0){
+            System.out.println("Status change fail!");
+            return AjaxResult.error(" Fail! Status change fail!");
         }
         return AjaxResult.success("Successful update!");
     }
