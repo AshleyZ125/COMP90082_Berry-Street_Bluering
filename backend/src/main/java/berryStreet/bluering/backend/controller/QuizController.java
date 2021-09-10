@@ -105,8 +105,8 @@ public class QuizController {
     }
 
 
-    @PostMapping("/api/quiz/setQuestion")
-    private AjaxResult setQuestion(@RequestBody List<Question> questions){
+    @PostMapping("/api/quiz/setMeltiQuestion")
+    private AjaxResult setMeltiQuestion(@RequestBody List<Question> questions){
         if(questions==null)
             return AjaxResult.error("Input empty!");
         int quizID=questions.get(0).getQuizID();
@@ -146,8 +146,8 @@ public class QuizController {
     }
 
 
-    @PostMapping("/api/quiz/setFeedback")
-    private AjaxResult setFeedback(@RequestBody List<Feedback> feedbacks){
+    @PostMapping("/api/quiz/setMeltiFeedback")
+    private AjaxResult setMeltiFeedback(@RequestBody List<Feedback> feedbacks){
         if(feedbacks==null)
             return AjaxResult.error("Input empty!");
         int quizID=feedbacks.get(0).getQuiz_feed_ID();
