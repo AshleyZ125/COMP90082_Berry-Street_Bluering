@@ -110,27 +110,26 @@ public class QuizController {
         int result;
         if(question.getQuizID()<=0){
             result=setQuizService.deleteQuestion(question.getqID());
-            if(result==0) return AjaxResult.error("delete fail!");
+            if(result==0) return AjaxResult.error("Delete fail!");
         }else{
             result=setQuizService.setQuestion(question);
-            if(result==0) return AjaxResult.error("update fail!");
+            if(result==0) return AjaxResult.error("Update fail!");
         }
         return AjaxResult.success("Successful update!");
     }
 
-    //@RequestBody Feedback feedback
-    @GetMapping("/api/quiz/setFeedback")
-    private AjaxResult setFeedback(){
-        Feedback feedback=TestCase.F4;
+
+    @PostMapping("/api/quiz/setFeedback")
+    private AjaxResult setFeedback(@RequestBody Feedback feedback){
         if(feedback==null)
             return AjaxResult.error("Input empty!");
         int result;
         if(feedback.getQuiz_feed_ID()<=0){
             result=setQuizService.deleteFeedback(feedback.getFID());
-            if(result==0) return AjaxResult.error("delete fail!");
+            if(result==0) return AjaxResult.error("Delete fail!");
         }else{
             result=setQuizService.setFeedback(feedback);
-            if(result==0) return AjaxResult.error("update fail!");
+            if(result==0) return AjaxResult.error("Update fail!");
         }
         return AjaxResult.success("Successful update!");
     }
