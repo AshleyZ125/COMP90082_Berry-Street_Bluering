@@ -18,11 +18,12 @@ public class Quiz {
                 '}';
     }
 
-    public Quiz(String topic, String overview, int status, int creatorID) {
+    public Quiz(int qid, String topic, String overview, int status, int creatorID) {
         this.topic = topic;
         this.overview = overview;
         this.status = status;
         this.creatorID = creatorID;
+        this.QID=qid;
     }
     public Quiz(){
 

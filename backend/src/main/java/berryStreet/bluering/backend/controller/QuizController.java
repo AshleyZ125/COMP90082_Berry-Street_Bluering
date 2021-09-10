@@ -46,6 +46,39 @@ public class QuizController {
         return AjaxResult.success(quizList);
     }
 
+    @PostMapping("/api/quiz/getQuiz")
+    private AjaxResult getQuiz(@RequestBody Quiz quiz){
+        if(quiz==null)
+            return AjaxResult.error("Input empty!");
+        Quiz result=getQuizService.queryQuizByQID(quiz.getQID());
+        if(result==null){
+            return AjaxResult.warn("No this quiz!");
+        }else
+            return AjaxResult.success(result);
+    }
+
+    @PostMapping("/api/quiz/getQuestion")
+    private AjaxResult getQuestion(@RequestBody Quiz quiz){
+        if(quiz==null)
+            return AjaxResult.error("Input empty!");
+        List<Question> questions=getQuizService.queryQuestionByQID(quiz.getQID());
+        if(questions==null){
+            return AjaxResult.warn("No question in this quiz!");
+        }else
+            return AjaxResult.success(questions);
+    }
+
+    @PostMapping("/api/quiz/getFeedback")
+    private AjaxResult getFeedback(@RequestBody Quiz quiz){
+        if(quiz==null)
+            return AjaxResult.error("Input empty!");
+        List<Feedback> feedbacks=getQuizService.queryFeedbackByQID(quiz.getQID());
+        if(feedbacks==null){
+            return AjaxResult.warn("No feedback in this quiz!");
+        }else
+            return AjaxResult.success(feedbacks);
+    }
+
 
     @PostMapping("/api/quiz/setQuiz")
     private AjaxResult setQuiz(@RequestBody Quiz quiz){
