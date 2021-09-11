@@ -7,6 +7,6 @@ import lombok.Data;
 @Builder
 public class Option {
     private int key;
-    private String content;
+    private String value;
     private int point;
 }
