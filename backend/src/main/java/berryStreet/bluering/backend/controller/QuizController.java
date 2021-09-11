@@ -91,8 +91,10 @@ public class QuizController {
         if(quiz.getQID()<=0){
             int result=setQuizService.createQuiz(quiz);
             System.out.println("create:"+quiz);
-            if(result!=0)
-                return AjaxResult.success("Successful creation!",quiz.getQID());
+            if(result!=0) {
+                int QID=quiz.getQID();
+                return AjaxResult.success("Successful creation!",QID);
+            }
             else
                 return AjaxResult.error("Insert fail!");
         }else{
