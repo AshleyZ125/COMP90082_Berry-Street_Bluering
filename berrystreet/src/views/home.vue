@@ -26,7 +26,7 @@ export default {
             this.$router.push('/signin')
         },
         gotoQuiz(){
-            alert("22")
+            this.$router.push('/categPanel')
         }
     }
 }

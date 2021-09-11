@@ -5,6 +5,7 @@ import Signin from './views/signin'
 import Register from './views/register'
 import Reset_password from './views/reset_password'
 import CategInfoLEC from './views/categInfoLEC'
+import CategPanel from'./views/categPanel'
 
 Vue.use(Router);
 export default new Router({
@@ -33,6 +34,11 @@ export default new Router({
             path:'/categInfoLEC',
             name:'categInfoLEC',
             component: CategInfoLEC,
+        },
+        {
+            path:'/categPanel',
+            name:'categPanel',
+            component: CategPanel,
         }
     ]
 });

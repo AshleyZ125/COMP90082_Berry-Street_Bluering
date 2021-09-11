@@ -10,7 +10,7 @@ export default {
     name:'nonText-header',
     methods:{
         logIn(){
-            alert("logIn");
+            this.$router.push('/signin')
         }
     }
 }
