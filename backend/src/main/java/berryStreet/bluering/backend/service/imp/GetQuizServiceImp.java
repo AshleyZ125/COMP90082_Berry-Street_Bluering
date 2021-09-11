@@ -48,6 +48,7 @@ public class GetQuizServiceImp implements GetQuizService {
     public List<Feedback> queryFeedbackByQID(int quiz_feed_ID) {
         return quizMapper.queryFeedbackByQID(quiz_feed_ID);
     }
+
     @Override
     public TakeQuizDTO queryQuizTakenByQID(int QID) throws QuizQueryException {
         Quiz quiz = quizMapper.queryQuizByQID(QID);

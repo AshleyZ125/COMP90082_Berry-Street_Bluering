@@ -25,13 +25,13 @@ public class QuizController {
     private SetQuizService setQuizService;
 
 
-    @PostMapping("/api/quiz/superQuizList")
-    private AjaxResult superQuizList(@RequestBody Quiz quiz){
+    @GetMapping("/api/quiz/superQuizList/{UID}")
+    private AjaxResult superQuizList(@PathVariable("UID") int creatorID){
         //int currSupervisor=1;
-        int currSupervisor=quiz.getCreatorID();
-        if (quiz==null||currSupervisor<=0)
+        //int currSupervisor=quiz.getCreatorID();
+        if (creatorID<=0)
             return AjaxResult.error("Input empty!");
-        HashMap<String,List<Quiz>> quizList=getQuizService.querySuperList(currSupervisor);
+        HashMap<String,List<Quiz>> quizList=getQuizService.querySuperList(creatorID);
         if(quizList==null){
             return AjaxResult.warn("No quiz now.");
         }
@@ -47,22 +47,23 @@ public class QuizController {
         return AjaxResult.success(quizList);
     }
 
-    @PostMapping("/api/quiz/getQuiz")
-    private AjaxResult getQuiz(@RequestBody Quiz quiz){
-        if(quiz==null)
+    @GetMapping("/api/quiz/getQuiz/{QID}")
+    private AjaxResult getQuiz(@PathVariable("QID") int QID){
+        if(QID==0)
             return AjaxResult.error("Input empty!");
-        Quiz result=getQuizService.queryQuizByQID(quiz.getQID());
+        Quiz result=getQuizService.queryQuizByQID(QID);
         if(result==null){
             return AjaxResult.warn("No this quiz!");
         }else
             return AjaxResult.success(result);
     }
 
-    @PostMapping("/api/quiz/getQuestion")
-    private AjaxResult getQuestion(@RequestBody Quiz quiz){
-        if(quiz==null)
+    //@RequestBody Quiz quiz
+    @GetMapping("/api/quiz/getQuestion/{QID}")
+    private AjaxResult getQuestion(@PathVariable("QID") int QID){
+        if(QID==0)
             return AjaxResult.error("Input empty!");
-        List<Question> questions=getQuizService.queryQuestionByQID(quiz.getQID());
+        List<Question> questions=getQuizService.queryQuestionByQID(QID);
         List<QuestionVO> questionVOs = convert(questions);
         if(questions==null){
             return AjaxResult.warn("No question in this quiz!");
@@ -70,11 +71,11 @@ public class QuizController {
             return AjaxResult.success(questionVOs);
     }
 
-    @PostMapping("/api/quiz/getFeedback")
-    private AjaxResult getFeedback(@RequestBody Quiz quiz){
-        if(quiz==null)
+    @GetMapping("/api/quiz/getFeedback/{QID}")
+    private AjaxResult getFeedback(@PathVariable("QID") int QID){
+        if(QID==0)
             return AjaxResult.error("Input empty!");
-        List<Feedback> feedbacks=getQuizService.queryFeedbackByQID(quiz.getQID());
+        List<Feedback> feedbacks=getQuizService.queryFeedbackByQID(QID);
         if(feedbacks==null){
             return AjaxResult.warn("No feedback in this quiz!");
         }else
@@ -147,11 +148,11 @@ public class QuizController {
     }
 
 
-    @PostMapping("/api/quiz/checkQuizStatus")
-    private AjaxResult checkQuizStatus(@RequestBody Quiz quiz){
-        if(quiz==null)
+    @GetMapping("/api/quiz/checkQuizStatus/{QID}")
+    private AjaxResult checkQuizStatus(@PathVariable("QID") int QID){
+        if(QID==0)
             return AjaxResult.error("Input empty!");
-        int result=setQuizService.checkQuizStatus(quiz.getQID());
+        int result=setQuizService.checkQuizStatus(QID);
         if(result==0){
             System.out.println("Status check fail!");
             return AjaxResult.error(" Fail! Status check fail!");
@@ -246,6 +247,8 @@ public class QuizController {
         }
         return AjaxResult.success("Successful update!");
     }
+
+
     @GetMapping("/api/quiz/takeQuiz")
     private AjaxResult takeQuiz(int QID){
         TakeQuizDTO takeQuizDTO = null;
