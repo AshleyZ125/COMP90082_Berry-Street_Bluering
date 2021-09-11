@@ -2,12 +2,13 @@ package berryStreet.bluering.backend.controller;
 
 import berryStreet.bluering.backend.Constant.QuizStatus;
 import berryStreet.bluering.backend.Constant.TestCase;
+import berryStreet.bluering.backend.Exceptions.QuizQueryException;
 import berryStreet.bluering.backend.Utils.AjaxResult;
-import berryStreet.bluering.backend.entity.Feedback;
-import berryStreet.bluering.backend.entity.Question;
-import berryStreet.bluering.backend.entity.Quiz;
+import berryStreet.bluering.backend.entity.*;
 import berryStreet.bluering.backend.service.GetQuizService;
 import berryStreet.bluering.backend.service.SetQuizService;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,10 +63,11 @@ public class QuizController {
         if(quiz==null)
             return AjaxResult.error("Input empty!");
         List<Question> questions=getQuizService.queryQuestionByQID(quiz.getQID());
+        List<QuestionVO> questionVOs = convert(questions);
         if(questions==null){
             return AjaxResult.warn("No question in this quiz!");
         }else
-            return AjaxResult.success(questions);
+            return AjaxResult.success(questionVOs);
     }
 
     @PostMapping("/api/quiz/getFeedback")
@@ -104,19 +106,29 @@ public class QuizController {
 
 
     @PostMapping("/api/quiz/setQuestion")
-    private AjaxResult setQuestion(@RequestBody Question question){
-        if(question==null)
+    private AjaxResult setQuestion(@RequestBody QuestionVO questionVO){
+        if(questionVO==null)
             return AjaxResult.error("Input empty!");
         int result;
-        if(question.getQuizID()<=0){
-            result=setQuizService.deleteQuestion(question.getqID());
+        if(questionVO.getQuizID()<=0){
+            result=setQuizService.deleteQuestion(questionVO.getQID());
             if(result==0) return AjaxResult.error("Delete fail!");
         }else{
+            Question question = null;
+            List<Option> options = questionVO.getOptions();
+            String optionsString = JSON.toJSONString(options);
+            question = Question.builder()
+                    .options(optionsString)
+                    .qContent(questionVO.getQContent())
+                    .qID(questionVO.getQID())
+                    .quizID(questionVO.getQuizID())
+                    .build();
             result=setQuizService.setQuestion(question);
             if(result==0) return AjaxResult.error("Update fail!");
         }
         return AjaxResult.success("Successful update!");
     }
+
 
 
     @PostMapping("/api/quiz/setFeedback")
@@ -149,14 +161,15 @@ public class QuizController {
 
 
     @PostMapping("/api/quiz/setMeltiQuestion")
-    private AjaxResult setMeltiQuestion(@RequestBody List<Question> questions){
-        if(questions==null)
+    private AjaxResult setMeltiQuestion(@RequestBody List<QuestionVO> questionVOs){
+        if(questionVOs==null)
             return AjaxResult.error("Input empty!");
-        int quizID=questions.get(0).getQuizID();
+        int quizID=questionVOs.get(0).getQuizID();
         List<Question> prevQuestions=getQuizService.queryQuestionByQID(quizID);
         int result=0;
-        System.out.println("input:"+questions.toString());
+        System.out.println("input:"+questionVOs.toString());
         System.out.println("prev:"+prevQuestions.toString());
+        List<Question> questions = convertQuestion(questionVOs);
         if(prevQuestions.isEmpty()){
             result=setQuizService.createQuestions(questions);
         }else{
@@ -233,5 +246,53 @@ public class QuizController {
         }
         return AjaxResult.success("Successful update!");
     }
+    @GetMapping("/api/quiz/takeQuiz")
+    private AjaxResult takeQuiz(int QID){
+        TakeQuizDTO takeQuizDTO = null;
+        try{
+            takeQuizDTO = getQuizService.queryQuizTakenByQID(QID);
+        } catch (QuizQueryException e) {
+            return AjaxResult.error("no such quiz");
+        }
+        if(takeQuizDTO == null){
+            return AjaxResult.error("cannot get quiz,but quiz exit");
+        }
+        TakeQuizVO takeQuizVO = TakeQuizVO.builder()
+                .overview(takeQuizDTO.getOverview())
+                .questionList(convert(takeQuizDTO.getQuestionList()))
+                .QID(takeQuizDTO.getQID())
+                .topic(takeQuizDTO.getTopic())
+                .build();
+        return AjaxResult.success(takeQuizVO);
+    }
 
+    public List<QuestionVO> convert(List<Question> questions){
+        List<QuestionVO> questionVOs = new ArrayList<>();
+        for (Question question :questions){
+            List<Option> options = JSON.parseObject(question.getOptions(),
+                    new TypeReference<List<Option>>(){}.getType());
+            QuestionVO questionVO = QuestionVO.builder()
+                    .options(options)
+                    .qContent(question.getqContent())
+                    .qID(question.getqID())
+                    .quizID(question.getQuizID())
+                    .build();
+            questionVOs.add(questionVO);
+        }
+        return questionVOs;
+    }
+
+    public List<Question> convertQuestion(List<QuestionVO> questionVOs){
+        List<Question> questions = new ArrayList<>();
+        for (QuestionVO questionVO : questionVOs){
+            Question question = Question.builder()
+                    .quizID(questionVO.getQuizID())
+                    .qID(questionVO.getQID())
+                    .qContent(questionVO.getQContent())
+                    .options(JSON.toJSONString(questionVO.getOptions()))
+                    .build();
+            questions.add(question);
+        }
+        return questions;
+    }
 }

@@ -1,14 +1,16 @@
 package berryStreet.bluering.backend.service.imp;
 
 import berryStreet.bluering.backend.Constant.QuizStatus;
-import berryStreet.bluering.backend.entity.Feedback;
-import berryStreet.bluering.backend.entity.Question;
-import berryStreet.bluering.backend.entity.Quiz;
+import berryStreet.bluering.backend.Exceptions.QuizQueryException;
+import berryStreet.bluering.backend.entity.*;
 import berryStreet.bluering.backend.mapper.QuizMapper;
 import berryStreet.bluering.backend.service.GetQuizService;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 @Service
@@ -45,5 +47,20 @@ public class GetQuizServiceImp implements GetQuizService {
     @Override
     public List<Feedback> queryFeedbackByQID(int quiz_feed_ID) {
         return quizMapper.queryFeedbackByQID(quiz_feed_ID);
+    }
+    @Override
+    public TakeQuizDTO queryQuizTakenByQID(int QID) throws QuizQueryException {
+        Quiz quiz = quizMapper.queryQuizByQID(QID);
+        if(quiz == null){
+            throw new QuizQueryException();
+        }
+        List<Question> questions = quizMapper.queryQuestionByQID(QID);
+        TakeQuizDTO takeQuizDTO = TakeQuizDTO.builder()
+                .QID(quiz.getQID())
+                .overview(quiz.getOverview())
+                .topic(quiz.getTopic())
+                .questionList(questions)
+                .build();
+        return takeQuizDTO;
     }
 }

@@ -1,5 +1,12 @@
 package berryStreet.bluering.backend.entity;
 
+import lombok.Builder;
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+@Builder
 public class Question {
     private int qID;
     private String qContent;
