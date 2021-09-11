@@ -9,7 +9,7 @@ public class TestCase {
     /*Use for /api/quiz/setQuiz
     Quiz quiz=TestCase.Qz1;
      */
-    public static final Quiz Qz1=new Quiz(1,"topic1","overview1",3,1);
+    public static final Quiz Qz1=new Quiz(0,"topic1","overview1",3,2);
     public static final Quiz Qz2=new Quiz(2,"topic1","overview1",3,2);
     public static final Quiz Qz3=new Quiz(3,"topic1","overview1",3,1);
 

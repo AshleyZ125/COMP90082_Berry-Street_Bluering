@@ -64,6 +64,7 @@ public class QuizController {
         if(QID==0)
             return AjaxResult.error("Input empty!");
         List<Question> questions=getQuizService.queryQuestionByQID(QID);
+        System.out.println("questions:"+questions);
         List<QuestionVO> questionVOs = convert(questions);
         if(questions==null){
             return AjaxResult.warn("No question in this quiz!");
