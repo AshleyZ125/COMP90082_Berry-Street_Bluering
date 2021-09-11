@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Option {
-    private int key;
+    private long key;
     private String value;
     private int point;
 }
