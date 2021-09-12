@@ -2,23 +2,16 @@
   <div class="categPanel">
     <NonTextHeader></NonTextHeader>
     <div class="panelBody">
+      
       <h1 class="title">Quizzes</h1>
-      <div
-        class="cards"
-        style="font-family: 'Acme', sans-serif; font-size: 50px"
-      >
+      <div class="cards" style="font-family: 'Acme', sans-serif; font-size: 50px">
         <el-row>
-          <el-col
-            :span="4"
-            v-for="item in tabledata"
-            :key="item.QID"
-            :offset="1"
-          >
+          <el-col   :span="4"   v-for="item in tabledata"    :key="item.QID"     :offset="1">
             <div @click="gotoCateg(item)" style="margin-top: 30px">
               <el-card
                 shadow="hover"
                 :body-style="{
-                  background: 'pink',
+                  background: 'lightblue',
                   borderRadius: 10,
                 }"
               >
@@ -91,11 +84,13 @@ export default {
 
 <style lang="scss">
 //@import "./categPanel.scss";
+
 .title{
   font-family: 'Acme', sans-serif;  
   font-size:30px;
   margin-left:30px;
   margin-top:10px;
+ 
 }
 .el-card, .el-message{
     border-radius: 10px !important;

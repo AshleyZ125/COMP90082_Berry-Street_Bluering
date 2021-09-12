@@ -1,11 +1,11 @@
 <template>
     <div class="categ">
         <nonText-header></nonText-header>
-        <el-button @click="goBack" style = "float:left;margin-left:25px;margin-top:25px;background-color:lightblue;font-size:35px"> Back </el-button>
+        <el-button @click="goBack" style = "float:left;margin-left:15px;margin-top:15px;background-color:lightblue;font-size:25px"> Back </el-button>
 
         <div class="main"> 
             <div class = "main-back"> 
-                <h2 class = "title"> Communication </h2>
+                <h2 class = "title"> Communication </h2><br>
                 <p class = "overview"> Overview </p>
             </div>
             <div class="main-content">
@@ -35,8 +35,7 @@ export default {
     },
     methods:{
         goBack(){
-            alert("back");
-            console.log(1111)
+            this.$router.push('/categPanel')
         },
         startQuiz(){
             alert("start quiz");
@@ -56,10 +55,11 @@ export default {
     .main{
         
         .main-back{
-            width: 2000px;
-            height:200px;
-            margin: 150px auto;
+            width: 90%;
+            height:50%;
+            margin: 80px auto;
             border-radius: 15px;
+            text-align: center;
             background-color: #50A7C2;
             .title{
                 font-family: 'Acme', sans-serif;
@@ -77,8 +77,8 @@ export default {
             }
         }
         .main-content{
-            width: 2000px;
-            height:600px;
+            width: 90%;
+            height:50%;
             margin: 40px auto;
             border-radius: 15px;
             font-family: 'Acme', sans-serif;  
@@ -86,7 +86,9 @@ export default {
             .content{
                 padding: 0 30px 0 0;
                 font-family:'Acme', sans-serif ;
-                font-size: 35px;
+                font-size: 30px;
+                margin-top: 3%;
+                margin-left: 3%;
             }
         }
     }
