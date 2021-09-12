@@ -6,6 +6,7 @@ import Register from './views/register'
 import Reset_password from './views/reset_password'
 import CategInfoLEC from './views/categInfoLEC'
 import CategPanel from'./views/categPanel'
+import SelectQuestion from'./views/selectQuestion'
 
 Vue.use(Router);
 export default new Router({
@@ -39,6 +40,11 @@ export default new Router({
             path:'/categPanel',
             name:'categPanel',
             component: CategPanel,
+        },
+        {
+            path:'/selectQuestion',
+            name:'selectQuestion',
+            component: SelectQuestion,
         }
     ]
 });
