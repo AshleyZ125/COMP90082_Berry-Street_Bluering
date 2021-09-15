@@ -1,0 +1,39 @@
+<template>
+  <div class="lecHeader">
+    <img src="./../assets/lexm.png" alt="">
+    <el-button @click="logIn()" style = "float:right;margin-right:25px;margin-top:15px;font-size:35px"> Log In </el-button>
+  </div>
+</template>
+
+<script>
+export default {
+    name:'nonText-header',
+    methods:{
+        logIn(){
+            this.$router.push('/signin')
+        }
+    }
+}
+</script>
+
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
+    .lecHeader{
+        height: 90px;
+        line-height: 90px;
+        background-color: #50A7C2;
+        //text-align: center;
+        position: relative;
+        
+        img{
+            width: 190px;
+            height: 40px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 10px;
+            margin: auto;
+        }
+        
+    }
+</style>
