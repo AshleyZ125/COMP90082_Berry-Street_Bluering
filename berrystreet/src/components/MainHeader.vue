@@ -1,16 +1,14 @@
 <template>
-  <div>
-      <div class="space-header">
+      <div class="main-header">
         <img src="./../assets/lexm.png" alt="">
-        <span class="header-content">Hi, {{username}}!</span>
+        <span class="header-content">{{title}}</span>
         <el-button @click="logout()" style="float:right;margin-right:25px;margin-top:25px;">Logout</el-button>
       </div>
-  </div>
 </template>
 
 <script>
 export default {
-    name:'space-header',
+    name:'main-header',
     data(){
         return{
 
@@ -18,11 +16,6 @@ export default {
     },
     props:{
         title:String
-    },
-    computed:{
-        username(){
-            return this.$store.state.username
-        }
     },
     methods:{
         logout(){
@@ -39,7 +32,7 @@ export default {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
-    .space-header{
+    .main-header{
         height: 90px;
         line-height: 90px;
         background-color: #50A7C2;

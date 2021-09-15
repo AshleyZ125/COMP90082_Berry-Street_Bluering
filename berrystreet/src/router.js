@@ -6,6 +6,9 @@ import Register from './views/register'
 import Myspace from './views/myspace'
 import resetPassword from './views/reset_password'
 import resetEmail from './views/reset_email'
+import myQuiz from './views/myquiz'
+import createQuizTitle from './views/createQuizTitle'
+import createQuestion from './views/createQuestion'
 
 Vue.use(Router);
 export default new Router({
@@ -41,6 +44,22 @@ export default new Router({
             name:'resetEmail',
             component:resetEmail,
         },
+        {
+            path:'/myquiz',
+            name:'myquiz',
+            component:myQuiz,
+        },
+        {
+            path:'/createquiztitle',
+            name:'createquiztitle',
+            component:createQuizTitle,
+        },
+        {
+            path:'/createquestion',
+            name:'createquestion',
+            component:createQuestion,
+        },
+        
         
     ]
 });

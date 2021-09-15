@@ -14,17 +14,17 @@
           </el-dropdown>
       </div>
       <div class="space-container">
-          <div class="card" id="quiz" @click="gotoQuiz()">
+          <div class="card" id="quiz" @click="gotoMyQuiz()">
                 <span>My Quizzes</span>
-                <img src="./../assets/student.png" alt="">
+                <img src="./../assets/bookmarking.png" alt="" id="myquiz">
           </div>
           <div class="card" id="lecs" @click="gotoSignin()">
               <span>My LECs</span>
-              <img src="./../assets/teacher.png" alt="" id="teacher">
+              <img src="./../assets/girl.png" alt="" id="teacher">
           </div>
           <div class="card" id="experience" @click="gotoSignin()">
               <span>User Experience Comments</span>
-              <img src="./../assets/teacher.png" alt="" id="teacher">
+              <img src="./../assets/book.png" alt="" id="teacher">
           </div>
       </div>
   </div>
@@ -57,6 +57,9 @@ export default {
         },
         gotoResetEmail(){
             this.$router.push('/resetEmail')
+        },
+        gotoMyQuiz(){
+            this.$router.push('/myquiz')
         }
     },
     mounted(){
@@ -91,7 +94,7 @@ export default {
         position: relative;
         cursor: pointer;
         span{
-            font-size: 40px;
+            font-size: 50px;
             font-family: 'Acme', sans-serif;  
         }
         img{
@@ -107,6 +110,12 @@ export default {
             width: 120px;
             height: 120px;
             bottom: 25px;
+        }
+        #myquiz{
+            width: 100px;
+            height: 100px;
+            bottom: 28px;
+
         }
     }
     #quiz{
