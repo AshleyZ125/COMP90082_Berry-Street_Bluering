@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/COMP90082_Berry-Street_Bluering.iml" filepath="$PROJECT_DIR$/.idea/COMP90082_Berry-Street_Bluering.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/backend.iml" filepath="$PROJECT_DIR$/backend/backend.iml" />
+    </modules>
+  </component>
+</project>
