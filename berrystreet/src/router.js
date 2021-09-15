@@ -9,6 +9,9 @@ import resetEmail from './views/reset_email'
 import myQuiz from './views/myquiz'
 import createQuizTitle from './views/createQuizTitle'
 import createQuestion from './views/createQuestion'
+import CategInfoLEC from './views/categInfoLEC'
+import CategPanel from'./views/categPanel'
+import SelectQuestion from'./views/selectQuestion'
 
 Vue.use(Router);
 export default new Router({
@@ -59,6 +62,21 @@ export default new Router({
             name:'createquestion',
             component:createQuestion,
         },
+        {
+            path:'/categInfoLEC',
+            name:'categInfoLEC',
+            component: CategInfoLEC,
+        },
+        {
+            path:'/categPanel',
+            name:'categPanel',
+            component: CategPanel,
+        },
+        {
+            path:'/selectQuestion',
+            name:'selectQuestion',
+            component: SelectQuestion,
+        }
         
         
     ]

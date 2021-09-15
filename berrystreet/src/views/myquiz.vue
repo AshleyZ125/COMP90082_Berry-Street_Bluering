@@ -11,7 +11,7 @@
                         <el-table-column label="Quiz Name" width="180" class="success-row" align="center">
                             <template slot-scope="scope">
                                 <div slot="reference" class="name-wrapper">
-                                    <span style="font-size:30px">{{ scope.row.name }}</span>
+                                    <span style="font-size:24px">{{ scope.row.name }}</span>
                                 </div>
                             </template>
                         </el-table-column>
@@ -30,7 +30,7 @@
                         <el-table-column label="Quiz Name" width="180" class="success-row" align="center">
                             <template slot-scope="scope">
                                 <div slot="reference" class="name-wrapper">
-                                    <span style="font-size:30px">{{ scope.row.topic }}</span>
+                                    <span style="font-size:24px">{{ scope.row.topic }}</span>
                                 </div>
                             </template>
                         </el-table-column>
