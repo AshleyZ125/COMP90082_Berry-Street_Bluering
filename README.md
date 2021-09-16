@@ -35,3 +35,12 @@ Build program to production
 npm run build  
 ```
 ### **Back-end Setting**
+
+Firstly, you need to import the `/backend` package to your Java IDE. This is a SpringBoot system which support the backend functions for the quiz application.
+
+Next, you need to reimport jar files according to the `/backend/pom.xml` file. This step requires the Maven environment, which is integrated in IntelliJ IDEA. If your IDE do not have Maven, please download and setting it.
+
+- Apache Maven download link: [https://maven.apache.org/download.cgi](https://maven.apache.org/download.cgi)
+- Documents for install and configuration: [https://maven.apache.org/users/index.html](https://maven.apache.org/users/index.html)
+
+Finally, you can choose the `berryStreet.bluering.backend.DemoApplication` class as the IDE Run Configuration. Then build and run it. :-)
