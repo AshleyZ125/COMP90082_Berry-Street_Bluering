@@ -17,11 +17,18 @@ This repository contains the source code for the COMP90082 Software Project cour
   /documents
       - documents for system API 
 ```
-
-Front-end:  
-Install node modules:  
-**npm install**  
+## **Deployment**
+### **Front-end Setting**
+Install node modules:
+```
+npm install
+```
 Run the program   
-**npm run serve**  
-Build program to production  
-**npm run build**  
+```
+npm run serve  
+```
+Build program to production 
+```
+npm run build  
+```
+### **Back-end Setting**
