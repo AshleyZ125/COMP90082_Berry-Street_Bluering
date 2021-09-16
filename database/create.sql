@@ -9,25 +9,22 @@ role varchar(20) not null check(role in ('supervisor', 'LEC'))
 create table project.quiz(
 QID int not null auto_increment primary key,
 topic varchar(100) not null,
-overview varchar(500) not null
+overview varchar(1000) not null,
+status int not null,
+creatorID int not null,
+foreign key(creatorID) references user(UID)
 );
 create table project.question(
 qID int not null auto_increment primary key,
 qContent varchar(200) not null,
+options varchar(1000) not null,
 quizID int not null,
 foreign key(quizID) references quiz(QID)
-);
-create table project.options(
-OID int not null auto_increment primary key,
-oContent varchar(200) not null,
-score int not null,
-questionID int not null,
-foreign key(questionID) references question(qID)
 );
 create table project.feedback(
 FID int not null auto_increment primary key,
 scoreRange varchar(20) not null,
-remark varchar(500) not null,
+remark varchar(1000) not null,
 quiz_feed_ID int not null,
 foreign key(quiz_feed_ID) references quiz(QID)
 );
@@ -35,9 +32,10 @@ create table project.record(
 RID int not null auto_increment primary key,
 rDate date not null,
 quizContent varchar(1000) not null,
-savedReflection varchar(500), # null => not saved
+savedReflection varchar(500),
 feedID int not null,
-userID int,# Anonymous userID=null
+userID int,# Anonymous UID=null
+foreign key(userID) references user(UID),
 foreign key(feedID) references feedback(FID)
 );
 create table project.share(
@@ -45,7 +43,7 @@ SID int not null auto_increment primary key,
 sender int not null,
 receiver int not null,
 recordID int not null,
-shareReflection varchar(500),
+shareReflection varchar(1000),
 foreign key(recordID) references record(RID)
 );
 create table project.experience(
@@ -53,4 +51,3 @@ EID int not null auto_increment primary key,
 eContent varchar(1000) not null,
 eDate date not null
 );
-
