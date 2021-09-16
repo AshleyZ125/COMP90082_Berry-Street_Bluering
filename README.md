@@ -4,7 +4,10 @@ This repository contains the source code for the COMP90082 Software Project cour
 
 ## **Contributors**
 - Zixin Zhang 	1087336
-
+- He Yang
+- Jing Wang
+- Yingda Cui
+- Yujing Guan
 
 ## **Project Structure**
 ```
