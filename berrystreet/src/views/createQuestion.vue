@@ -51,7 +51,7 @@
                         <el-form-item label="Point" :prop="'options.' + index + '.point'" :rules="[{ required: true, message: 'Point is required'},{ type: 'number', message: 'Point must be a number'}]" style="display:inline-block;margin-right:20px">
                             <el-input v-model.number="option.point" style="width:50px" ></el-input>
                         </el-form-item>
-                        <el-button @click.prevent="removeOption(option)">Delete</el-button>
+                        <el-button @click.prevent="removeOption(option)" v-if="option.key!==0&&option.key!==1" >Delete</el-button>
                     </el-form-item>
                     
                 </el-form>
@@ -80,7 +80,7 @@
                         <el-form-item label="Point" :prop="'options.' + index + '.point'" :rules="[{ required: true, message: 'Point is required'},{ type: 'number', message: 'Point must be a number'}]" style="display:inline-block;margin-right:20px">
                             <el-input v-model.number="option.point" style="width:50px" ></el-input>
                         </el-form-item>
-                        <el-button @click.prevent="removeEditOption(option)">Delete</el-button>
+                        <el-button @click.prevent="removeEditOption(option)" v-if="option.key!==0&&option.key!==1">Delete</el-button>
                     </el-form-item>
                     
                 </el-form>
@@ -112,7 +112,12 @@ export default {
                    key:0,
                    value:'',
                    point:0,
-               }]
+               },{
+                   key:1,
+                   value:'',
+                   point:0,
+               },
+               ]
            },
            editForm:{
                qcontent:'',
@@ -120,7 +125,12 @@ export default {
                    key:0,
                    value:'',
                    point:0,
-               }]
+               },
+               {
+                   key:1,
+                   value:'',
+                   point:0,
+               },]
            },
            allForm:[],
 
