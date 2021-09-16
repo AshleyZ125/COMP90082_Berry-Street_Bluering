@@ -55,6 +55,6 @@ spring:
 
 Finally, you can choose the `berryStreet.bluering.backend.DemoApplication` class as the IDE Run Configuration. Then build and run it. :-)
 
-### **Back-end Setting**
+### **Database Setting**
 
 
