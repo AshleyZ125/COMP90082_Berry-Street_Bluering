@@ -18,7 +18,7 @@ This repository contains the source code for the COMP90082 Software Project cour
   /database
       - database creation and data insertion script
   /documents
-      - documents for system API 
+      - documents for system 
 ```
 ## **Deployment**
 ### **Front-end Setting**
@@ -57,4 +57,6 @@ Finally, you can choose the `berryStreet.bluering.backend.DemoApplication` class
 
 ### **Database Setting**
 
+Please run the `/database/create.sql` script in your MySQL Connection to create the database. 
 
+The `/database/insert.sql` script will insert some testing data to your project schema. If you want to see the sample of this system, please run it,too. 
