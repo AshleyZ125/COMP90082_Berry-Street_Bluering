@@ -3,7 +3,7 @@
 This repository contains the source code for the COMP90082 Software Project course at the University of Melbourne.
 
 ## **Contributors**
-- Zixin Zhang 	1087336
+- Zixin Zhang
 - He Yang
 - Jing Wang
 - Yingda Cui
