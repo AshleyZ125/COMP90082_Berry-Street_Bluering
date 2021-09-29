@@ -13,15 +13,15 @@ public class Question {
     private String options;
     private int quizID;
 
-    public Question(int qID,String qContent,String options,int quizID){
-        this.qID=qID;
-        this.qContent=qContent;
-        this.options=options;
-        this.quizID=quizID;
-    }
-    public Question(){
-
-    }
+//    public Question(int qID,String qContent,String options,int quizID){
+//        this.qID=qID;
+//        this.qContent=qContent;
+//        this.options=options;
+//        this.quizID=quizID;
+//    }
+//    public Question(){
+//
+//    }
 
     public int getqID() {
         return qID;

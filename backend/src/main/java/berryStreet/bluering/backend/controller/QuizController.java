@@ -26,7 +26,7 @@ public class QuizController {
 
 
     @GetMapping("/api/quiz/superQuizList/{UID}")
-    private AjaxResult superQuizList(@PathVariable("UID") int creatorID){
+    public AjaxResult superQuizList(@PathVariable("UID") int creatorID){
         //int currSupervisor=1;
         //int currSupervisor=quiz.getCreatorID();
         if (creatorID<=0)
@@ -39,7 +39,7 @@ public class QuizController {
     }
 
     @PostMapping("/api/quiz/lecQuizList")
-    private AjaxResult lecQuizList(){
+    public AjaxResult lecQuizList(){
         List<Quiz> quizList=getQuizService.queryLecList();
         if(quizList==null){
             return AjaxResult.warn("No quiz now.");
@@ -48,7 +48,7 @@ public class QuizController {
     }
 
     @GetMapping("/api/quiz/getQuiz/{QID}")
-    private AjaxResult getQuiz(@PathVariable("QID") int QID){
+    public AjaxResult getQuiz(@PathVariable("QID") int QID){
         if(QID==0)
             return AjaxResult.error("Input empty!");
         Quiz result=getQuizService.queryQuizByQID(QID);
@@ -60,7 +60,7 @@ public class QuizController {
 
     //@RequestBody Quiz quiz
     @GetMapping("/api/quiz/getQuestion/{QID}")
-    private AjaxResult getQuestion(@PathVariable("QID") int QID){
+    public AjaxResult getQuestion(@PathVariable("QID") int QID){
         if(QID==0)
             return AjaxResult.error("Input empty!");
         List<Question> questions=getQuizService.queryQuestionByQID(QID);
@@ -84,8 +84,10 @@ public class QuizController {
     }
 
 
-    @PostMapping("/api/quiz/setQuiz")
-    private AjaxResult setQuiz(@RequestBody Quiz quiz){
+    //@RequestBody Quiz quiz
+    @GetMapping("/api/quiz/setQuiz")
+    private AjaxResult setQuiz(){
+        Quiz quiz=Quiz.builder().QID(7).status(4).build();
         System.out.println("input:"+quiz);
         if(quiz==null)
             return AjaxResult.error("Input empty!");
@@ -99,12 +101,21 @@ public class QuizController {
             else
                 return AjaxResult.error("Insert fail!");
         }else{
-            int result=setQuizService.setQuiz(quiz);
-            System.out.println("set:"+quiz);
-            if(result!=0)
-                return AjaxResult.success("Successful update!");
-            else
-                return AjaxResult.error("update fail!");
+            if(quiz.getStatus()==QuizStatus.QUIZ_DELETED){
+                int result=setQuizService.setQuizStatus(quiz.getQID(),QuizStatus.QUIZ_DELETED);
+                System.out.println("delete:"+quiz);
+                if(result!=0)
+                    return AjaxResult.success("Successful delete!");
+                else
+                    return AjaxResult.error("deletion fail!");
+            }else{
+                int result=setQuizService.setQuiz(quiz);
+                System.out.println("set:"+quiz);
+                if(result!=0)
+                    return AjaxResult.success("Successful update!");
+                else
+                    return AjaxResult.error("update fail!");
+            }
         }
     }
 
@@ -135,6 +146,7 @@ public class QuizController {
 
 
 
+
     @PostMapping("/api/quiz/setFeedback")
     private AjaxResult setFeedback(@RequestBody Feedback feedback){
         if(feedback==null)
@@ -161,6 +173,47 @@ public class QuizController {
             return AjaxResult.error(" Fail! Status check fail!");
         }else
             return AjaxResult.success("Quiz status check pass!");
+    }
+
+    @PostMapping("/api/quiz/setQuizStatus")
+    private AjaxResult setQuizStatus(@RequestBody Quiz quiz){
+        if(quiz.getQID()==0)
+            return AjaxResult.error("Input empty!");
+        int QID=quiz.getQID();
+        Quiz currQuiz=getQuizService.queryQuizByQID(QID);
+        switch (quiz.getStatus()){
+            case QuizStatus.QUIZ_SAVED:
+                if(currQuiz.getStatus()==QuizStatus.QUIZ_PUBLIC){
+                    int result=setQuizService.setQuizStatus(QID,QuizStatus.QUIZ_SAVED);
+                    if (result!=0)
+                        return AjaxResult.success("Quiz private success!");
+                }else if(currQuiz.getStatus()==QuizStatus.QUIZ_SAVED){
+                    return AjaxResult.warn("Operation cancel! Current status has been private!");
+                }
+                break;
+            case QuizStatus.QUIZ_PUBLIC:
+                if(currQuiz.getStatus()==QuizStatus.QUIZ_PUBLIC){
+                    return AjaxResult.warn("Operation cancel! Current status has been public!");
+                }else if(currQuiz.getStatus()==QuizStatus.QUIZ_SAVED){
+                    int result=setQuizService.setQuizStatus(QID,QuizStatus.QUIZ_PUBLIC);
+                    if (result!=0)
+                        return AjaxResult.success("Quiz public success!");
+                }
+                break;
+            case QuizStatus.QUIZ_EDIT:
+                if(currQuiz.getStatus()!=QuizStatus.QUIZ_DELETED){
+                    int result=setQuizService.setQuizStatus(QID,QuizStatus.QUIZ_EDIT);
+                    if (result!=0)
+                        return AjaxResult.success("Quiz status protection success!");
+                }else{
+                    return AjaxResult.error("The quiz is not exist!");
+                }
+                break;
+            default:
+                return AjaxResult.error("Operation not allow!");
+        }
+        System.out.println("Status change fail!");
+        return AjaxResult.error(" Fail! Status change fail!");
     }
 
 

@@ -85,4 +85,9 @@ public class SetQuizServiceImp implements SetQuizService {
             return quizMapper.setQuizStatus(QID, QuizStatus.QUIZ_SAVED);
         }else return 1;
     }
+
+    @Override
+    public int setQuizStatus(int QID, int status) {
+        return quizMapper.setQuizStatus(QID,status);
+    }
 }
