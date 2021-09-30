@@ -14,6 +14,7 @@ import CategPanel from'./views/categPanel'
 import SelectQuestion from'./views/selectQuestion'
 import SigninLEC from './views/signinLEC'
 import RegisterLEC from './views/registerLEC'
+import GetFeedback from'./views/getFeedback'
 
 Vue.use(Router);
 export default new Router({
@@ -88,6 +89,11 @@ export default new Router({
             path:'/registerLEC',
             name:'registerLEC',
             component: RegisterLEC,
+        },
+        {
+            path:'/getFeedback',
+            name:'getFeedback',
+            component: GetFeedback,
         }
         
         
