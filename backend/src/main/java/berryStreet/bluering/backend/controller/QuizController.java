@@ -84,11 +84,10 @@ public class QuizController {
     }
 
 
-    //@RequestBody Quiz quiz
-    @GetMapping("/api/quiz/setQuiz")
-    private AjaxResult setQuiz(){
-        Quiz quiz=Quiz.builder().QID(7).status(4).build();
-        System.out.println("input:"+quiz);
+    @PostMapping("/api/quiz/setQuiz")
+    private AjaxResult setQuiz(@RequestBody Quiz quiz){
+        //Quiz quiz=Quiz.builder().QID(7).status(4).build();
+        //System.out.println("input:"+quiz);
         if(quiz==null)
             return AjaxResult.error("Input empty!");
         if(quiz.getQID()<=0){
