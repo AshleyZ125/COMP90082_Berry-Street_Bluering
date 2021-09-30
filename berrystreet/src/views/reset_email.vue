@@ -1,21 +1,19 @@
 <template>
     <div class = "reset-main">
         <nav-header></nav-header>
-        <div class = "container">
-            <div class = "reset_panel">
+        <div class = "reset_container">
+            <div class = "resetemail_panel">
                 <div class = "title_container"><span class = "title"> Reset Email</span></div>
                 <el-form :model="resetEmailForm" status-icon ref="resetEmailForm"  label-width="100px" label-position="top" :rules="resetEmailFormRules" style="margin:30px 0 0 50px">
+                    <el-form-item label = "Old Email" prop = "oldEmail">
+                        <el-input type = "email" style="width:300px" v-model="resetEmailForm.oldEmail" autocomplete = "off"></el-input>
+                    </el-form-item>
                     <el-form-item label = "New Email" prop = "newEmail">
                         <el-input type = "email" style="width:300px" v-model="resetEmailForm.newEmail" autocomplete = "off"></el-input>
                     </el-form-item>
-
-                     <el-form-item label = "Confirm Email" prop = "confirmEmail">
-                        <el-input type = "emial" style="width:300px" v-model="resetEmialForm.confirmEmail" autocomplete = "off"></el-input>
-                    </el-form-item>
-
-                    <el-form-item>
-                        <el-button  @click="submitForm('resetEmailForm')"> submit </el-button>
-                        <el-button  @click="resetForm('resetEmailForm')">reset</el-button>
+                    <el-form-item style="margin-top:30px">
+                        <el-button  @click="submitForm('resetEmailForm')" style="margin-right:30px"> Submit </el-button>
+                        <el-button  @click="resetForm('resetEmailForm')">Clear</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -30,30 +28,27 @@ import NavHeader from './../components/NavHeader.vue'
 export default {
     data() {
         var validateEmail = (rule, value, callback) =>{
-            if (!value){
-                callback(new Error(' please enter email'));
-            }  else {
-                if (this.resetEmailForm.newEmail !== ' '){
-                    this.$refs.resetEmailForm.validateField('confirmEmail');
-                }
+            if (value === ''){
+                callback(new Error('Please enter new Email address!'));
+            } else if (value === this.resetEmailForm.oldEmail){
+                callback(new Error('New Email address cannot same with old Email!'))
+            } else {
                 callback();
             }
         };
-
         return {
-            resetPasswordForm:{
+            resetEmailForm:{
+                oldEmail:'',
                 newEmail:'',
-                confirmEmail:'',
             },
             resetEmailFormRules:{
+                oldEmail: [
+                    {required: true, message: 'Please enter your email', trigger: 'blur' },
+                    { type: "email", message: 'Please check input correct Email', trigger: ['blur','change'] },
+                ],
                 newEmail: [
                     {required: true, message: 'Please enter your email', trigger: 'blur' },
-                    { type = "email", message: 'Email format wrong', trigger: ['blur','change'] },
-                ],
-                
-                confirmEmail: [
-                    {required: true, message: 'Please enter your email', trigger: 'blur' },
-                    { type = "email", message: 'Email format wrong', trigger: ['blur','change'] },
+                    { type: "email", message: 'Please check input correct Email', trigger: ['blur','change'] },
                     {validator: validateEmail, trigger: 'blur'}
                 ]
             }
@@ -64,12 +59,36 @@ export default {
     components:{
         NavHeader
     },
+    mounted(){
+        //console.log(this.$route.params.id)
+        console.log(this.$cookie.get('userId'))
+    },
     methods:{
+        resetEmail(){
+            let id = Number(this.$cookie.get('userId'))
+             this.axios.post('/api/user/superResetEmail',{
+                 newEmail:this.resetEmailForm.newEmail,
+                 UID:id,
+             }).then((res)=>{
+                 if(res.status==200){
+                     this.$message({
+                        message: 'Reset email successfully!',
+                        type: 'success'
+                    })
+				}
+				else{
+                    this.$message({
+                        message: res.data.msg,
+                        type: 'error'
+                    })
+                }
+                
+             })
+        },
         submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
-            //todo: axios
+            this.resetEmail();
           } else {
               this.$message({
                 showClose: true,
@@ -90,10 +109,10 @@ export default {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
-    .container{
-        .reset_panel{
+    .reset_container{
+        .resetemail_panel{
             width: 400px;
-            height: 580px;
+            height: 500px;
             margin: 150px auto;
             border-radius: 15px;
             background-color: #50A7C2;

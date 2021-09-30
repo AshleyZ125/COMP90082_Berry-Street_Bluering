@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="sign-main">
       <nav-header></nav-header>
       <div class="body">
           <div class="signin-panel">
@@ -12,7 +12,7 @@
                     <el-input style="width:300px" type="password" v-model="signinForm.password"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button @click="submitForm('signinForm')" :loading="signinLoading" style="margin:20px 0 0 110px">Log In</el-button>
+                    <el-button @click="submitForm('signinForm')" style="margin:20px 0 0 110px">Log In</el-button>
                 </el-form-item>
             </el-form>
             <span class="hyperlink" @click="gotoReset()" style="margin-left:50px">Forgot my password</span>
@@ -43,7 +43,7 @@ export default {
                    
                 ],
             },
-            signinLoading:false
+            userId:''
         }
     },
     name:'signin',
@@ -51,18 +51,42 @@ export default {
         NavHeader
     },
     methods:{
-        gotoReset(){
-            this.$router.push('/reset_password')
-        },
+        // gotoReset(){
+        //     this.$router.push('/')
+        // },
         gotoRegister(){
             this.$router.push('/register')
         },
-        
+        signin(){
+             console.log(this.signinForm.email,this.signinForm.password)
+             this.axios.post('/api/user/login',{
+                 email:this.signinForm.email,
+                 password:this.signinForm.password
+             }).then((res)=>{
+                 //console.log(res)
+                 if(res.data.status==0){
+                     console.log(res.data.data.username)
+                     //console.log(res.data.data.uid)
+                     this.$cookie.set('userId',res.data.data.uid,{expires: '1M'});
+                     this.$cookie.set('userName',res.data.data.username,{expires: '1M'});
+                     this.$store.dispatch('saveUserName',res.data.data.username)
+
+                     this.$router.push('/myspace')
+                     
+				}
+				else{
+                    this.$message({
+                        message: res.data.msg,
+                        type: 'error'
+                    })
+                }
+                
+             })
+        },
         submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
-            //todo: axios
+            this.signin()
           } else {
               this.$message({
                 showClose: true,
@@ -73,6 +97,7 @@ export default {
           }
         });
       },
+      
     }
 
 }

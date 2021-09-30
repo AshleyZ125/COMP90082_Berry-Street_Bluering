@@ -3,13 +3,21 @@ import Router from 'vue-router'
 import Home from './views/home'
 import Signin from './views/signin'
 import Register from './views/register'
-import Reset_password from './views/reset_password'
+import Myspace from './views/myspace'
+import resetPassword from './views/reset_password'
+import resetEmail from './views/reset_email'
+import myQuiz from './views/myquiz'
+import createQuizTitle from './views/createQuizTitle'
+import createQuestion from './views/createQuestion'
 import CategInfoLEC from './views/categInfoLEC'
 import CategPanel from'./views/categPanel'
 import SelectQuestion from'./views/selectQuestion'
+import SigninLEC from './views/signinLEC'
+import RegisterLEC from './views/registerLEC'
 
 Vue.use(Router);
 export default new Router({
+    mode:'history',
     routes:[
         {
             path:'/',
@@ -27,9 +35,34 @@ export default new Router({
             component:Register,
         },
         {
-            path:'/reset_password',
-            name:'reset_password',
-            component: Reset_password,
+            path:'/myspace',
+            name:'myspace',
+            component:Myspace,
+        },
+        {
+            path:'/resetPassword',
+            name:'resetPassword',
+            component:resetPassword,
+        },
+        {
+            path:'/resetEmail',
+            name:'resetEmail',
+            component:resetEmail,
+        },
+        {
+            path:'/myquiz',
+            name:'myquiz',
+            component:myQuiz,
+        },
+        {
+            path:'/createquiztitle',
+            name:'createquiztitle',
+            component:createQuizTitle,
+        },
+        {
+            path:'/createquestion',
+            name:'createquestion',
+            component:createQuestion,
         },
         {
             path:'/categInfoLEC',
@@ -45,6 +78,18 @@ export default new Router({
             path:'/selectQuestion',
             name:'selectQuestion',
             component: SelectQuestion,
+        },
+        {
+            path:'/signinLEC',
+            name:'signinLEC',
+            component: SigninLEC,
+        },
+        {
+            path:'/registerLEC',
+            name:'registerLEC',
+            component: RegisterLEC,
         }
+        
+        
     ]
 });

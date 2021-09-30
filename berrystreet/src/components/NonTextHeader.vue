@@ -10,7 +10,7 @@ export default {
     name:'nonText-header',
     methods:{
         logIn(){
-            this.$router.push('/signin')
+            this.$router.push('/signinLEC')
         }
     }
 }

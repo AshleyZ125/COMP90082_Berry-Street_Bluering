@@ -3,7 +3,7 @@ module.exports = {
         host:'localhost',
         port:8080,
         proxy:{
-            '^/api': {
+            '/api': {
                 target: 'http://localhost:8080',
                 changeOrigin: true
             },

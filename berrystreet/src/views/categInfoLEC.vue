@@ -5,11 +5,11 @@
 
         <div class="main"> 
             <div class = "main-back"> 
-                <h2 class = "title"> Communication </h2><br>
+                <h2 class = "title"> {{topic}} </h2><br>
                 <p class = "overview"> Overview </p>
             </div>
             <div class="main-content">
-                <p class = "content"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae doloremque similique explicabo, dolorem officiis, delectus, vitae fuga voluptas totam molestiae temporibus odit dignissimos quo amet neque! Reprehenderit quibusdam dicta ab tempora ex optio repellendus illo numquam provident, ipsa placeat asperiores nulla et illum at impedit accusantium maiores magni laudantium fuga. Et, minus quibusdam asperiores consequatur voluptatum deserunt vero, distinctio at inventore sunt ex, eius cumque eveniet molestiae atque quam eum dignissimos ullam ad cupiditate quos eos quisquam ducimus? Vero commodi esse aliquam odio labore blanditiis, animi tempore suscipit tenetur eligendi doloremque optio, debitis quo veritatis atque ab minima mollitia? Quas. </p>
+                <p class = "content"> {{overview}} </p>
             </div>
         </div>
         
@@ -28,6 +28,13 @@
 <script>
 import NonTextHeader from './../components/NonTextHeader.vue'
 export default {
+    data(){
+        return{
+            quizid:'',
+            topic:'',
+            overview:''
+        }
+    },
     name:'categInfoLEC',
     components:{
 
@@ -38,9 +45,24 @@ export default {
             this.$router.push('/categPanel')
         },
         startQuiz(){
-            alert("start quiz");
-            console.log(222)
+            this.$router.push({
+                name: 'selectQuestion',
+                params: {
+                    id: this.quizid
+                }
+            })
+        },
+        loadQuizOverview(){
+            let qid = this.quizid;
+            this.axios.get(`/api/quiz/getQuiz/${qid}`).then((res)=>{
+                this.topic =res.data.data.topic;
+                this.overview = res.data.data.overview;
+            })
         }
+    },
+    mounted(){
+        this.quizid = this.$route.params.id;
+        this.loadQuizOverview();
     }
     
 }
@@ -89,6 +111,7 @@ export default {
                 font-size: 30px;
                 margin-top: 3%;
                 margin-left: 3%;
+                height: 350px;
             }
         }
     }
