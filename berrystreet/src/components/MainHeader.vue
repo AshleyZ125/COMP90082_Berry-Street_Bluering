@@ -19,7 +19,11 @@ export default {
     },
     methods:{
         logout(){
-            alert("logout");
+            this.$message({
+                showClose: true,
+                message: 'You have logged out',
+                type: 'success'
+            });
             this.$cookie.set('userId','',{expires: '-1'})
             this.$cookie.set('userName','',{expires: '-1'})
             this.$store.dispatch('saveUserName','')

@@ -3,23 +3,23 @@
       <main-header title="Create Quiz"></main-header>
       <div class="pageBody">
           <div class="pageContainer">
-             <div style="height:50px"><el-button type="warning" style="float:right;" @click.native="addFormVisible = true">Create new question</el-button></div>
+             <div style="height:50px"><el-button type="warning" style="float:right;margin-top:10px;margin-bottom:10px" @click.native="addFormVisible = true">Create new question</el-button></div>
               <el-table :data="allForm" style="width: 100%" :header-cell-style="{background:'#eee',color:'#606266',fontSize: '18px'}" empty-text="No questions yet!">
-                    <el-table-column label="Question Name" width="180" align="center">
+                    <el-table-column label="Question Name" width="400" align="center">
                         <template slot-scope="scope">
                             <div slot="reference" class="name-wrapper">
                                 <span style="font-size:14px">{{ scope.row.qcontent }}</span>
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column label="Option 0" width="180" align="center">
+                    <el-table-column label="Option 0" width="250" align="center">
                         <template slot-scope="scope">
                             <div slot="reference" class="name-wrapper">
                                 <span style="font-size:14px">{{ scope.row.options[0].value }}</span>
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column label="Option 1" width="180" align="center">
+                    <el-table-column label="Option 1" width="250" align="center">
                         <template slot-scope="scope">
                             <div slot="reference" class="name-wrapper">
                                 <span style="font-size:14px">{{ scope.row.options[1].value }}</span>
@@ -33,6 +33,12 @@
                         </template>
                     </el-table-column>
                 </el-table>
+                        <div style="text-align:center; margin-top:20px">
+                            <el-button style="margin-right:50px" @click="cancelCreate">Cancel</el-button>
+                            <el-button type="primary" @click="gotoCreateFeedback">Continue</el-button>
+                            
+                        </div>
+
               <el-dialog title="Create a question" :visible.sync="addFormVisible" :close-on-click-modal="false">
                 <el-form :model="addForm" label-width="80px" ref="addForm">
                     <el-form-item label="Question" prop="qcontent" :rules="{required: true, message: 'Question name can not be null', trigger: 'blur'}">
@@ -104,7 +110,7 @@ export default {
            QID:'',
            questionId:'',
            addLoading:false,
-           addFormVisible:true,
+           addFormVisible:false,
            editFormVisible:false,
            addForm:{
                qcontent:'',
@@ -140,10 +146,33 @@ export default {
         MainHeader
     },
     mounted(){
-        this.QID = this.$route.params.QID;
+        this.QID=this.$route.params.id
+        //this.QID = this.$route.params.QID;
         this.getQuestions();
     },
+    beforeRouteEnter (to, from, next) {
+        //console.log(from) 
+        next(vm => vm.noDialog(from)); 
+    },
     methods:{
+        noDialog(from){
+            if(from.name=='createquiztitle'){
+                this.addFormVisible=true;
+            }
+            
+        },
+        gotoCreateFeedback(){
+            let QID = this.QID;
+            this.$router.push({
+                path: '/createfeedback/'+QID,
+            });
+            // this.$router.push({
+            //     name: 'createfeedback',
+            //     params:{
+            //         QID:QID
+            //     }
+            // });
+        },
         getQuestions(){
             let QID = this.QID;
             this.axios.get(`/api/quiz/getQuestion/${QID}`).then((res)=>{
@@ -158,6 +187,22 @@ export default {
                 confirmButtonText: 'Yes, I am sure!',
                 cancelButtonText: 'Cancel',
             }).then(() => {
+                this.axios.get(`/api/quiz/checkQuizStatus/${this.QID}`).then((res)=>{
+                    console.log(res.data.status)
+                    if(res.data.status!==0){
+                        this.axios.post('/api/quiz/setQuizStatus',{
+                            QID:this.QID,
+                            status:1
+                        }).then((res)=>{
+                                this.$message({
+                                    message: res.data.msg,
+                                    showClose: true,
+                                    type: 'success', 
+                                }) 
+                        })
+                    }
+                    
+                })
                 this.$router.push('/myquiz')
             })
         },

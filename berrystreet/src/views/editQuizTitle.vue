@@ -1,6 +1,6 @@
 <template>
   <div class="createQuizTitle">
-      <main-header title="Create Quiz"></main-header>
+      <main-header title="Edit Quiz"></main-header>
       <div class="pageBody">
           <div class="pageContainer">
               <el-form :model="quizForm" ref="quizForm"  label-width="100px" label-position="top" :rules="quizFormRules" style="margin-left:30%;margin-top:10%">
@@ -11,7 +11,7 @@
                         <el-input type="textarea" v-model="quizForm.quizoverview" placeholder="Please input quiz overview" :rows="12" style="width:600px"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button @click="cancelCreate" style="margin:20px 0 0 100px">Cancel</el-button>
+                        <el-button @click="cancelEdit" style="margin:20px 0 0 100px">Cancel</el-button>
                         <el-button @click="submitForm('quizForm')" type="primary" style="margin:20px 0 0 100px">Continue</el-button>
                     </el-form-item>
                 </el-form>
@@ -23,9 +23,10 @@
 <script>
 import MainHeader from './../components/MainHeader'
 export default {
-    name:'createquiztitle',
+    name:'editquiztitle',
     data(){
         return{
+            QID:'',
             userId:'',
             quizForm:{
                 title:'',
@@ -48,10 +49,20 @@ export default {
         MainHeader
     },
     mounted(){
+        this.QID=this.$route.params.id
         this.userId = this.$cookie.get('userId')
+        this.getQuizInfo();
     },
     methods:{
-        cancelCreate(){
+        getQuizInfo(){
+            let quizid = this.QID;
+            this.axios.get(`/api/quiz/getQuiz/${quizid}`).then((res)=>{
+                console.log(res.data.data)
+                this.quizForm.title=res.data.data.topic;
+                this.quizForm.quizoverview= res.data.data.overview;
+            })
+        },
+        cancelEdit(){
             this.$confirm('You have not finished yet. Are you sure you wanna cancel it?', 'Tips', {
                 type: 'warning',
                 confirmButtonText: 'Yes, I am sure!',
@@ -60,26 +71,22 @@ export default {
                 this.$router.push('/myquiz')
             })
         },
-        createQuiz(){
+        editQuiz(){
             this.axios.post('/api/quiz/setQuiz',{
-                creatorID:this.userId,
+                //creatorID:this.userId,
                  topic:this.quizForm.title,
                  overview:this.quizForm.quizoverview,
+                 QID:this.QID
              }).then((res)=>{
                  let QID=res.data.data;
                  if(res.status==200){
-                     this.$message({
-                        message: 'Quiz has been Created, Please continue!',
-                        showClose: true,
-                        type: 'success', 
-                    }) 
+                    //  this.$message({
+                    //     message: 'Quiz information has been updated, Please continue!',
+                    //     showClose: true,
+                    //     type: 'success', 
+                    // }) 
                     this.$router.push({
-                        path: '/createquestion/'+QID,
-                        
-                        // name: 'createquestion',
-                        // params:{
-                        //     QID:QID
-                        // }
+                        path: '/createquestion/'+this.QID,
                     });
 				}
 				else{
@@ -94,7 +101,7 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
             if (valid) {
-                this.createQuiz();
+                this.editQuiz();
             } else {
                 this.$message({
                     showClose: true,
@@ -123,7 +130,7 @@ export default {
         .el-form-item__label{
             font-size: 25px;
             font-family: 'Acme', sans-serif;  
-            color: black;
+            color: #606266;
         }
 }
 </style>

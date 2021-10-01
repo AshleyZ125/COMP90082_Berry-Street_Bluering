@@ -98,6 +98,7 @@ export default {
 }
 .el-card{
   width:400px;
+  cursor: pointer;
 }
 .el-card, .el-message{
     border-radius: 10px !important;

@@ -64,8 +64,15 @@ export default {
     },
     methods:{
         exit(){
-            alert("exit");
-            console.log(1111)
+            this.$confirm('You have not finished quiz yet, are you sure you wanna quit?', 'Warning', {
+                type: 'warning',
+                confirmButtonText: 'Yes, I am sure!',
+                cancelButtonText: 'Cancel',
+            }).then(() => {
+                this.$router.push('/categPanel')
+            }).catch(() => {
+            })
+            
         },
         fetchQuestions() {
             let quizid = this.quizid;

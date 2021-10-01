@@ -6,7 +6,7 @@
         <div class="main"> 
             <div class = "main-back"> 
                 <h2 class = "title"> {{topic}} </h2><br>
-                <p class = "overview"> Overview </p>
+                
             </div>
             <div class="main-content">
                 <p class = "content"> {{overview}} </p>
@@ -87,9 +87,7 @@ export default {
                 font-family: 'Acme', sans-serif;
                 font-size: 50px;
                 text-align: center;
-                margin-right: 50px;
                 display: inline-block;
-                margin-top: 25px;
             }
             .overview{
                 font-family: 'Acme', sans-serif;
@@ -106,7 +104,7 @@ export default {
             font-family: 'Acme', sans-serif;  
             background-color: lightblue;
             .content{
-                padding: 0 30px 0 0;
+                padding: 40px 0 0 0;
                 font-family:'Acme', sans-serif ;
                 font-size: 30px;
                 margin-top: 3%;

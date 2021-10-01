@@ -10,8 +10,10 @@ import myQuiz from './views/myquiz'
 import createQuizTitle from './views/createQuizTitle'
 import createQuestion from './views/createQuestion'
 import CategInfoLEC from './views/categInfoLEC'
-import CategPanel from'./views/categPanel'
-import SelectQuestion from'./views/selectQuestion'
+import CategPanel from './views/categPanel'
+import SelectQuestion from './views/selectQuestion'
+import createFeedback from './views/createFeedback'
+import editQuizTitle from './views/editQuizTitle'
 
 Vue.use(Router);
 export default new Router({
@@ -58,9 +60,19 @@ export default new Router({
             component:createQuizTitle,
         },
         {
-            path:'/createquestion',
+            path:'/editquiztitle/:id',
+            name:'editquiztitle',
+            component:editQuizTitle,
+        },
+        {
+            path:'/createquestion/:id',
             name:'createquestion',
             component:createQuestion,
+        },
+        {
+            path:'/createfeedback/:id',
+            name:'createfeedback',
+            component:createFeedback,
         },
         {
             path:'/categInfoLEC',
