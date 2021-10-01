@@ -100,7 +100,7 @@ export default {
                  UID:id,
 
              }).then((res)=>{
-                 if(res.status==200){
+                 if(res.data.status==200){
                      this.$message({
                         message: 'Reset password successfully!',
                         type: 'success'
