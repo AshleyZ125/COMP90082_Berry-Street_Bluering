@@ -22,16 +22,19 @@
     </div>
     <el-button id="pre" @click="preQuestion" style = "display:none;float:left;margin-left:25px;margin-bottom:25px;background-color:lightblue;font-size:35px"> previous </el-button>
     <el-button id="next" @click="nextQuestion" style = "float:right;margin-right:25px;margin-bottom:25px;background-color:lightblue;font-size:35px"> next </el-button>
+    <feedback-footer></feedback-footer>
   </div>
 </template>
 
 
 <script>
 import NonTextHeader from './../components/NonTextHeader.vue'
+import FeedbackFooter from './../components/FeedbackFooter.vue'
 export default {
     name:'selectQuestion',
     components:{
-        NonTextHeader
+        NonTextHeader,
+        FeedbackFooter
     },
     data(){
         return{
@@ -59,7 +62,9 @@ export default {
             scores: 0,
             // choice: null,
             record:[],
-            clickItem: -1
+            clickItem: -1,
+            feedbacks:[],
+            feedback:""
         }
     },
     mounted(){
@@ -138,14 +143,40 @@ export default {
                         nextBtn.innerHTML="finish";
                     }
                 } else {
-                    // this.axios.post("/api/feedback?score="+this.scores).then((res) => {
-                    //     console.log("res = ", res);
-                    // });
                     for(var i=0; i<this.record.length; i++){
                         this.scores+=this.record[i].point;
                     }
                     console.log(this.scores)
-                    this.$router.replace({ name: 'getFeedback' })
+                    let id=Number(this.quizid)
+                    this.axios.get(`/api/quiz/getFeedback/${id}`).then((res) => {
+                        console.log(res.data.data);
+                        this.feedbacks = res.data.data;
+                        this.process();
+                        console.log(this.feedback);
+                        this.$router.push({
+                            name: 'getFeedback',
+                            params: {
+                            feedback: this.feedback
+                            }
+                        })
+                    });
+                    // this.$router.replace({ name: 'getFeedback' })
+                    
+                }
+            }
+        },
+        process(){
+            let scoreRange=""
+            let low=0;
+            let high=0;
+            for(let item in this.feedbacks){
+                scoreRange=item.scoreRange;
+                let scoreRangeList=scoreRange.split(";")
+                low=Number(scoreRangeList[0]);
+                high=Number(scoreRangeList[1]);
+                if(low<this.scores&&high>=this.scores){
+                    this.feedback=item.remark;
+                    break;
                 }
             }
         }
