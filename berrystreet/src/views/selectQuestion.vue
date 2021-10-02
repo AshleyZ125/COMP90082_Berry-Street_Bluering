@@ -160,7 +160,13 @@ export default {
                             }
                         })
                     });
-                    // this.$router.replace({ name: 'getFeedback' })
+                    // this.process();
+                    // this.$router.push({
+                    //     name: 'getFeedback',
+                    //     params: {
+                    //         feedback: this.feedback
+                    //         }
+                    // })
                     
                 }
             }
