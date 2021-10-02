@@ -109,14 +109,17 @@
         </div>
         <el-button @click="share" style="font-family: 'Acme', sans-serif; margin-top:20px; background-color:lightblue">Share</el-button>
     </el-dialog>
+    <feedback-footer></feedback-footer>
 </div>
 </template>
 <script>
 import NonTextHeader from './../components/NonTextHeader.vue'
+import FeedbackFooter from './../components/FeedbackFooter.vue'
 export default {
     name:'getFeedback',
     components:{
-        NonTextHeader
+        NonTextHeader,
+        FeedbackFooter
     },
     data(){
         return{
@@ -177,8 +180,8 @@ export default {
         }
     },
     mounted(){
-        // this.quizid = this.$route.params.id;
-        this.getFeedback();
+        this.feedback = this.$route.params.feedback;
+        // this.feedback="At this level,....";
     },
     methods:{
         exit(){
@@ -193,10 +196,6 @@ export default {
         },
         login(){
             alert("login")
-        },
-        getFeedback(){
-            // axios获取feedback
-            this.feedback="At this level,....";
         },
         shareReflection(){
             if(this.shareForm.email!=""){
