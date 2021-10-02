@@ -169,13 +169,18 @@ export default {
             let scoreRange=""
             let low=0;
             let high=0;
-            for(let item in this.feedbacks){
-                scoreRange=item.scoreRange;
+            // this.feedbacks=[
+            //     {"FID":11,"scoreRange":"0;10","remark":"asd","quiz_feed_ID":1},
+            //     {"FID":12,"scoreRange":"10;20","remark":"sdf","quiz_feed_ID":1}];
+            for(var i=0; i<this.feedbacks.length; i++){
+                console.log(this.feedbacks[i])
+                scoreRange=this.feedbacks[i].scoreRange;
+                console.log(scoreRange)
                 let scoreRangeList=scoreRange.split(";")
                 low=Number(scoreRangeList[0]);
                 high=Number(scoreRangeList[1]);
                 if(low<this.scores&&high>=this.scores){
-                    this.feedback=item.remark;
+                    this.feedback=this.feedbacks[i].remark;
                     break;
                 }
             }
