@@ -1,6 +1,7 @@
 package berryStreet.bluering.backend.service;
 
 import berryStreet.bluering.backend.Exceptions.QuizQueryException;
+import berryStreet.bluering.backend.Exceptions.ScoreRangeException;
 import berryStreet.bluering.backend.entity.*;
 
 import java.util.HashMap;
@@ -13,4 +14,5 @@ public interface GetQuizService {
     public List<Question> queryQuestionByQID(int quizID);
     public List<Feedback> queryFeedbackByQID(int quiz_feed_ID);
     public TakeQuizDTO queryQuizTakenByQID(int QID) throws QuizQueryException;
+    public Feedback queryFeedbackByResult(int QID,int score) throws ScoreRangeException;
 }
