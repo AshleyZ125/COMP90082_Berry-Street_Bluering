@@ -33,10 +33,10 @@ RID int not null auto_increment primary key,
 rDate date not null,
 quizContent varchar(1000) not null,
 savedReflection varchar(500),
-feedID int not null,
+rFeedback varchar(1000) not null,
+rTopic varchar(100) not null,
 userID int,# Anonymous UID=null
-foreign key(userID) references user(UID),
-foreign key(feedID) references feedback(FID)
+foreign key(userID) references user(UID)
 );
 create table project.share(
 SID int not null auto_increment primary key,
