@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class QuizContent {
+public class QuizSelection {
     private String qContent;
     private String option;
 }
