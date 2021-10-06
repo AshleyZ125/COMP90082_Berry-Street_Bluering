@@ -4,7 +4,7 @@ import berryStreet.bluering.backend.Utils.AjaxResult;
 import berryStreet.bluering.backend.entity.QuizSelection;
 import berryStreet.bluering.backend.entity.Record;
 import berryStreet.bluering.backend.entity.RecordVO;
-import berryStreet.bluering.backend.entity.Share;
+import berryStreet.bluering.backend.entity.SharedRecord;
 import berryStreet.bluering.backend.service.GetRecordService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -27,7 +27,7 @@ public class RecordController {
         if(superID<=0){
             return AjaxResult.error("Input empty!");
         }
-        List<Share> sharedList=getRecordService.querySharedList(superID);
+        List<SharedRecord> sharedList=getRecordService.querySharedList(superID);
         if (sharedList.isEmpty()){
             return AjaxResult.warn("No LEC feedback now.");
         }
@@ -45,7 +45,7 @@ public class RecordController {
                 }.getType());
         RecordVO result= RecordVO.builder().RID(feedback.getRID())
                 .quizContent(quizSelections)
-                .feedback(feedback.getFeedback())
+                .rFeedback(feedback.getRFeedback())
                 .savedReflection(feedback.getSavedReflection())
                 .build();
         return AjaxResult.success(result);
