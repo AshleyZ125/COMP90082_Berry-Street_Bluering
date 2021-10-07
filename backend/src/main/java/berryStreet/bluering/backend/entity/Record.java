@@ -11,8 +11,8 @@ public class Record {
     private int RID;
     private String quizContent;
     private String savedReflection;
-    private String feedback;
-    private String quizTopic;
+    private String rFeedback;
+    private String rTopic;
     private int userID;
     private Date rDate;
 }

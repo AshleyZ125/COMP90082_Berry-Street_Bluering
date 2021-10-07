@@ -10,6 +10,8 @@ import java.util.List;
 public class Question {
     private int qID;
     private String qContent;
+    //"options":[{"content":"aaaaaa","point":1},
+    //                      {"content":"bbbbbb","point":2}]
     private String options;
     private int quizID;
 
