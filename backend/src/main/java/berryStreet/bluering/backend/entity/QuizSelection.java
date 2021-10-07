@@ -13,5 +13,5 @@ public class QuizSelection {
     //"qContent":"b"
     private String qContent;
     //{"content":"aaaaaa","point":1}
-    private Option option;
+    private String option;
 }

@@ -39,7 +39,7 @@ public class RecordTest {
                 .build();
         List<QuizSelection> quizSelections = new ArrayList<>();
         quizSelections.add(QuizSelection.builder()
-                .option(Option.builder().key(1).point(4).value("asdasd").build())
+                .option("value")
                 .qContent("sadasd")
                 .build());
         RecordVO recordVO = RecordVO.builder()
