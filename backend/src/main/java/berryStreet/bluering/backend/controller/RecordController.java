@@ -40,6 +40,8 @@ public class RecordController {
             return AjaxResult.error("Input empty!");
         }
         Record feedback=getRecordService.queryRecordbySID(SID);
+        if(feedback.getRID()==0)
+            return AjaxResult.warn("This shared record is not exist.");
         List<QuizSelection> quizSelections = JSON.parseObject(feedback.getQuizContent(),
                 new TypeReference<List<QuizSelection>>() {
                 }.getType());
