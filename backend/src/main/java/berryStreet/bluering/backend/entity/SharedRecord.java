@@ -13,10 +13,4 @@ public class SharedRecord {
     private String rTopic;
     private LocalDate rDate;
     private String username;
-
-
-
-
-
-
 }
