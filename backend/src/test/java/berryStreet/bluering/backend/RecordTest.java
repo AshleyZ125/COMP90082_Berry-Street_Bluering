@@ -53,4 +53,21 @@ public class RecordTest {
         recordController.saveShare(-1,share,recordVO);
         recordController.saveShare(10,share,recordVO);
     }
+    @Test void saveRecord(){
+        List<QuizSelection> quizSelections = new ArrayList<>();
+        quizSelections.add(QuizSelection.builder()
+                .option("value")
+                .qContent("ss")
+                .build());
+        RecordVO recordVO = RecordVO.builder()
+                .quizContent(quizSelections)
+                .rFeedback("123sasd")
+                .rTopic("a123")
+                .rDate(LocalDate.now())
+                .savedReflection("sad")
+                .userID(3)
+                .build();
+        recordController.saveRecord(-1,recordVO);
+        recordController.saveRecord(13,recordVO);
+    }
 }
