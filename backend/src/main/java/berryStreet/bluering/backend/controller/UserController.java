@@ -113,6 +113,24 @@ public class UserController {
             return AjaxResult.error("Input Empty!");
         }
     }
+
+    @PostMapping("/api/user/resetUsername")
+    public AjaxResult resetUsername(@RequestBody User user){
+        if(user.getUID()==0)
+            return AjaxResult.error("Input Empty!");
+        User checkUser=resetService.queryUserByUID(user.getUID());
+        if(checkUser.getUID()==0){
+            return AjaxResult.warn("The user does not exist!");
+        }else{
+            int result=resetService.resetUsername(user.getUID(),user.getUsername());
+            if (result != 0)
+                return AjaxResult.success("Successful reset!");
+            else
+                return AjaxResult.error("Reset fail!");
+        }
+
+    }
+
     @PostMapping("/api/user/superDelete")
     public AjaxResult superDelete(@RequestBody Map<String, Object> map) {
         if (map != null) {

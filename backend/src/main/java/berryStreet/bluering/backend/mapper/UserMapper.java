@@ -31,6 +31,9 @@ public interface UserMapper {
     @Update("update user set email = #{email} where UID = #{UID}")
     public int resetEmail(@Param("UID") int UID, @Param("email") String email);
 
+    @Update("update user set username = #{username} where UID = #{UID}")
+    public int resetUsername(@Param("UID") int UID, @Param("username") String username);
+
     @Delete("delete from user where UID = #{UID}")
     public int deleteUserByUID(@Param("UID") int UID);
 }
