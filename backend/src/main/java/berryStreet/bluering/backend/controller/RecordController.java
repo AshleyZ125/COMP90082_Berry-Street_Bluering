@@ -1,10 +1,8 @@
 package berryStreet.bluering.backend.controller;
 
+import berryStreet.bluering.backend.Constant.Constant;
 import berryStreet.bluering.backend.Utils.AjaxResult;
-import berryStreet.bluering.backend.entity.QuizSelection;
-import berryStreet.bluering.backend.entity.Record;
-import berryStreet.bluering.backend.entity.RecordVO;
-import berryStreet.bluering.backend.entity.SharedRecord;
+import berryStreet.bluering.backend.entity.*;
 import berryStreet.bluering.backend.service.GetRecordService;
 import berryStreet.bluering.backend.service.SetRecordService;
 import berryStreet.bluering.backend.service.ShareService;
@@ -13,6 +11,7 @@ import com.alibaba.fastjson.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -70,7 +69,7 @@ public class RecordController {
                     }.getType());
             RecordVO recordVO = RecordVO.builder().RID(record.getRID())
                     .quizContent(quizSelections)
-                    .feedback(record.getRFeedback())
+                    .rFeedback(record.getRFeedback())
                     .savedReflection(record.getSavedReflection())
                     .build();
             recordVOList.add(recordVO);
@@ -108,8 +107,8 @@ public class RecordController {
             record = Record.builder()
                     .quizContent(quizContent)
                     .savedReflection(recordVO.getSavedReflection())
-                    .rFeedback(recordVO.getFeedback())
-                    .rTopic(recordVO.getQuizTopic())
+                    .rFeedback(recordVO.getRFeedback())
+                    .rTopic(recordVO.getRTopic())
                     .rDate(recordVO.getRDate())
                     .userID(recordVO.getUserID())
                     .build();
@@ -124,10 +123,10 @@ public class RecordController {
     }
 
     @PostMapping("/api/record/saveShare/{RID}")
-    public AjaxResult saveShare(@PathVariable("RID") int RID, SharedRecord share,RecordVO recordVO) {
+    public AjaxResult saveShare(@PathVariable("RID") int RID, Share share, RecordVO recordVO) {
         if (shareService.saveShare(share, RID,recordVO) == Constant.SAVE_SUCCESS) {
-            return AjaxResult.success(getRecordService.queryRID(share.getSender(), share.getQuizTopic(),
-                    share.getRDate()));
+            return AjaxResult.success(getRecordService.queryRID(share.getSender(), recordVO.getRTopic(),
+                    recordVO.getRDate()));
         }
         return AjaxResult.error("not success,save again.");
     }

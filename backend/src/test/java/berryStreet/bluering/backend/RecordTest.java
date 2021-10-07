@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,12 +33,9 @@ public class RecordTest {
     @Test
     public void saveShareTest() {
         Share share = Share.builder()
-                .quizTopic("topic")
-                .rDate(new Date())
+                .sender(2)
                 .receiver(1)
                 .shareReflection("asdasd")
-                .sender(5)
-                .username("guan")
                 .build();
         List<QuizSelection> quizSelections = new ArrayList<>();
         quizSelections.add(QuizSelection.builder()
@@ -46,12 +44,13 @@ public class RecordTest {
                 .build());
         RecordVO recordVO = RecordVO.builder()
                 .quizContent(quizSelections)
-                .feedback("asdasd")
-                .quizTopic("asdasd")
-                .rDate(new Date())
+                .rFeedback("asdasd")
+                .rTopic("asdasd")
+                .rDate(LocalDate.now())
                 .savedReflection("sad")
-                .userID(1)
+                .userID(2)
                 .build();
-        recordController.saveShare(-1, share,recordVO);
+        recordController.saveShare(-1,share,recordVO);
+        recordController.saveShare(10,share,recordVO);
     }
 }

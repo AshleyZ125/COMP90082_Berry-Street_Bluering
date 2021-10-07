@@ -31,18 +31,20 @@ public class ShareServiceImp implements ShareService {
             Record record = Record.builder()
                     .quizContent(quizContent)
                     .savedReflection(recordVO.getSavedReflection())
-                    .rFeedback(recordVO.getFeedback())
-                    .rTopic(recordVO.getQuizTopic())
+                    .rFeedback(recordVO.getRFeedback())
+                    .rTopic(recordVO.getRTopic())
                     .rDate(recordVO.getRDate())
                     .userID(recordVO.getUserID())
                     .build();
             if (setRecordService.saveRecord(record) == 1) {
+                share.setRecordID(getRecordService.queryRID(recordVO.getUserID(),
+                        recordVO.getRTopic(),recordVO.getRDate()));
                 if (shareMapper.insertShare(share) == 1) {
                     return Constant.SAVE_SUCCESS;
                 }
             }
         } else {
-            if (shareMapper.insertShare(share) == 1) {
+            if (shareMapper.updateShare(share,RID) == 1) {
                 return Constant.SAVE_SUCCESS;
             }
         }
