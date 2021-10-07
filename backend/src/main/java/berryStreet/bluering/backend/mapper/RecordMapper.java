@@ -2,11 +2,11 @@ package berryStreet.bluering.backend.mapper;
 
 import berryStreet.bluering.backend.entity.Record;
 import berryStreet.bluering.backend.entity.SharedRecord;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -45,5 +45,5 @@ public interface RecordMapper {
     @Select("select RID from record where userID = #{userID} and rTopic = #{rTopic} and rDate = " +
             "#{rDate}")
     public int queryRID(@Param("userID") int userID, @Param("rTopic") String rTopic,
-                        @Param("rDate") Date rDate);
+                        @Param("rDate") LocalDate rDate);
 }

@@ -6,13 +6,12 @@ import berryStreet.bluering.backend.entity.Record;
 import berryStreet.bluering.backend.entity.RecordVO;
 import berryStreet.bluering.backend.entity.SharedRecord;
 import berryStreet.bluering.backend.service.GetRecordService;
+import berryStreet.bluering.backend.service.SetRecordService;
+import berryStreet.bluering.backend.service.ShareService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +20,10 @@ import java.util.List;
 public class RecordController {
     @Autowired
     private GetRecordService getRecordService;
+    @Autowired
+    private SetRecordService setRecordService;
+    @Autowired
+    private ShareService shareService;
 
     @GetMapping("/api/record/sharedList/{UID}")
     public AjaxResult sharedList(@PathVariable("UID") int superID){
@@ -87,8 +90,8 @@ public class RecordController {
             record = Record.builder()
                     .quizContent(quizContent)
                     .savedReflection(recordVO.getSavedReflection())
-                    .rFeedback(recordVO.getFeedback())
-                    .rTopic(recordVO.getQuizTopic())
+                    .rFeedback(recordVO.getRFeedback())
+                    .rTopic(recordVO.getRTopic())
                     .rDate(recordVO.getRDate())
                     .userID(recordVO.getUserID())
                     .build();
@@ -121,7 +124,7 @@ public class RecordController {
     }
 
     @PostMapping("/api/record/saveShare/{RID}")
-    public AjaxResult saveShare(@PathVariable("RID") int RID, Share share,RecordVO recordVO) {
+    public AjaxResult saveShare(@PathVariable("RID") int RID, SharedRecord share,RecordVO recordVO) {
         if (shareService.saveShare(share, RID,recordVO) == Constant.SAVE_SUCCESS) {
             return AjaxResult.success(getRecordService.queryRID(share.getSender(), share.getQuizTopic(),
                     share.getRDate()));

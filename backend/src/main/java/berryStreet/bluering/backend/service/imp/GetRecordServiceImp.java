@@ -7,7 +7,7 @@ import berryStreet.bluering.backend.service.GetRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -31,7 +31,7 @@ public class GetRecordServiceImp implements GetRecordService {
     }
 
     @Override
-    public int queryRID(int userID, String rTopic, Date rDate) {
+    public int queryRID(int userID, String rTopic, LocalDate rDate) {
         return recordMapper.queryRID(userID, rTopic, rDate);
     }
 

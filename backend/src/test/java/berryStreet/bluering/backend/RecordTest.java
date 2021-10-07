@@ -24,9 +24,10 @@ public class RecordTest {
     }
 
     @Test
-    public void getSharedFeedbackTest(){
-        int SID=1;
+    public void getSharedFeedbackTest() {
+        int SID = 1;
         recordController.sharedList(SID);
+    }
 
     @Test
     public void saveShareTest() {
