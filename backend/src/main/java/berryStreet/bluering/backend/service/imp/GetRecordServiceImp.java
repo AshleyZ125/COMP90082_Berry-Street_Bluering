@@ -1,7 +1,7 @@
 package berryStreet.bluering.backend.service.imp;
 
 import berryStreet.bluering.backend.entity.Record;
-import berryStreet.bluering.backend.entity.Share;
+import berryStreet.bluering.backend.entity.SharedRecord;
 import berryStreet.bluering.backend.mapper.RecordMapper;
 import berryStreet.bluering.backend.service.GetRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class GetRecordServiceImp implements GetRecordService {
     private RecordMapper recordMapper;
 
     @Override
-    public List<Share> querySharedList(int UID) {
+    public List<SharedRecord> querySharedList(int UID) {
         return recordMapper.querySharedList(UID);
     }
 

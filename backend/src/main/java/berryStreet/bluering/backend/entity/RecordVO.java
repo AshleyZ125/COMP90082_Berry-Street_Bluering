@@ -3,6 +3,7 @@ package berryStreet.bluering.backend.entity;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -12,8 +13,11 @@ public class RecordVO {
     private int RID;
     private List<QuizSelection> quizContent;
     private String savedReflection;
-    private String feedback;
-    private String quizTopic;
+    private String rFeedback;
+    private String rTopic;
     private int userID;
-    private Date rDate;
+    private LocalDate rDate;
+
+    //private String shareReflection;
+    //private String rFeedback;
 }

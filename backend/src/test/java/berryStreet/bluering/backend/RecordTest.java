@@ -17,6 +17,16 @@ import java.util.List;
 public class RecordTest {
     @Autowired
     RecordController recordController;
+    @Test
+    public void sharedListTest(){
+        int superID=1;
+        recordController.sharedList(superID);
+    }
+
+    @Test
+    public void getSharedFeedbackTest(){
+        int SID=1;
+        recordController.sharedList(SID);
 
     @Test
     public void saveShareTest() {
