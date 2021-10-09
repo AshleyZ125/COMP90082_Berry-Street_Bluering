@@ -78,7 +78,7 @@ export default {
         },
         fetchQuestions() {
             let quizid = this.quizid;
-            this.axios.get(`/api/quiz/takeQuiz?QID=${quizid}`).then((res) => {
+            this.axios.get(`/api/quiz/getQuiz/${quizid}`).then((res) => {
                 //console.log(res.data.data);
                 let data = res.data;
                 this.questions = res.data.data.questionList;
@@ -90,18 +90,18 @@ export default {
         },
         setQuestions() {
             this.index=0
-            this.questions=[
-                {"qID":1,"quizId":101,"qcontent":"When the group needs suggestions, I...",
-                        "options":[{"key":0, "value":"Do not make suggestions","point":1},{"key":1,"value":"Tell the group what to do","point":2},
-                                {"key":2, "value":"Discuss my suggestions with the group","point":3},{"key":3, "value":"Make sure everyone's suggestions are heard","point":5}]},
-                {"qID":2,"quizId":101,"qcontent":"When the group needs opinions about something, I...",
-                        "options":[{"key":0, "value":"Do not give my opinion","point":1},{"key":1,"value":"Give my opinion","point":2},
-                                {"key":2, "value":"Explain my opinion so the group understands","point":4},{"key":3,"value":"Give reasons for and against my opinion using evidence","point":6}]},
-                {"qID":3,"quizId":101,"qcontent":"33333When the group needs opinions about something, I...",
-                        "options":[{"key":0, "value":"Do not give my opinion","point":1},{"key":1,"value":"Give my opinion","point":2},
-                                {"key":2, "value":"Explain my opinion so the group understands","point":4},{"key":3,"value":"Give reasons for and against my opinion using evidence","point":6}]}
-                ]
-            // this.$root.$data.state=this.questions;
+            // this.questions=[
+            //     {"qID":1,"quizId":101,"qcontent":"When the group needs suggestions, I...",
+            //             "options":[{"key":0, "value":"Do not make suggestions","point":1},{"key":1,"value":"Tell the group what to do","point":2},
+            //                     {"key":2, "value":"Discuss my suggestions with the group","point":3},{"key":3, "value":"Make sure everyone's suggestions are heard","point":5}]},
+            //     {"qID":2,"quizId":101,"qcontent":"When the group needs opinions about something, I...",
+            //             "options":[{"key":0, "value":"Do not give my opinion","point":1},{"key":1,"value":"Give my opinion","point":2},
+            //                     {"key":2, "value":"Explain my opinion so the group understands","point":4},{"key":3,"value":"Give reasons for and against my opinion using evidence","point":6}]},
+            //     {"qID":3,"quizId":101,"qcontent":"33333When the group needs opinions about something, I...",
+            //             "options":[{"key":0, "value":"Do not give my opinion","point":1},{"key":1,"value":"Give my opinion","point":2},
+            //                     {"key":2, "value":"Explain my opinion so the group understands","point":4},{"key":3,"value":"Give reasons for and against my opinion using evidence","point":6}]}
+            //     ]
+            // // this.$root.$data.state=this.questions;
             this.currentQuestion=this.questions[0];
             this.record=new Array(this.questions.length);
             console.log(this.currentQuestion)
@@ -151,11 +151,13 @@ export default {
                     }
                     console.log(this.scores)
                     console.log(result)
-                    let id=Number(this.quizid)
+
+                
+                    console.log("id: "+this.quizid)
                     this.$router.push({
                         name: 'getFeedback',
                         params: {
-                            quizid: id,
+                            quizID: this.quizid,
                             scores: this.scores,
                             result: result,
                             topic: "quiz topic???"
