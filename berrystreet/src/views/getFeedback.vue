@@ -1,6 +1,6 @@
 <template>
 <div class="feedback">
-    <nonText-header></nonText-header>
+    <quiz-header></quiz-header>
     <el-button @click="exit" style = "float:left;margin-left:25px;margin-top:25px;background-color:lightblue;font-size:35px"> Exit quiz</el-button>
     <h2 class="feedback-title" >Feedback</h2>
     <h3 class="feedback-content" >{{this.feedback}}</h3>
@@ -109,22 +109,35 @@
         </div>
         <el-button @click="share" style="font-family: 'Acme', sans-serif; margin-top:20px; background-color:lightblue">Share</el-button>
     </el-dialog>
+    <el-dialog
+        title="Save successfully!"
+        :visible.sync="saveResultVisible"
+        style="font-family: 'Acme', sans-serif; text-align: center; font-size: 25px;"
+        width="40%">
+    </el-dialog>
     <feedback-footer></feedback-footer>
 </div>
 </template>
 <script>
-import NonTextHeader from './../components/NonTextHeader.vue'
+import QuizHeader from './../components/QuizHeader.vue'
 import FeedbackFooter from './../components/FeedbackFooter.vue'
 export default {
     name:'getFeedback',
     components:{
-        NonTextHeader,
+        QuizHeader,
         FeedbackFooter
     },
     data(){
         return{
+            currentDate:"",
+            UID: -1,
+            quizID: '',
+            topic: "",
+            scores: '',
+            result:[],
             feedback:"",
             reflectionDiary:"",
+            RID: -1,
             // share
             shareVisible: false,
             // shareEmail:"",
@@ -177,40 +190,104 @@ export default {
                 ],
             },
             signinVisible: false,
+            saveResultVisible: false,
         }
     },
     mounted(){
-        this.feedback = this.$route.params.feedback;
-        // this.feedback="At this level,....";
+        this.quizID=this.$route.params.quizID;
+        this.topic=this.$route.params.topic;
+        this.scores=this.$route.params.scores;
+        this.result=this.$route.params.result;
+        this.fetchFeedback();
+        console.log(this.quizID)
+        console.log(this.topic)
+        console.log(this.scores)
+        console.log(this.result)
     },
     methods:{
+        fetchFeedback(){
+            this.feedback="At this level, ..."
+            this.axios.post(`/api/quiz/getFeedback/${this.quizID}/${this.scores}`).then((res) => {
+                this.feedback = res.data.data;
+            })
+        },
         exit(){
             alert("exit");
+            //  this.$router.push('/myspace')
         },
         save(){
-            this.registerVisible=true;
+            if(this.UID==-1){
+                this.registerVisible=true;
+            }else{
+                let recordVO={"quizContent": this.result, "rFeedback":this.feedback, "rTopic":this.topic, "userID":this.UID, "rDate":this.getTime()};
+                console.log('/api/record/saveRecord/'+this.RID.toString())
+                this.axios.post('/api/record/saveRecord/'+this.RID.toString(),{
+                    recordVO: recordVO
+                }).then((res)=>{
+                    if(res.data.status==0){
+                        this.$message({
+                            message: 'Save successfully!',
+                            showClose: true,
+                            duration:2000,
+                            type: 'success',
+                            onClose:()=>{
+                                this.signinVisible=false 
+                                this.saveResultVisible=true
+                            }
+                        })
+                    }else{
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'error'
+                        })
+                    }
+                })
+            }
         },
         share(){
             this.shareVisible=true;
             this.signinVisible=false;
         },
-        login(){
-            alert("login")
-        },
         shareReflection(){
             if(this.shareForm.email!=""){
+                let shareRecord
                 if(this.checked){
                     // axios share
+                    shareRecord={"sender":this.UID, "receiver": this.shareForm.email, "shareReflection":this.reflectionDiary}
                     console.log("分享feedback+diary");
                     console.log(this.feedback);
                     console.log(this.reflectionDiary);
                 }else{
                     // axios share
+                    shareRecord={"sender":this.UID, "receiver": this.shareForm.email, "shareReflection":""}
                     console.log("分享feedback");
                     console.log(this.reflectionDiary);
                 }
-                this.shareResultVisible=true;
-                this.shareVisible=false;
+                this.getTime();
+                let recordVO={"quizContent": this.result, "rFeedback":this.feedback, "rTopic":this.topic, "userID":this.UID, "rDate":this.currentDate};
+                this.axios.post('/api/record/saveShare/'+this.RID.toString(),{
+                    Share: shareRecord,
+                    recordVO: recordVO
+                }).then((res)=>{
+                    if(res.data.status==0){
+                        this.$message({
+                            message: 'Share successfully!',
+                            showClose: true,
+                            duration:2000,
+                            type: 'success',
+                            onClose:()=>{
+                                this.signinVisible=false 
+                                this.shareVisible=false
+                                this.saveResultVisible=true
+                            }  
+                        })
+                    }else{
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'error'
+                        })
+                    }
+                })
             }else{
                 alert("please input email!");
             }
@@ -230,24 +307,25 @@ export default {
             this.registerVisible=false;
         },
         register(){
-             //console.log(this.registerForm.email,this.registerForm.password,this.registerForm.username,this.registerForm.code)
-             this.axios.post('/api/user/register',{
-                 role:'LEC',
-                 email:this.registerForm.email,
-                 password:this.registerForm.password,
-                 username:this.registerForm.username,
+            //console.log(this.registerForm.email,this.registerForm.password,this.registerForm.username,this.registerForm.code)
+            this.axios.post('/api/user/register',{
+                role:'LEC',
+                email:this.registerForm.email,
+                password:this.registerForm.password,
+                username:this.registerForm.username,
 
-             }).then((res)=>{
-                 console.log(res)
-                 if(res.status==200){
-                     this.$message({
+            }).then((res)=>{
+                console.log(res)
+                if(res.data.status==0){
+                    this.$message({
                         message: 'Success!!Please Sign in!',
                         showClose: true,
                         duration:2000,
                         type: 'success',
-                        //  onClose:()=>{
-                        //     this.$router.push('/signin')
-                        //  }
+                        onClose:()=>{
+                            this.registerVisible=false
+                            this.signinVisible=true
+                        }
                     })
                     
 				}
@@ -261,20 +339,20 @@ export default {
              })
         },
         signin(){
-             console.log(this.signinForm.email,this.signinForm.password)
-             this.axios.post('/api/user/login',{
-                 email:this.signinForm.email,
-                 password:this.signinForm.password
-             }).then((res)=>{
-                 //console.log(res)
-                 if(res.data.status==0){
-                     console.log(res.data.data.username)
-                     //console.log(res.data.data.uid)
-                     this.$cookie.set('userId',res.data.data.uid,{expires: '1M'});
-                     this.$cookie.set('userName',res.data.data.username,{expires: '1M'});
-                     this.$store.dispatch('saveUserName',res.data.data.username)
-
-                     this.$router.push('/myspace')
+            console.log(this.signinForm.email,this.signinForm.password) 
+            this.axios.post('/api/user/login',{
+                email:this.signinForm.email,
+                password:this.signinForm.password
+            }).then((res)=>{
+                //console.log(res)
+                if(res.data.status==0){
+                    console.log(res.data.data.username)
+                    //console.log(res.data.data.uid)
+                    this.UID=res.data.data.uid
+                    this.$cookie.set('userId',res.data.data.uid,{expires: '1M'});
+                    this.$cookie.set('userName',res.data.data.username,{expires: '1M'});
+                    this.$store.dispatch('saveUserName',res.data.data.username)
+                    this.save()
 				}
 				else{
                     this.$message({
@@ -303,6 +381,32 @@ export default {
                 }
             });
         },
+        getTime(){
+            var date=new Date();
+            var year=date.getFullYear();
+            var month=date.getMonth()+1;
+            var day=date.getDate();
+            var hours=date.getHours();
+            var minutes=date.getMinutes();
+            var seconds=date.getSeconds();
+            if(month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if(day >= 0 && day <= 9){
+                day = "0" + day;
+            }
+			if(hours >= 0 && hours <= 9){
+                hours = "0" + hours;
+            }
+			if(minutes >= 0 && minutes <= 9){
+                minutes = "0" + minutes;
+            }
+			if(seconds >= 0 && seconds <= 9){
+                seconds = "0" + seconds;
+            } 
+            this.currentDate=year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds
+        }
+
     }
 }
 </script>
