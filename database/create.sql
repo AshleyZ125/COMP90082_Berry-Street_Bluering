@@ -35,7 +35,7 @@ quizContent varchar(1000) not null,
 savedReflection varchar(500),
 rFeedback varchar(1000) not null,
 rTopic varchar(100) not null,
-userID int,# Anonymous UID=0
+userID int # Anonymous UID=0
 );
 create table project.share(
 SID int not null auto_increment primary key,
