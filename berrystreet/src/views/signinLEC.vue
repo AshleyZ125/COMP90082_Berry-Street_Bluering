@@ -71,7 +71,12 @@ export default {
                      this.$cookie.set('userName',res.data.data.username,{expires: '1M'});
                      this.$store.dispatch('saveUserName',res.data.data.username)
 
-                     this.$router.push('/myspaceLEC') // go to my spaceLEC  
+                     this.$router.push({
+                         name: '/myspaceLEC',
+                         params: {
+                            userid: this.userid
+                         }
+                     }) // go to my spaceLEC  
                      
 				}
 				else{
