@@ -52,27 +52,29 @@ export default {
     data(){
         return{
             userId:'',
-            tableData:[{
-                RID:1,
-                savedReflection:"234",
-                rFeedBack:"234",
-                rTopic:"234",
-                userID:2,
-                rDate:"",
-                quizContent:[{"qContent":"234","option":"234"}]
-                // quizTopic: 'Collaborative learning',
-                // qid:'1',
-                // date: '2021-01-01',
-                // view: 'view'
-             }, {
-                RID:1,
-                savedReflection:"234",
-                rFeedBack:"234",
-                rTopic:"tranining",
-                userID:2,
-                rDate:"2021-02-02",
-                quizContent:[{"qContent":"234","option":"234"}],
-            } ]
+            tableData:[
+            //     {
+            //     RID:1,
+            //     savedReflection:"234",
+            //     rFeedBack:"234",
+            //     rTopic:"234",
+            //     userID:2,
+            //     rDate:"",
+            //     quizContent:[{"qContent":"234","option":"234"}]
+            //     // quizTopic: 'Collaborative learning',
+            //     // qid:'1',
+            //     // date: '2021-01-01',
+            //     // view: 'view'
+            //  }, {
+            //     RID:1,
+            //     savedReflection:"234",
+            //     rFeedBack:"234",
+            //     rTopic:"tranining",
+            //     userID:2,
+            //     rDate:"2021-02-02",
+            //     quizContent:[{"qContent":"234","option":"234"}],
+            // }
+             ]
          };
     },
     components:{
@@ -81,7 +83,7 @@ export default {
     },
 
     mounted() {
-        this.userid = this.$route.params.userID
+        this.userId = this.$route.params.userId
         this.allAjax();
     },
 
@@ -100,6 +102,7 @@ export default {
         },
 
         allAjax() {
+            console.log(this.userId)
             this.axios.get(`/api/record/getRecordList/${this.userId}`).then((res) => {  //API need insert
             console.log("res = ", res);
             let data = res.data.data;                                                                            // check the path
