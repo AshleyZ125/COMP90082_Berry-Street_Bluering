@@ -62,14 +62,14 @@
         <div style="margin-top:10px;width: 400px; height: 500px; margin: 80px auto; border-radius: 15px; background-color: #50A7C2;">
             <span style="font-size: 35px;margin-top:20px;color:white">Register</span>
             <el-form :model="registerForm" ref="registerForm"  label-width="100px" label-position="centre" :rules="registerFormRules" >
-                <el-form-item label="Email" prop="email">
-                    <el-input style="width:200px; margin-top:20px;" v-model="registerForm.email"></el-input>
+                <el-form-item label="Email" prop="rEmail">
+                    <el-input style="width:200px; margin-top:20px;" v-model="registerForm.rEmail"></el-input>
                 </el-form-item>
-                <el-form-item label="Password" prop="password">
-                    <el-input style="width:200px; margin-top:20px;" type="password" show-password v-model="registerForm.password"></el-input>
+                <el-form-item label="Password" prop="rPassword">
+                    <el-input style="width:200px; margin-top:20px;" type="password" show-password v-model="registerForm.rPassword"></el-input>
                 </el-form-item>
-                <el-form-item label="Username" prop="username">
-                    <el-input style="width:200px; margin-top:20px;" v-model="registerForm.username"></el-input>
+                <el-form-item label="Username" prop="rUsername">
+                    <el-input style="width:200px; margin-top:20px;" v-model="registerForm.rUsername"></el-input>
                 </el-form-item>
             </el-form>
             <el-button @click="submitForm('registerForm')" style="font-family: 'Acme', sans-serif; margin-top:20px;">Register</el-button>
@@ -89,11 +89,11 @@
         <div style="margin-top:10px; width: 400px; height: 400px; margin: 80px auto; border-radius: 15px; background-color: #50A7C2;">
             <span style="font-size: 35px;margin-top:20px;color:white">Sign in</span>
             <el-form :model="signinForm" ref="signinForm"  label-width="100px" label-position="centre" :rules="signinFormRules" >
-                <el-form-item label="Email" prop="email">
-                    <el-input style="width:200px; margin-top:20px;" v-model="registerForm.email"></el-input>
+                <el-form-item label="Email" prop="sEmail">
+                    <el-input style="width:200px; margin-top:20px;" v-model="signinForm.sEmail"></el-input>
                 </el-form-item>
-                <el-form-item label="Password" prop="password">
-                    <el-input style="width:200px; margin-top:20px;" type="password" show-password v-model="signinForm.password"></el-input>
+                <el-form-item label="Password" prop="sPassword">
+                    <el-input style="width:200px; margin-top:20px;" type="password" show-password v-model="signinForm.sPassword"></el-input>
                 </el-form-item>
             </el-form>
             <el-button @click="submitForm('signinForm')" style="font-family: 'Acme', sans-serif; margin-top:20px;">Log in</el-button>
@@ -155,20 +155,20 @@ export default {
             shareResultVisible: false,
             // register
             registerForm:{
-                email: "",
-                password:"",
-                username:"",
+                rEmail: "",
+                rPassword:"",
+                rUsername:"",
             },
             registerFormRules:{
-                email: [
+                rEmail: [
                     { required: true, message: 'Please enter your email', trigger: 'blur' },
                     { type:'email',message: 'Please enter correct email address', trigger: ['blur','change'] },
                 ],
-                password: [
+                rPassword: [
                     { required: true, message: 'Please enter your password', trigger: 'blur' },
                     { min: 8, max: 16, message: 'Password length should between 8 to 16', trigger: ['blur','change'] },
                 ],
-                username:[
+                rUsername:[
                     { required: true, message: 'Please enter your name', trigger: 'blur' },
                     { min: 2, max: 16, message: 'Your name length should between 2 to 16', trigger: ['blur','change'] },
                 ],
@@ -176,15 +176,15 @@ export default {
             registerVisible: false,
             // sign in
             signinForm:{
-                email: "",
-                password:"",
+                sEmail: "",
+                sPassword:"",
             },
             signinFormRules: {
-                email: [
+                sEmail: [
                     { required: true, message: 'Please enter your email', trigger: 'blur' },
                     { type:'email',message: 'Please enter correct email address', trigger: ['blur','change'] },
                 ],
-                password: [
+                sPassword: [
                     { required: true, message: 'Please enter your password', trigger: 'blur' },
                    
                 ],
@@ -206,14 +206,15 @@ export default {
     },
     methods:{
         fetchFeedback(){
-            this.feedback="At this level, ..."
-            this.axios.post(`/api/quiz/getFeedback/${this.quizID}/${this.scores}`).then((res) => {
-                this.feedback = res.data.data;
+            // this.feedback="At this level, ..."
+            this.axios.get(`/api/quiz/getFeedback/${this.quizID}/${this.scores}`).then((res) => {
+                console.log(res.data.data);
+                this.feedback = res.data.data.remark;
             })
         },
         exit(){
             alert("exit");
-            //  this.$router.push('/myspace')
+            //  this.$router.push('myspace')
         },
         save(){
             if(this.UID==-1){
@@ -307,12 +308,11 @@ export default {
             this.registerVisible=false;
         },
         register(){
-            //console.log(this.registerForm.email,this.registerForm.password,this.registerForm.username,this.registerForm.code)
             this.axios.post('/api/user/register',{
                 role:'LEC',
-                email:this.registerForm.email,
-                password:this.registerForm.password,
-                username:this.registerForm.username,
+                email:this.registerForm.rEmail,
+                password:this.registerForm.rPassword,
+                username:this.registerForm.rUsername,
 
             }).then((res)=>{
                 console.log(res)
@@ -339,10 +339,11 @@ export default {
              })
         },
         signin(){
-            console.log(this.signinForm.email,this.signinForm.password) 
+            console.log(this.signinForm.sEmail)
+            console.log(this.signinForm.sPassword) 
             this.axios.post('/api/user/login',{
-                email:this.signinForm.email,
-                password:this.signinForm.password
+                email:this.signinForm.sEmail,
+                password:this.signinForm.sPassword
             }).then((res)=>{
                 //console.log(res)
                 if(res.data.status==0){
