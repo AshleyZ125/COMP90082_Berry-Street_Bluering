@@ -16,6 +16,7 @@ import SigninLEC from './views/signinLEC'
 import RegisterLEC from './views/registerLEC'
 import myspaceLEC from './views/myspaceLEC'
 import pastFeedbackLEC from './views/pastFeedbackLEC'
+import GetFeedback from'./views/getFeedback'
 
 Vue.use(Router);
 export default new Router({
@@ -100,6 +101,11 @@ export default new Router({
             path:'/pastFeedbackLEC',
             name:'pastFeedbackLEC',
             component: pastFeedbackLEC,
+        },
+        {
+            path:'/getFeedback',
+            name:'getFeedback',
+            component: GetFeedback,
         }
         
         
