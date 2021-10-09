@@ -67,14 +67,15 @@ export default {
                  if(res.data.status==0){
                      console.log(res.data.data.username)
                      //console.log(res.data.data.uid)
+                     this.userId=res.data.data.uid;
                      this.$cookie.set('userId',res.data.data.uid,{expires: '1M'});
                      this.$cookie.set('userName',res.data.data.username,{expires: '1M'});
                      this.$store.dispatch('saveUserName',res.data.data.username)
 
                      this.$router.push({
-                         name: '/myspaceLEC',
+                         name: 'myspaceLEC',
                          params: {
-                            userid: this.userid
+                            userId: this.userId
                          }
                      }) // go to my spaceLEC  
                      
