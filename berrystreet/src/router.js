@@ -14,7 +14,8 @@ import CategPanel from'./views/categPanel'
 import SelectQuestion from'./views/selectQuestion'
 import SigninLEC from './views/signinLEC'
 import RegisterLEC from './views/registerLEC'
-import GetFeedback from'./views/getFeedback'
+import myspaceLEC from './views/myspaceLEC'
+import pastFeedbackLEC from './views/pastFeedbackLEC'
 
 Vue.use(Router);
 export default new Router({
@@ -91,9 +92,14 @@ export default new Router({
             component: RegisterLEC,
         },
         {
-            path:'/getFeedback',
-            name:'getFeedback',
-            component: GetFeedback,
+            path:'/myspaceLEC',
+            name:'myspaceLEC',
+            component:myspaceLEC,
+        },
+        {
+            path:'/pastFeedbackLEC',
+            name:'pastFeedbackLEC',
+            component: pastFeedbackLEC,
         }
         
         
