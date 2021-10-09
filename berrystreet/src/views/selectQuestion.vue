@@ -77,10 +77,10 @@ export default {
             console.log(1111)
         },
         fetchQuestions() {
-            let quizid = this.quizid;
-            this.axios.get(`/api/quiz/getQuiz/${quizid}`).then((res) => {
-                //console.log(res.data.data);
-                let data = res.data;
+            console.log("quizid:"+this.quizid)
+            this.axios.get(`/api/quiz/takeQuiz?QID=${this.quizid}`).then((res) => {
+                console.log(res.data.data);
+                // let data = res.data;
                 this.questions = res.data.data.questionList;
                 console.log(this.questions);
                 this.setQuestions();
