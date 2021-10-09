@@ -1,6 +1,6 @@
 <template>
 <div class="question">
-    <nonText-header></nonText-header>
+    <quiz-header></quiz-header>
     <el-button @click="exit" style = "float:left;margin-left:25px;margin-top:25px;background-color:lightblue;font-size:35px"> Exit quiz</el-button>
     <div class="question-main">
         <h2 class="question-title" >{{this.currentQuestion.qcontent}}</h2>
@@ -28,13 +28,13 @@
 
 
 <script>
-import NonTextHeader from './../components/NonTextHeader.vue'
+import QuizHeader from './../components/QuizHeader.vue'
 import FeedbackFooter from './../components/FeedbackFooter.vue'
 export default {
     name:'selectQuestion',
     components:{
-        NonTextHeader,
-        FeedbackFooter
+        FeedbackFooter,
+        QuizHeader
     },
     data(){
         return{
@@ -90,24 +90,24 @@ export default {
         },
         setQuestions() {
             this.index=0
-            // this.questions=[
-            //     {"qID":1,"quizId":101,"qcontent":"When the group needs suggestions, I...",
-            //             "options":[{"key":0, "value":"Do not make suggestions","point":1},{"key":1,"value":"Tell the group what to do","point":2},
-            //                     {"key":2, "value":"Discuss my suggestions with the group","point":3},{"key":3, "value":"Make sure everyone's suggestions are heard","point":5}]},
-            //     {"qID":2,"quizId":101,"qcontent":"When the group needs opinions about something, I...",
-            //             "options":[{"key":0, "value":"Do not give my opinion","point":1},{"key":1,"value":"Give my opinion","point":2},
-            //                     {"key":2, "value":"Explain my opinion so the group understands","point":4},{"key":3,"value":"Give reasons for and against my opinion using evidence","point":6}]},
-            //     {"qID":3,"quizId":101,"qcontent":"33333When the group needs opinions about something, I...",
-            //             "options":[{"key":0, "value":"Do not give my opinion","point":1},{"key":1,"value":"Give my opinion","point":2},
-            //                     {"key":2, "value":"Explain my opinion so the group understands","point":4},{"key":3,"value":"Give reasons for and against my opinion using evidence","point":6}]}
-            //     ]
-            this.$root.$data.state=this.questions;
+            this.questions=[
+                {"qID":1,"quizId":101,"qcontent":"When the group needs suggestions, I...",
+                        "options":[{"key":0, "value":"Do not make suggestions","point":1},{"key":1,"value":"Tell the group what to do","point":2},
+                                {"key":2, "value":"Discuss my suggestions with the group","point":3},{"key":3, "value":"Make sure everyone's suggestions are heard","point":5}]},
+                {"qID":2,"quizId":101,"qcontent":"When the group needs opinions about something, I...",
+                        "options":[{"key":0, "value":"Do not give my opinion","point":1},{"key":1,"value":"Give my opinion","point":2},
+                                {"key":2, "value":"Explain my opinion so the group understands","point":4},{"key":3,"value":"Give reasons for and against my opinion using evidence","point":6}]},
+                {"qID":3,"quizId":101,"qcontent":"33333When the group needs opinions about something, I...",
+                        "options":[{"key":0, "value":"Do not give my opinion","point":1},{"key":1,"value":"Give my opinion","point":2},
+                                {"key":2, "value":"Explain my opinion so the group understands","point":4},{"key":3,"value":"Give reasons for and against my opinion using evidence","point":6}]}
+                ]
+            // this.$root.$data.state=this.questions;
             this.currentQuestion=this.questions[0];
             this.record=new Array(this.questions.length);
             console.log(this.currentQuestion)
         },
         clickChoice(item){
-            this.choice=item
+            // this.choice=item
             this.record[this.index]=item;
             this.clickItem=item
         },
@@ -133,7 +133,7 @@ export default {
             }else{
                 var preBtn = document.getElementById("pre");
                 preBtn.style.display="block";
-                console.log(this.choice.value);
+                // console.log(this.choice.value);
                 this.index+=1
                 if (this.questions.length > this.index) {
                     this.currentQuestion = this.questions[this.index]
@@ -143,54 +143,28 @@ export default {
                         nextBtn.innerHTML="finish";
                     }
                 } else {
+                    var result=new Array(this.questions.length);
+                    
                     for(var i=0; i<this.record.length; i++){
                         this.scores+=this.record[i].point;
+                        result[i]={"qcontent":this.questions[i].qcontent, "option":this.record[i].value}
                     }
                     console.log(this.scores)
+                    console.log(result)
                     let id=Number(this.quizid)
-                    this.axios.get(`/api/quiz/getFeedback/${id}`).then((res) => {
-                        console.log(res.data.data);
-                        this.feedbacks = res.data.data;
-                        this.process();
-                        console.log(this.feedback);
-                        this.$router.push({
-                            name: 'getFeedback',
-                            params: {
-                            feedback: this.feedback
+                    this.$router.push({
+                        name: 'getFeedback',
+                        params: {
+                            quizid: id,
+                            scores: this.scores,
+                            result: result,
+                            topic: "quiz topic???"
                             }
-                        })
-                    });
-                    // this.process();
-                    // this.$router.push({
-                    //     name: 'getFeedback',
-                    //     params: {
-                    //         feedback: this.feedback
-                    //         }
-                    // })
-                    
+                    })
+                      
                 }
             }
         },
-        process(){
-            let scoreRange=""
-            let low=0;
-            let high=0;
-            // this.feedbacks=[
-            //     {"FID":11,"scoreRange":"0;10","remark":"asd","quiz_feed_ID":1},
-            //     {"FID":12,"scoreRange":"10;20","remark":"sdf","quiz_feed_ID":1}];
-            for(var i=0; i<this.feedbacks.length; i++){
-                console.log(this.feedbacks[i])
-                scoreRange=this.feedbacks[i].scoreRange;
-                console.log(scoreRange)
-                let scoreRangeList=scoreRange.split(";")
-                low=Number(scoreRangeList[0]);
-                high=Number(scoreRangeList[1]);
-                if(low<this.scores&&high>=this.scores){
-                    this.feedback=this.feedbacks[i].remark;
-                    break;
-                }
-            }
-        }
     }
     
 }
