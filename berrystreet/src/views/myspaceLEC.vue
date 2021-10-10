@@ -32,7 +32,7 @@
                 <el-table-column
                     prop="RID"
                     label="View">
-                    <el-button @click="gotoView(item)" type="text" > View </el-button>
+                    <el-button @click="gotoView(RID)" type="text" > View </el-button>
                     
                 </el-table-column>
             </el-table>
@@ -100,7 +100,7 @@ export default {
             this.$router.push('/resetEmail')
         },
 
-        gotoView(item){
+        gotoView(RID){
             alert("go to see pastquiz and feedback and diary")                        // add 跳转页面
             this.$router.push({
                 name: 'pastFeedbackLEC',
