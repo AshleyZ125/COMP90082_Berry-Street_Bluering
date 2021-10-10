@@ -48,7 +48,8 @@ export default {
             this.$router.push({
                 name: 'selectQuestion',
                 params: {
-                    id: this.quizid
+                    id: this.quizid,
+                    topic: this.topic
                 }
             })
         },
