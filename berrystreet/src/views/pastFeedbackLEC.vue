@@ -134,12 +134,6 @@
             text-align: center;
         }
     }
-        
-
-
-
-<<<<<<< Updated upstream
 </style>
-=======
-</style>
->>>>>>> Stashed changes
+
+
