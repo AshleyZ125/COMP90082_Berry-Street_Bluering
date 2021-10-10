@@ -30,12 +30,16 @@
                     width="180">
                 </el-table-column>
                 <el-table-column
-                    prop="view"
+                    prop="RID"
                     label="View">
                     <el-button @click="gotoView(item)" type="text" > View </el-button>
                     
                 </el-table-column>
             </el-table>
+
+            <!-- <div class = "takeQuiz">
+                <el-button @click="startQuiz" style = "background-color:lightblue;font-size:35px"> Start the quiz </el-button>
+            </div> -->
         </div>
 
         <FeedbackFooter></FeedbackFooter>
@@ -98,8 +102,18 @@ export default {
 
         gotoView(item){
             alert("go to see pastquiz and feedback and diary")                        // add 跳转页面
-            this.$router.push('/pastFeedbackLEC')
+            this.$router.push({
+                name: 'pastFeedbackLEC',
+                params: {
+                    RID: this.RID,
+                    userId: this.userId,
+                }
+            })
         },
+
+        // startQuiz(){
+        //     this.$router.push('/categPanel')
+        // },
 
         allAjax() {
             console.log(this.userId)
@@ -107,8 +121,9 @@ export default {
             console.log("res = ", res);
             let data = res.data.data;                                                                            // check the path
             this.tableData = data;
-        });
-    },
+            this.RID = data.RID;
+            });
+        },
     }
 }
     
