@@ -39,6 +39,7 @@ export default {
     data(){
         return{
             quizid:'',
+            quizTopic: "",
             data:{
                 // "stauts": 0,
                 // "msg": "success",
@@ -69,6 +70,7 @@ export default {
     },
     mounted(){
         this.quizid = this.$route.params.id;
+        this.quizTopic = this.$route.params.topic;
         this.fetchQuestions();
     },
     methods:{
@@ -160,7 +162,7 @@ export default {
                             quizID: this.quizid,
                             scores: this.scores,
                             result: result,
-                            topic: "quiz topic???"
+                            topic: this.quizTopic
                             }
                     })
                       
