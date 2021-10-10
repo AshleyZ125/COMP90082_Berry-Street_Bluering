@@ -1,6 +1,7 @@
 package berryStreet.bluering.backend.service;
 
 import berryStreet.bluering.backend.entity.Record;
+import berryStreet.bluering.backend.entity.RecordVO;
 import berryStreet.bluering.backend.entity.SharedRecord;
 
 import java.time.LocalDate;
@@ -13,4 +14,6 @@ public interface GetRecordService {
     public List<Record> queryRecordByUID(int UID);
 
     public int queryRID(int userID, String rTopic, LocalDate rDate);
+
+    public Record getRecordByRID(int RID);
 }

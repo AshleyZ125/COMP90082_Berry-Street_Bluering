@@ -70,4 +70,10 @@ public class RecordTest {
         recordController.saveRecord(-1,recordVO);
         recordController.saveRecord(13,recordVO);
     }
+
+    @Test
+    public void getRecord(){
+        System.out.println(recordController.getRecord(16));
+    }
+
 }

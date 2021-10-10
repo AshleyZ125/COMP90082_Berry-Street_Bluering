@@ -46,4 +46,7 @@ public interface RecordMapper {
             "#{rDate}")
     public int queryRID(@Param("userID") int userID, @Param("rTopic") String rTopic,
                         @Param("rDate") LocalDate rDate);
+
+    @Select("select * from record where RID = #{RID}")
+    public Record queryRecordByRID(@Param("RID") int RID);
 }
