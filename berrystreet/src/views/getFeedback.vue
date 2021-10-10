@@ -220,8 +220,10 @@ export default {
             if(this.UID==-1){
                 this.registerVisible=true;
             }else{
-                let recordVO={"quizContent": this.result, "rFeedback":this.feedback, "rTopic":this.topic, "userID":this.UID, "rDate":this.getTime()};
+                this.getTime()
+                let recordVO={"quizContent": this.result, "rFeedback":this.feedback, "savedReflection": this.reflectionDiary, "rTopic":this.topic, "userID":this.UID, "rDate":this.currentDate};
                 console.log('/api/record/saveRecord/'+this.RID.toString())
+                console.log(recordVO)
                 this.axios.post('/api/record/saveRecord/'+this.RID.toString(),{
                     recordVO: recordVO
                 }).then((res)=>{
@@ -308,6 +310,7 @@ export default {
             this.registerVisible=false;
         },
         register(){
+            //console.log(this.registerForm.email,this.registerForm.password,this.registerForm.username,this.registerForm.code)
             this.axios.post('/api/user/register',{
                 role:'LEC',
                 email:this.registerForm.rEmail,
