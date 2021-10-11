@@ -21,7 +21,6 @@ public class RecordVO {
     private String rFeedback;
     private String rTopic;
     private int userID;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDate rDate;
 
     //private String shareReflection;

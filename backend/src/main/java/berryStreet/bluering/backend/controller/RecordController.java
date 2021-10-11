@@ -104,49 +104,50 @@ public class RecordController {
 
     }
 
-    @PostMapping("/api/record/saveRecord/{RID}")
-    public AjaxResult saveRecord(@PathVariable("RID") int RID,@RequestBody RecordVO recordVO) {
-
-        if (RID <= 0 && RID != -1) {
-            return AjaxResult.error("input empty!");
-        }
-        Record record = null;
-        if (RID == -1) {
-            String quizContent = JSON.toJSONString(recordVO.getQuizContent());
-            record = Record.builder()
-                    .quizContent(quizContent)
-                    .savedReflection(recordVO.getSavedReflection())
-                    .rFeedback(recordVO.getRFeedback())
-                    .rTopic(recordVO.getRTopic())
-                    .rDate(LocalDate.now())
-                    .userID(recordVO.getUserID())
-                    .build();
-            int res = setRecordService.saveRecord(record);
-            if (res == 1) {
-                return AjaxResult.success(getRecordService.queryRID(record.getUserID(),
-                        record.getRTopic(),
-                        record.getRDate()));
-            } else {
-                return AjaxResult.error("not success,save again.");
-            }
-        } else {
-            String quizContent = JSON.toJSONString(recordVO.getQuizContent());
-            record = Record.builder()
-                    .quizContent(quizContent)
-                    .savedReflection(recordVO.getSavedReflection())
-                    .rFeedback(recordVO.getRFeedback())
-                    .rTopic(recordVO.getRTopic())
-                    .rDate(LocalDate.now())
-                    .userID(recordVO.getUserID())
-                    .build();
-            int res = setRecordService.updateRecord(record, RID);
-            if (res == 1) {
-                AjaxResult.success(RID);
-            } else {
-                return AjaxResult.error("not success,save again.");
-            }
-        }
-        return AjaxResult.error("not success,save again.");
+    @PostMapping("/api/record/saveRecord")
+    public AjaxResult saveRecord(@RequestBody RecordVO recordVO) {
+        System.out.println(recordVO);
+//        if (RID <= 0 && RID != -1) {
+//            return AjaxResult.error("input empty!");
+//        }
+//        Record record = null;
+//        if (RID == -1) {
+//            String quizContent = JSON.toJSONString(recordVO.getQuizContent());
+//            record = Record.builder()
+//                    .quizContent(quizContent)
+//                    .savedReflection(recordVO.getSavedReflection())
+//                    .rFeedback(recordVO.getRFeedback())
+//                    .rTopic(recordVO.getRTopic())
+//                    .rDate(LocalDate.now())
+//                    .userID(recordVO.getUserID())
+//                    .build();
+//            int res = setRecordService.saveRecord(record);
+//            if (res == 1) {
+//                return AjaxResult.success(getRecordService.queryRID(record.getUserID(),
+//                        record.getRTopic(),
+//                        record.getRDate()));
+//            } else {
+//                return AjaxResult.error("not success,save again.");
+//            }
+//        } else {
+//            String quizContent = JSON.toJSONString(recordVO.getQuizContent());
+//            record = Record.builder()
+//                    .quizContent(quizContent)
+//                    .savedReflection(recordVO.getSavedReflection())
+//                    .rFeedback(recordVO.getRFeedback())
+//                    .rTopic(recordVO.getRTopic())
+//                    .rDate(LocalDate.now())
+//                    .userID(recordVO.getUserID())
+//                    .build();
+//            int res = setRecordService.updateRecord(record, RID);
+//            if (res == 1) {
+//                AjaxResult.success(RID);
+//            } else {
+//                return AjaxResult.error("not success,save again.");
+//            }
+//        }
+//        return AjaxResult.error("not success,save again.");
+        return AjaxResult.success();
     }
 
     @PostMapping("/api/record/saveShare/{RID}")

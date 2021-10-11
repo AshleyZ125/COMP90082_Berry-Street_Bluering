@@ -65,8 +65,8 @@ public class RecordTest {
                 .savedReflection("sad")
                 .userID(3)
                 .build();
-        recordController.saveRecord(-1,recordVO);
-        recordController.saveRecord(13,recordVO);
+//        recordController.saveRecord(-1,recordVO);
+//        recordController.saveRecord(13,recordVO);
     }
 
     @Test
