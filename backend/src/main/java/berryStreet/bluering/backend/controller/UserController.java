@@ -131,7 +131,7 @@ public class UserController {
 
     }
 
-    @PostMapping("/api/user/superDelete")
+    @PostMapping("/api/user/delete")
     public AjaxResult superDelete(@RequestBody Map<String, Object> map) {
         if (map != null) {
             User userQueried = resetService.queryUserByUID((int)map.get("UID"));
