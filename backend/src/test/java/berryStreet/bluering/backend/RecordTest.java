@@ -46,7 +46,6 @@ public class RecordTest {
                 .quizContent(quizSelections)
                 .rFeedback("asdasd")
                 .rTopic("asdasd")
-                .rDate(LocalDate.now())
                 .savedReflection("sad")
                 .userID(2)
                 .build();
@@ -63,7 +62,6 @@ public class RecordTest {
                 .quizContent(quizSelections)
                 .rFeedback("123sasd")
                 .rTopic("a123")
-                .rDate(LocalDate.now())
                 .savedReflection("sad")
                 .userID(3)
                 .build();
