@@ -194,7 +194,8 @@ export default {
         }
     },
     mounted(){
-        this.quizID=this.$route.params.quizID;
+        this.UID=this.$route.params.userId;
+        this.quizID=this.$route.params.quizId;
         this.topic=this.$route.params.topic;
         this.scores=this.$route.params.scores;
         this.result=this.$route.params.result;
@@ -213,7 +214,21 @@ export default {
             })
         },
         exit(){
-            alert("exit");
+            if(this.UID==-1){
+                this.$router.push({
+                    name: 'categPanel',
+                    params: {
+                        userId: this.UID,
+                    }
+                })
+            }else{
+                this.$router.push({
+                    name: 'myspaceLEC',
+                    params: {
+                        userId: this.UID,
+                    }
+                })
+            }
             //  this.$router.push('myspace')
         },
         save(){
@@ -221,13 +236,23 @@ export default {
                 this.registerVisible=true;
             }else{
                 this.getTime()
-                let recordVO={"quizContent": this.result, "rFeedback":this.feedback, "savedReflection": this.reflectionDiary, "rTopic":this.topic, "userID":this.UID, "rDate":this.currentDate};
+                // let recordVO={"QuizContent": this.result, "rFeedback":this.feedback, "SavedReflection": this.reflectionDiary, "rTopic":this.topic, "UserID":this.UID, "rDate":this.currentDate};
+                // let recordVO={"quizContent": this.result, "rFeedback":this.feedback, "savedReflection": this.reflectionDiary, "rTopic":this.topic, "userID":this.UID, "rDate":this.currentDate};
                 console.log('/api/record/saveRecord/'+this.RID.toString())
-                console.log(recordVO)
+                console.log(this.feedback)
+                console.log(this.topic)
                 this.axios.post('/api/record/saveRecord/'+this.RID.toString(),{
-                    recordVO: recordVO
+                    // recordVO: recordVO
+                    quizContent: this.result,
+                    feedback:this.feedback, 
+                    savedReflection: this.reflectionDiary, 
+                    topic:this.topic, 
+                    userID:this.UID
+                    // rDate:this.currentDate
                 }).then((res)=>{
+                    console.log(res)
                     if(res.data.status==0){
+                        this.RID=res.data.data
                         this.$message({
                             message: 'Save successfully!',
                             showClose: true,
@@ -253,26 +278,25 @@ export default {
         },
         shareReflection(){
             if(this.shareForm.email!=""){
-                let shareRecord
+                let shareReflection=""
                 if(this.checked){
-                    // axios share
-                    shareRecord={"sender":this.UID, "receiver": this.shareForm.email, "shareReflection":this.reflectionDiary}
-                    console.log("分享feedback+diary");
-                    console.log(this.feedback);
-                    console.log(this.reflectionDiary);
-                }else{
-                    // axios share
-                    shareRecord={"sender":this.UID, "receiver": this.shareForm.email, "shareReflection":""}
-                    console.log("分享feedback");
-                    console.log(this.reflectionDiary);
+                    shareReflection=this.reflectionDiary
                 }
                 this.getTime();
-                let recordVO={"quizContent": this.result, "rFeedback":this.feedback, "rTopic":this.topic, "userID":this.UID, "rDate":this.currentDate};
+                let shareVO={"sender": this.UID, "receiver": this.shareForm.email, "shareReflection": this.reflectionDiary, "quizContent": this.result, "feedback":this.feedback, "topic":this.topic, "userID":this.UID};
+                console.log(shareVO)
                 this.axios.post('/api/record/saveShare/'+this.RID.toString(),{
-                    Share: shareRecord,
-                    recordVO: recordVO
+                    sender: this.UID,
+                    receiver: this.shareForm.email,
+                    shareReflection: shareReflection,
+                    quizContent: this.result,
+                    feedback: this.feedback,
+                    topic: this.topic,
+                    userID: this.UID
                 }).then((res)=>{
+                    console.log(res)
                     if(res.data.status==0){
+                        this.RID=res.data.data
                         this.$message({
                             message: 'Share successfully!',
                             showClose: true,
@@ -281,7 +305,7 @@ export default {
                             onClose:()=>{
                                 this.signinVisible=false 
                                 this.shareVisible=false
-                                this.saveResultVisible=true
+                                this.shareResultVisible=true
                             }  
                         })
                     }else{
@@ -408,7 +432,7 @@ export default {
 			if(seconds >= 0 && seconds <= 9){
                 seconds = "0" + seconds;
             } 
-            this.currentDate=year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds
+            this.currentDate=year+"-"+month+"-"+day//+" "+hours+":"+minutes+":"+seconds
         }
 
     }
