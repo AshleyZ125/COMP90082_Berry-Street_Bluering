@@ -1,5 +1,10 @@
 package berryStreet.bluering.backend.entity;
 
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
 public class Quiz {
     private int QID;
     private String topic;
@@ -18,16 +23,16 @@ public class Quiz {
                 '}';
     }
 
-    public Quiz(int qid, String topic, String overview, int status, int creatorID) {
-        this.topic = topic;
-        this.overview = overview;
-        this.status = status;
-        this.creatorID = creatorID;
-        this.QID=qid;
-    }
-    public Quiz(){
-
-    }
+//    public Quiz(int qid, String topic, String overview, int status, int creatorID) {
+//        this.topic = topic;
+//        this.overview = overview;
+//        this.status = status;
+//        this.creatorID = creatorID;
+//        this.QID=qid;
+//    }
+//    public Quiz(){
+//
+//    }
 
     public int getStatus() {
         return status;

@@ -19,6 +19,10 @@ public class ResetServiceImp implements ResetService {
     public int resetEmail(int UID, String newEmail){
         return userMapper.resetEmail(UID, newEmail);
     }
+
+    @Override
+    public int resetUsername(int UID, String username) { return userMapper.resetUsername(UID,username); }
+
     @Override
     public User queryUserByEmail(String email){ return userMapper.queryUserByEmail(email);}
     @Override

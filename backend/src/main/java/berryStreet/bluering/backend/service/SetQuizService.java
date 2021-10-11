@@ -20,5 +20,7 @@ public interface SetQuizService {
     public int deleteFeedback(int FID);
     public int setFeedbacks(List<Feedback> feedbacks);
     public int deleteFeedbacks(List<Feedback> feedbacks);
+
     public int checkQuizStatus(int QID);
+    public int setQuizStatus(int QID, int status);
 }
