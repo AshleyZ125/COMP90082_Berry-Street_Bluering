@@ -12,6 +12,8 @@ import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class ShareServiceImp implements ShareService {
     @Autowired
@@ -28,17 +30,18 @@ public class ShareServiceImp implements ShareService {
         }
         if (RID == -1) {
             String quizContent = JSON.toJSONString(recordVO.getQuizContent());
+            LocalDate date = LocalDate.now();
             Record record = Record.builder()
                     .quizContent(quizContent)
                     .savedReflection(recordVO.getSavedReflection())
                     .rFeedback(recordVO.getRFeedback())
                     .rTopic(recordVO.getRTopic())
-                    .rDate(recordVO.getRDate())
+                    .rDate(date)
                     .userID(recordVO.getUserID())
                     .build();
             if (setRecordService.saveRecord(record) == 1) {
                 share.setRecordID(getRecordService.queryRID(recordVO.getUserID(),
-                        recordVO.getRTopic(),recordVO.getRDate()));
+                        recordVO.getRTopic(),date));
                 if (shareMapper.insertShare(share) == 1) {
                     return Constant.SAVE_SUCCESS;
                 }
