@@ -1,7 +1,6 @@
 package berryStreet.bluering.backend;
 
 import berryStreet.bluering.backend.controller.RecordController;
-import berryStreet.bluering.backend.entity.Option;
 import berryStreet.bluering.backend.entity.QuizSelection;
 import berryStreet.bluering.backend.entity.RecordVO;
 import berryStreet.bluering.backend.entity.Share;
@@ -9,9 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -44,13 +41,13 @@ public class RecordTest {
                 .build());
         RecordVO recordVO = RecordVO.builder()
                 .quizContent(quizSelections)
-                .rFeedback("asdasd")
-                .rTopic("asdasd")
+                .feedback("asdasd")
+                .topic("asdasd")
                 .savedReflection("sad")
                 .userID(2)
                 .build();
-        recordController.saveShare(-1,share,recordVO);
-        recordController.saveShare(10,share,recordVO);
+//        recordController.saveShare(-1,share,recordVO);
+//        recordController.saveShare(10,share,recordVO);
     }
     @Test void saveRecord(){
         List<QuizSelection> quizSelections = new ArrayList<>();
@@ -60,8 +57,8 @@ public class RecordTest {
                 .build());
         RecordVO recordVO = RecordVO.builder()
                 .quizContent(quizSelections)
-                .rFeedback("123sasd")
-                .rTopic("a123")
+                .feedback("123sasd")
+                .topic("a123")
                 .savedReflection("sad")
                 .userID(3)
                 .build();

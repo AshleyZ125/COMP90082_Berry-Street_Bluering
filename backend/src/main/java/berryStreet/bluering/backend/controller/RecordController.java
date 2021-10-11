@@ -50,7 +50,7 @@ public class RecordController {
                 }.getType());
         RecordVO result = RecordVO.builder().RID(feedback.getRID())
                 .quizContent(quizSelections)
-                .rFeedback(feedback.getRFeedback())
+                .feedback(feedback.getRFeedback())
                 .savedReflection(feedback.getSavedReflection())
                 .build();
         return AjaxResult.success(result);
@@ -72,7 +72,7 @@ public class RecordController {
                     }.getType());
             RecordVO recordVO = RecordVO.builder().RID(record.getRID())
                     .quizContent(quizSelections)
-                    .rFeedback(record.getRFeedback())
+                    .feedback(record.getRFeedback())
                     .savedReflection(record.getSavedReflection())
                     .build();
             recordVOList.add(recordVO);
@@ -94,8 +94,8 @@ public class RecordController {
                 }.getType());
         RecordVO recordVO = RecordVO.builder()
                 .rDate(record.getRDate())
-                .rFeedback(record.getRFeedback())
-                .rTopic(record.getRTopic())
+                .feedback(record.getRFeedback())
+                .topic(record.getRTopic())
                 .savedReflection(record.getSavedReflection())
                 .userID(record.getUserID())
                 .quizContent(quizSelection)
@@ -104,58 +104,57 @@ public class RecordController {
 
     }
 
-    @PostMapping("/api/record/saveRecord")
-    public AjaxResult saveRecord(@RequestBody RecordVO recordVO) {
-        System.out.println(recordVO);
-//        if (RID <= 0 && RID != -1) {
-//            return AjaxResult.error("input empty!");
-//        }
-//        Record record = null;
-//        if (RID == -1) {
-//            String quizContent = JSON.toJSONString(recordVO.getQuizContent());
-//            record = Record.builder()
-//                    .quizContent(quizContent)
-//                    .savedReflection(recordVO.getSavedReflection())
-//                    .rFeedback(recordVO.getRFeedback())
-//                    .rTopic(recordVO.getRTopic())
-//                    .rDate(LocalDate.now())
-//                    .userID(recordVO.getUserID())
-//                    .build();
-//            int res = setRecordService.saveRecord(record);
-//            if (res == 1) {
-//                return AjaxResult.success(getRecordService.queryRID(record.getUserID(),
-//                        record.getRTopic(),
-//                        record.getRDate()));
-//            } else {
-//                return AjaxResult.error("not success,save again.");
-//            }
-//        } else {
-//            String quizContent = JSON.toJSONString(recordVO.getQuizContent());
-//            record = Record.builder()
-//                    .quizContent(quizContent)
-//                    .savedReflection(recordVO.getSavedReflection())
-//                    .rFeedback(recordVO.getRFeedback())
-//                    .rTopic(recordVO.getRTopic())
-//                    .rDate(LocalDate.now())
-//                    .userID(recordVO.getUserID())
-//                    .build();
-//            int res = setRecordService.updateRecord(record, RID);
-//            if (res == 1) {
-//                AjaxResult.success(RID);
-//            } else {
-//                return AjaxResult.error("not success,save again.");
-//            }
-//        }
-//        return AjaxResult.error("not success,save again.");
-        return AjaxResult.success();
+    @PostMapping("/api/record/saveRecord/{RID}")
+    public AjaxResult saveRecord(@RequestBody RecordVO recordVO, @PathVariable("RID") int RID) {
+        if (RID <= 0 && RID != -1) {
+            return AjaxResult.error("input empty!");
+        }
+        Record record = null;
+        if (RID == -1) {
+            String quizContent = JSON.toJSONString(recordVO.getQuizContent());
+            record = Record.builder()
+                    .quizContent(quizContent)
+                    .savedReflection(recordVO.getSavedReflection())
+                    .rFeedback(recordVO.getFeedback())
+                    .rTopic(recordVO.getTopic())
+                    .rDate(LocalDate.now())
+                    .userID(recordVO.getUserID())
+                    .build();
+            int res = setRecordService.saveRecord(record);
+            if (res == 1) {
+                return AjaxResult.success(getRecordService.queryRID(record.getUserID(),
+                        record.getRTopic(),
+                        record.getRDate()));
+            } else {
+                return AjaxResult.error("not success,save again.");
+            }
+        } else {
+            String quizContent = JSON.toJSONString(recordVO.getQuizContent());
+            record = Record.builder()
+                    .quizContent(quizContent)
+                    .savedReflection(recordVO.getSavedReflection())
+                    .rFeedback(recordVO.getFeedback())
+                    .rTopic(recordVO.getTopic())
+                    .rDate(LocalDate.now())
+                    .userID(recordVO.getUserID())
+                    .build();
+            int res = setRecordService.updateRecord(record, RID);
+            if (res == 1) {
+                AjaxResult.success(RID);
+            } else {
+                return AjaxResult.error("not success,save again.");
+            }
+        }
+        return AjaxResult.error("not success,save again.");
     }
 
     @PostMapping("/api/record/saveShare/{RID}")
-    public AjaxResult saveShare(@PathVariable("RID") int RID, @RequestBody Share share,
-                                @RequestBody RecordVO recordVO) {
-        if (shareService.saveShare(share, RID, recordVO) == Constant.SAVE_SUCCESS) {
-            return AjaxResult.success(getRecordService.queryRID(share.getSender(), recordVO.getRTopic(),
-                    recordVO.getRDate()));
+    public AjaxResult saveShare(@RequestBody ShareVO shareVO, @PathVariable("RID") int RID
+    ) {
+        if (shareService.saveShare(RID, shareVO) == Constant.SAVE_SUCCESS) {
+            return AjaxResult.success(getRecordService.queryRID(shareVO.getSender(),
+                    shareVO.getTopic(),
+                    LocalDate.now()));
         }
         return AjaxResult.error("not success,save again.");
     }

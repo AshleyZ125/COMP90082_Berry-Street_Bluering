@@ -4,25 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class RecordVO {
-    private int RID;
+@NoArgsConstructor
+public class ShareVO {
+    private int sender;
+    private String receiver;
+    private String shareReflection;
     private List<QuizSelection> quizContent;
-    private String savedReflection;
     private String feedback;
     private String topic;
     private int userID;
-    private LocalDate rDate;
-
-    //private String shareReflection;
-    //private String rFeedback;
+    private LocalDate date;
 }
