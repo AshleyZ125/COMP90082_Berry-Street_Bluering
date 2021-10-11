@@ -33,7 +33,7 @@ public class QuizController {
         if (creatorID <= 0)
             return AjaxResult.error("Input empty!");
         HashMap<String, List<Quiz>> quizList = getQuizService.querySuperList(creatorID);
-        if (quizList == null) {
+        if (quizList.isEmpty()) {
             return AjaxResult.warn("No quiz now.");
         }
         return AjaxResult.success(quizList);
@@ -42,7 +42,7 @@ public class QuizController {
     @PostMapping("/api/quiz/lecQuizList")
     public AjaxResult lecQuizList() {
         List<Quiz> quizList = getQuizService.queryLecList();
-        if (quizList == null) {
+        if (quizList.isEmpty()) {
             return AjaxResult.warn("No quiz now.");
         }
         return AjaxResult.success(quizList);
@@ -53,7 +53,7 @@ public class QuizController {
         if (QID == 0)
             return AjaxResult.error("Input empty!");
         Quiz result = getQuizService.queryQuizByQID(QID);
-        if (result == null) {
+        if (result.getQID()==0) {
             return AjaxResult.warn("No this quiz!");
         } else
             return AjaxResult.success(result);
@@ -67,7 +67,7 @@ public class QuizController {
         List<Question> questions = getQuizService.queryQuestionByQID(QID);
         System.out.println("questions:" + questions);
         List<QuestionVO> questionVOs = convert(questions);
-        if (questions == null) {
+        if (questions.isEmpty()) {
             return AjaxResult.warn("No question in this quiz!");
         } else
             return AjaxResult.success(questionVOs);
@@ -78,7 +78,7 @@ public class QuizController {
         if (QID == 0)
             return AjaxResult.error("Input empty!");
         List<Feedback> feedbacks = getQuizService.queryFeedbackByQID(QID);
-        if (feedbacks == null) {
+        if (feedbacks.isEmpty()) {
             return AjaxResult.warn("No feedback in this quiz!");
         } else
             return AjaxResult.success(feedbacks);
@@ -92,7 +92,7 @@ public class QuizController {
         }
         try {
             Feedback feedback = getQuizService.queryFeedbackByResult(QID, score);
-            if (null == feedback) {
+            if (feedback.getFID()==0) {
                 return AjaxResult.warn("No feedback in this quiz!");
             }
             return AjaxResult.success(feedback);
