@@ -14,6 +14,10 @@ import CategPanel from './views/categPanel'
 import SelectQuestion from './views/selectQuestion'
 import createFeedback from './views/createFeedback'
 import editQuizTitle from './views/editQuizTitle'
+import personalSetting from './views/personalSetting'
+import myLec from './views/mylec'
+import  lecDetail from './views/lecDetail'
+import uxComment from './views/uxComment'
 
 Vue.use(Router);
 export default new Router({
@@ -40,6 +44,11 @@ export default new Router({
             component:Myspace,
         },
         {
+            path:'/personalSetting',
+            name:'personalsetting',
+            component:personalSetting,
+        },
+        {
             path:'/resetPassword',
             name:'resetPassword',
             component:resetPassword,
@@ -53,6 +62,11 @@ export default new Router({
             path:'/myquiz',
             name:'myquiz',
             component:myQuiz,
+        },
+        {
+            path:'/mylec',
+            name:'mylec',
+            component:myLec,
         },
         {
             path:'/createquiztitle',
@@ -88,6 +102,16 @@ export default new Router({
             path:'/selectQuestion',
             name:'selectQuestion',
             component: SelectQuestion,
+        },
+        {
+            path:'/lecDetail/:name/:id',
+            name:'lecdetail',
+            component: lecDetail,
+        },
+        {
+            path:'/uxcomment',
+            name:'uxcomment',
+            component: uxComment,
         }
         
         

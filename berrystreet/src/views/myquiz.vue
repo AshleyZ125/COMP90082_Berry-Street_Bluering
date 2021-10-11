@@ -65,7 +65,9 @@
                     </el-table>
                 </div>
               </div>
-              
+              <div style="text-align:center;margin-top:100px">
+                 <el-button type="primary" @click="goBack">Back</el-button>
+            </div>
           </div>
       </div>
   </div>
@@ -96,6 +98,9 @@ export default {
       tableRowClassNamePrivate({row, rowIndex}) {
           return 'warning-row';
       },
+      goBack(){
+            this.$router.push('/myspace')
+        },
       getQuizList(){
           let userId = this.$cookie.get('userId');
             this.axios.get(`/api/quiz/superQuizList/${userId}`).then((res)=>{
