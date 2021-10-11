@@ -38,7 +38,8 @@ export default {
     },
     data(){
         return{
-            quizid:'',
+            UID: -1,
+            quizId:'',
             quizTopic: "",
             data:{
                 // "stauts": 0,
@@ -69,18 +70,32 @@ export default {
         }
     },
     mounted(){
-        this.quizid = this.$route.params.id;
+        // this.UID=this.$route.params.userId;
+        this.quizId = this.$route.params.id;
         this.quizTopic = this.$route.params.topic;
         this.fetchQuestions();
     },
     methods:{
         exit(){
-            alert("exit");
-            console.log(1111)
+            if(this.UID==-1){
+                this.$router.push({
+                    name: 'categPanel',
+                    params: {
+                        userId: this.UID,
+                    }
+                })
+            }else{
+                this.$router.push({
+                    name: 'myspaceLEC',
+                    params: {
+                        userId: this.UID,
+                    }
+                })
+            }
         },
         fetchQuestions() {
-            console.log("quizid:"+this.quizid)
-            this.axios.get(`/api/quiz/takeQuiz?QID=${this.quizid}`).then((res) => {
+            console.log("quizid:"+this.quizId)
+            this.axios.get(`/api/quiz/takeQuiz?QID=${this.quizId}`).then((res) => {
                 console.log(res.data.data);
                 // let data = res.data;
                 this.questions = res.data.data.questionList;
@@ -159,7 +174,8 @@ export default {
                     this.$router.push({
                         name: 'getFeedback',
                         params: {
-                            quizID: this.quizid,
+                            userId: this.UID,
+                            quizId: this.quizId,
                             scores: this.scores,
                             result: result,
                             topic: this.quizTopic
