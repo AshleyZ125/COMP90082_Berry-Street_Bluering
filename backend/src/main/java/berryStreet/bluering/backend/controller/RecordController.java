@@ -105,7 +105,7 @@ public class RecordController {
     }
 
     @PostMapping("/api/record/saveRecord/{RID}")
-    public AjaxResult saveRecord(@PathVariable("RID") int RID, RecordVO recordVO) {
+    public AjaxResult saveRecord(@PathVariable("RID") int RID,@RequestBody RecordVO recordVO) {
 
         if (RID <= 0 && RID != -1) {
             return AjaxResult.error("input empty!");
@@ -150,7 +150,8 @@ public class RecordController {
     }
 
     @PostMapping("/api/record/saveShare/{RID}")
-    public AjaxResult saveShare(@PathVariable("RID") int RID, Share share, RecordVO recordVO) {
+    public AjaxResult saveShare(@PathVariable("RID") int RID, @RequestBody Share share,
+                                @RequestBody RecordVO recordVO) {
         if (shareService.saveShare(share, RID, recordVO) == Constant.SAVE_SUCCESS) {
             return AjaxResult.success(getRecordService.queryRID(share.getSender(), recordVO.getRTopic(),
                     recordVO.getRDate()));
