@@ -37,7 +37,7 @@ public class RecordTest {
         List<QuizSelection> quizSelections = new ArrayList<>();
         quizSelections.add(QuizSelection.builder()
                 .option("value")
-                .qContent("sadasd")
+                .content("sadasd")
                 .build());
         RecordVO recordVO = RecordVO.builder()
                 .quizContent(quizSelections)
@@ -53,7 +53,7 @@ public class RecordTest {
         List<QuizSelection> quizSelections = new ArrayList<>();
         quizSelections.add(QuizSelection.builder()
                 .option("value")
-                .qContent("ss")
+                .content("ss")
                 .build());
         RecordVO recordVO = RecordVO.builder()
                 .quizContent(quizSelections)
