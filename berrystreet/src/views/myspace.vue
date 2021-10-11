@@ -9,7 +9,7 @@
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item><span @click="gotoReset()">Reset Password</span></el-dropdown-item>
                 <el-dropdown-item><span @click="gotoResetEmail()">Reset Email</span></el-dropdown-item>
-                <el-dropdown-item><a href="/">Account Settings</a></el-dropdown-item>
+                <el-dropdown-item><span @click="gotoSettings()">Account Settings</span></el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
       </div>
@@ -18,11 +18,11 @@
                 <span>My Quizzes</span>
                 <img src="./../assets/bookmarking.png" alt="" id="myquiz">
           </div>
-          <div class="card" id="lecs" @click="gotoSignin()">
+          <div class="card" id="lecs" @click="gotoMylec()">
               <span>My LECs</span>
               <img src="./../assets/girl.png" alt="" id="teacher">
           </div>
-          <div class="card" id="experience" @click="gotoSignin()">
+          <div class="card" id="experience" @click="gotoUx()">
               <span>User Experience Comments</span>
               <img src="./../assets/book.png" alt="" id="teacher">
           </div>
@@ -60,6 +60,15 @@ export default {
         },
         gotoMyQuiz(){
             this.$router.push('/myquiz')
+        },
+        gotoSettings(){
+            this.$router.push('/personalSetting')
+        },
+        gotoMylec(){
+            this.$router.push('/mylec')
+        },
+        gotoUx(){
+            this.$router.push('/uxcomment')
         }
     },
     mounted(){
