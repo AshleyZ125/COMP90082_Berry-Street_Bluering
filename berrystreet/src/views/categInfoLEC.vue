@@ -63,6 +63,7 @@ export default {
     },
     mounted(){
         this.quizid = this.$route.params.id;
+        this.userId = this.$route.params.userId;
         this.loadQuizOverview();
     }
     

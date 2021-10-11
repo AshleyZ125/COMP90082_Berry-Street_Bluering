@@ -53,6 +53,7 @@ export default {
     FeedbackFooter,
   },
  mounted() {
+    this.userId = this.$route.params.userId;
     this.allAjax();
  },
   methods: {
@@ -61,7 +62,8 @@ export default {
         this.$router.push({
                 name: 'categInfoLEC',
                 params: {
-                    id: item.qid
+                    id: item.qid,
+                    userId: this.userId
                 }
             })
     },

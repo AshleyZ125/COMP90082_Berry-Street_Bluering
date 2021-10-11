@@ -1,17 +1,70 @@
 <template>
   <div class="lecHeader">
     <img src="./../assets/lexm.png" alt="">
-    <el-button @click="logIn()" style = "float:right;margin-right:25px;margin-top:15px;font-size:35px"> Log In </el-button>
+    
+    <div  class= "button">
+        <!-- <el-button 
+            @click="logIn()" 
+            style = "float:right;margin-right:25px;margin-top:15px;font-size:35px"
+            disabled = false
+            :visible.sync = "loginVisible"> Log In </el-button> -->
+
+        <el-button 
+            v-if = "isShow"
+            @click="logIn()" 
+            style = "float:right;margin-right:25px;margin-top:15px;font-size:35px"
+            > Log In </el-button>
+
+
+
+
+    </div>
   </div>
 </template>
 
 <script>
 export default {
     name:'nonText-header',
+    data(){
+        return{
+            isShow: true,
+
+            // loginVisible: true,
+            // logoutVisible: false,
+            // userId: -1,
+        }
+    },
+
+    mounted() {
+        this.userId = this.$route.params.userId
+        this.showOrNot()
+    },
+
     methods:{
         logIn(){
             this.$router.push('/signinLEC')
+        },
+
+        logOut(){
+            alert("log out")
+        },
+
+        showOrNot(){
+            if (this.userId == null || this.userId == -1){
+                console.log("userId是", this.userId)
+                this.isShow = true
+            } else {
+                console.log("userId是", this.userId)
+                this.isShow = false
+            }
         }
+
+
+        // try----------------------------------------------------------------------------------------
+        
+        // try----------------------------------------------------------------------------------------
+
+
     }
 }
 </script>
@@ -35,5 +88,8 @@ export default {
             margin: auto;
         }
         
+        .footer{
+            text-align: center;
+        }
     }
 </style>

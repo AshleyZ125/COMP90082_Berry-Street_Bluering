@@ -42,6 +42,10 @@
             </div> -->
         </div>
 
+        <div class = "takeQuiz">
+            <el-button @click="takeQuiz()" style="margin:20px 0 0 100px">Start Quiz</el-button>
+        </div>
+
         <FeedbackFooter></FeedbackFooter>
     </div>
 </template>
@@ -100,6 +104,15 @@ export default {
             this.$router.push('/resetEmail')
         },
 
+        takeQuiz(){
+            this.$router.push({
+                name:'categPanel',
+                params: {
+                    userId: this.userId
+                }
+            })
+        },
+
         gotoView(RID){
             alert("go to see pastquiz and feedback and diary")                        // add 跳转页面
             this.$router.push({
@@ -136,5 +149,7 @@ export default {
 
 
 <style lang="scss">
-
+    .takeQuiz{
+        text-align: center
+    }
 </style>
