@@ -77,16 +77,17 @@ export default {
     },
     methods:{
         exit(){
-            if(this.UID==-1){
+            if(this.UID!=null&&this.UID!=-1){
                 this.$router.push({
-                    name: 'categPanel',
+                    name: 'myspaceLEC',
                     params: {
                         userId: this.UID,
                     }
                 })
+                
             }else{
                 this.$router.push({
-                    name: 'myspaceLEC',
+                    name: 'categPanel',
                     params: {
                         userId: this.UID,
                     }
@@ -118,7 +119,6 @@ export default {
             //             "options":[{"key":0, "value":"Do not give my opinion","point":1},{"key":1,"value":"Give my opinion","point":2},
             //                     {"key":2, "value":"Explain my opinion so the group understands","point":4},{"key":3,"value":"Give reasons for and against my opinion using evidence","point":6}]}
             //     ]
-            // // this.$root.$data.state=this.questions;
             this.currentQuestion=this.questions[0];
             this.record=new Array(this.questions.length);
             console.log(this.currentQuestion)
