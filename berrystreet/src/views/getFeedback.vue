@@ -241,6 +241,7 @@ export default {
                 console.log('/api/record/saveRecord/'+this.RID.toString())
                 console.log(this.feedback)
                 console.log(this.topic)
+                console.log("question 是", this.result)
                 this.axios.post('/api/record/saveRecord/'+this.RID.toString(),{
                     // recordVO: recordVO
                     quizContent: this.result,

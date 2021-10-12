@@ -70,7 +70,7 @@ export default {
         }
     },
     mounted(){
-        // this.UID=this.$route.params.userId;
+        this.UID=this.$route.params.userId;
         this.quizId = this.$route.params.id;
         this.quizTopic = this.$route.params.topic;
         this.fetchQuestions();
@@ -164,7 +164,7 @@ export default {
                     
                     for(var i=0; i<this.record.length; i++){
                         this.scores+=this.record[i].point;
-                        result[i]={"qcontent":this.questions[i].qcontent, "option":this.record[i].value}
+                        result[i]={"content":this.questions[i].qcontent, "option":this.record[i].value}
                     }
                     console.log(this.scores)
                     console.log(result)
