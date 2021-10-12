@@ -141,13 +141,11 @@ public class RecordController {
                     .userID(recordVO.getUserID())
                     .build();
             int res = setRecordService.updateRecord(record, RID);
-            if (res == 1) {
-                AjaxResult.success(RID);
-            } else {
+            if(res != 1){
                 return AjaxResult.error("not success,save again.");
             }
         }
-        return AjaxResult.error("not success,save again.");
+        return AjaxResult.success(RID);
     }
 
     @PostMapping("/api/record/saveShare/{RID}")
