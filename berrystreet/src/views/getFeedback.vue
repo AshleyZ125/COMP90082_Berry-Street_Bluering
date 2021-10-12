@@ -129,7 +129,6 @@ export default {
     },
     data(){
         return{
-            currentDate:"",
             UID: -1,
             quizID: '',
             topic: "",
@@ -140,7 +139,6 @@ export default {
             RID: -1,
             // share
             shareVisible: false,
-            // shareEmail:"",
             checked:false,
             shareForm:{
                 email:"",
@@ -214,42 +212,36 @@ export default {
             })
         },
         exit(){
-            if(this.UID==-1){
-                this.$router.push({
-                    name: 'categPanel',
-                    params: {
-                        userId: this.UID,
-                    }
-                })
-            }else{
+            if(this.UID!=null&&this.UID!=-1){
                 this.$router.push({
                     name: 'myspaceLEC',
                     params: {
                         userId: this.UID,
                     }
                 })
+                
+            }else{
+                this.$router.push({
+                    name: 'categPanel',
+                    params: {
+                        userId: this.UID,
+                    }
+                })
             }
-            //  this.$router.push('myspace')
         },
         save(){
-            if(this.UID==-1){
+            if(this.UID==-1||this.UID==null){
                 this.registerVisible=true;
             }else{
-                this.getTime()
-                // let recordVO={"QuizContent": this.result, "rFeedback":this.feedback, "SavedReflection": this.reflectionDiary, "rTopic":this.topic, "UserID":this.UID, "rDate":this.currentDate};
-                // let recordVO={"quizContent": this.result, "rFeedback":this.feedback, "savedReflection": this.reflectionDiary, "rTopic":this.topic, "userID":this.UID, "rDate":this.currentDate};
+                let recordVO={"RID": this.RID, "QuizContent": this.result, "feedback":this.feedback, "SavedReflection": this.reflectionDiary, "topic":this.topic, "UserID":this.UID};
                 console.log('/api/record/saveRecord/'+this.RID.toString())
-                console.log(this.feedback)
-                console.log(this.topic)
-                console.log("question 是", this.result)
+                console.log(recordVO)
                 this.axios.post('/api/record/saveRecord/'+this.RID.toString(),{
-                    // recordVO: recordVO
                     quizContent: this.result,
                     feedback:this.feedback, 
                     savedReflection: this.reflectionDiary, 
                     topic:this.topic, 
                     userID:this.UID
-                    // rDate:this.currentDate
                 }).then((res)=>{
                     console.log(res)
                     if(res.data.status==0){
@@ -283,8 +275,7 @@ export default {
                 if(this.checked){
                     shareReflection=this.reflectionDiary
                 }
-                this.getTime();
-                let shareVO={"sender": this.UID, "receiver": this.shareForm.email, "shareReflection": this.reflectionDiary, "quizContent": this.result, "feedback":this.feedback, "topic":this.topic, "userID":this.UID};
+                let shareVO={"RID": this.RID,"sender": this.UID, "receiver": this.shareForm.email, "shareReflection": this.reflectionDiary, "quizContent": this.result, "feedback":this.feedback, "topic":this.topic, "userID":this.UID};
                 console.log(shareVO)
                 this.axios.post('/api/record/saveShare/'+this.RID.toString(),{
                     sender: this.UID,
@@ -410,31 +401,6 @@ export default {
                 }
             });
         },
-        getTime(){
-            var date=new Date();
-            var year=date.getFullYear();
-            var month=date.getMonth()+1;
-            var day=date.getDate();
-            var hours=date.getHours();
-            var minutes=date.getMinutes();
-            var seconds=date.getSeconds();
-            if(month >= 1 && month <= 9) {
-                month = "0" + month;
-            }
-            if(day >= 0 && day <= 9){
-                day = "0" + day;
-            }
-			if(hours >= 0 && hours <= 9){
-                hours = "0" + hours;
-            }
-			if(minutes >= 0 && minutes <= 9){
-                minutes = "0" + minutes;
-            }
-			if(seconds >= 0 && seconds <= 9){
-                seconds = "0" + seconds;
-            } 
-            this.currentDate=year+"-"+month+"-"+day//+" "+hours+":"+minutes+":"+seconds
-        }
 
     }
 }
