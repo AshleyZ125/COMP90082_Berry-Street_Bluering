@@ -59,8 +59,9 @@ public class ShareServiceImp implements ShareService {
                 }
             }
         } else {
-            if (shareMapper.updateShare(share, RID) == 1 && setRecordService.updateRecord(record,RID
-                    ) == 1) {
+            int shareInt = shareMapper.updateShare(share, RID);
+            int recordInt = setRecordService.updateRecord(record, RID);
+            if (shareInt == 1 && recordInt == 1) {
                 return Constant.SAVE_SUCCESS;
             }
         }
