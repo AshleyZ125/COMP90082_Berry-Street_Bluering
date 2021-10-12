@@ -25,15 +25,13 @@ public class UserExpController {
     }
 
     @PostMapping("/api/userExp/addUserExp")
-    public AjaxResult addUserExp(@RequestBody String eContent){
-        if (eContent.isEmpty())
-         return AjaxResult.error("Input empty!");
-        int result=userExpService.insertUserExp(eContent);
+    public AjaxResult addUserExp(@RequestBody Experience exp){
+        if (exp.getEContent()==null||exp.getEContent().isEmpty())
+            return AjaxResult.error("Input empty!");
+        int result=userExpService.insertUserExp(exp.getEContent());
         if (result != 0)
             return AjaxResult.success("Successful addition!");
         else
             return AjaxResult.error("Addition fail!");
     }
-
-
 }
