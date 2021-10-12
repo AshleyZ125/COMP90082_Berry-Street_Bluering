@@ -72,6 +72,8 @@ public class RecordController {
                     }.getType());
             RecordVO recordVO = RecordVO.builder().RID(record.getRID())
                     .quizContent(quizSelections)
+                    .topic(record.getRTopic())
+                    .date(record.getRDate())
                     .feedback(record.getRFeedback())
                     .savedReflection(record.getSavedReflection())
                     .build();
@@ -93,7 +95,7 @@ public class RecordController {
                 new TypeReference<List<QuizSelection>>() {
                 }.getType());
         RecordVO recordVO = RecordVO.builder()
-                .rDate(record.getRDate())
+                .date(record.getRDate())
                 .feedback(record.getRFeedback())
                 .topic(record.getRTopic())
                 .savedReflection(record.getSavedReflection())

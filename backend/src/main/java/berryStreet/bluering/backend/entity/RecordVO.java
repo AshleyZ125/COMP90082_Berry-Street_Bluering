@@ -21,7 +21,7 @@ public class RecordVO {
     private String feedback;
     private String topic;
     private int userID;
-    private LocalDate rDate;
+    private LocalDate date;
 
     //private String shareReflection;
     //private String rFeedback;

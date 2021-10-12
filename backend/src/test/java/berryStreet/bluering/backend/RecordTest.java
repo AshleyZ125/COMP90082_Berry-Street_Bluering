@@ -1,20 +1,26 @@
 package berryStreet.bluering.backend;
 
+import berryStreet.bluering.backend.Utils.MailUtil;
 import berryStreet.bluering.backend.controller.RecordController;
+import berryStreet.bluering.backend.entity.Mail;
 import berryStreet.bluering.backend.entity.QuizSelection;
 import berryStreet.bluering.backend.entity.RecordVO;
 import berryStreet.bluering.backend.entity.Share;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
 public class RecordTest {
     @Autowired
     RecordController recordController;
+    @Autowired
+    MailUtil mailUtil;
     @Test
     public void sharedListTest(){
         int superID=1;
@@ -69,6 +75,19 @@ public class RecordTest {
     @Test
     public void getRecord(){
         System.out.println(recordController.getRecord(16));
+    }
+
+    @Test
+    public void mail(){
+        Mail mail = Mail.builder()
+                .from("498295243@qq.com")
+                .to("498295243@qq.com")
+                .sentDate(new Date())
+                .subject("test")
+                .text("test")
+                .build();
+        boolean success = mailUtil.sendMail(mail);
+        System.out.println(success);
     }
 
 }
