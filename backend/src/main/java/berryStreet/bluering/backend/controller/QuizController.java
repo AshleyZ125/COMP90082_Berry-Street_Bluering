@@ -1,7 +1,6 @@
 package berryStreet.bluering.backend.controller;
 
 import berryStreet.bluering.backend.Constant.QuizStatus;
-import berryStreet.bluering.backend.Constant.TestCase;
 import berryStreet.bluering.backend.Exceptions.QuizQueryException;
 import berryStreet.bluering.backend.Exceptions.ScoreRangeException;
 import berryStreet.bluering.backend.Utils.AjaxResult;
