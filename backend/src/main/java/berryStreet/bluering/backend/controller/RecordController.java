@@ -11,6 +11,7 @@ import com.alibaba.fastjson.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class RecordController {
                 }.getType());
         RecordVO result = RecordVO.builder().RID(feedback.getRID())
                 .quizContent(quizSelections)
-                .rFeedback(feedback.getRFeedback())
+                .feedback(feedback.getRFeedback())
                 .savedReflection(feedback.getSavedReflection())
                 .build();
         return AjaxResult.success(result);
@@ -71,7 +72,9 @@ public class RecordController {
                     }.getType());
             RecordVO recordVO = RecordVO.builder().RID(record.getRID())
                     .quizContent(quizSelections)
-                    .rFeedback(record.getRFeedback())
+                    .topic(record.getRTopic())
+                    .date(record.getRDate())
+                    .feedback(record.getRFeedback())
                     .savedReflection(record.getSavedReflection())
                     .build();
             recordVOList.add(recordVO);
@@ -92,9 +95,9 @@ public class RecordController {
                 new TypeReference<List<QuizSelection>>() {
                 }.getType());
         RecordVO recordVO = RecordVO.builder()
-                .rDate(record.getRDate())
-                .rFeedback(record.getRFeedback())
-                .rTopic(record.getRTopic())
+                .date(record.getRDate())
+                .feedback(record.getRFeedback())
+                .topic(record.getRTopic())
                 .savedReflection(record.getSavedReflection())
                 .userID(record.getUserID())
                 .quizContent(quizSelection)
@@ -104,8 +107,7 @@ public class RecordController {
     }
 
     @PostMapping("/api/record/saveRecord/{RID}")
-    public AjaxResult saveRecord(@PathVariable("RID") int RID, RecordVO recordVO) {
-
+    public AjaxResult saveRecord(@RequestBody RecordVO recordVO, @PathVariable("RID") int RID) {
         if (RID <= 0 && RID != -1) {
             return AjaxResult.error("input empty!");
         }
@@ -115,9 +117,9 @@ public class RecordController {
             record = Record.builder()
                     .quizContent(quizContent)
                     .savedReflection(recordVO.getSavedReflection())
-                    .rFeedback(recordVO.getRFeedback())
-                    .rTopic(recordVO.getRTopic())
-                    .rDate(recordVO.getRDate())
+                    .rFeedback(recordVO.getFeedback())
+                    .rTopic(recordVO.getTopic())
+                    .rDate(LocalDate.now())
                     .userID(recordVO.getUserID())
                     .build();
             int res = setRecordService.saveRecord(record);
@@ -133,9 +135,9 @@ public class RecordController {
             record = Record.builder()
                     .quizContent(quizContent)
                     .savedReflection(recordVO.getSavedReflection())
-                    .rFeedback(recordVO.getRFeedback())
-                    .rTopic(recordVO.getRTopic())
-                    .rDate(recordVO.getRDate())
+                    .rFeedback(recordVO.getFeedback())
+                    .rTopic(recordVO.getTopic())
+                    .rDate(LocalDate.now())
                     .userID(recordVO.getUserID())
                     .build();
             int res = setRecordService.updateRecord(record, RID);
@@ -149,10 +151,12 @@ public class RecordController {
     }
 
     @PostMapping("/api/record/saveShare/{RID}")
-    public AjaxResult saveShare(@PathVariable("RID") int RID, Share share, RecordVO recordVO) {
-        if (shareService.saveShare(share, RID, recordVO) == Constant.SAVE_SUCCESS) {
-            return AjaxResult.success(getRecordService.queryRID(share.getSender(), recordVO.getRTopic(),
-                    recordVO.getRDate()));
+    public AjaxResult saveShare(@RequestBody ShareVO shareVO, @PathVariable("RID") int RID
+    ) {
+        if (shareService.saveShare(RID, shareVO) == Constant.SAVE_SUCCESS) {
+            return AjaxResult.success(getRecordService.queryRID(shareVO.getSender(),
+                    shareVO.getTopic(),
+                    LocalDate.now()));
         }
         return AjaxResult.error("not success,save again.");
     }
