@@ -4,15 +4,22 @@
         <div class='quiz'>
             <el-table
                 :data = 'tableData.quizContent'
-                style = "width: 100%">
-                <el-table-column
-                    prop="qContent"
-                    label="Question">
+                style = "width: 100%"
+                empty-text="You don't have records yet!">
+                <el-table-column label="Question">
+                    <template slot-scope="scope">
+                        <div slot="reference" class="name-wrapper">
+                            <span style="font-size:24px">{{ scope.row.content }}</span>
+                        </div>
+                    </template>
                 </el-table-column>
 
-                <el-table-column
-                    prop="option"
-                    label="Answer">
+                <el-table-column prop="option" label="Answer">
+                    <template slot-scope="scope">
+                        <div slot="reference" class="name-wrapper">
+                            <span style="font-size:24px">{{ scope.row.option }}</span>
+                        </div>
+                    </template>
                 </el-table-column>
             </el-table>
         </div>
@@ -44,6 +51,8 @@
         name: "pastFeedbackLEC",
         data(){
             return{
+                feedback:'',
+                reflection:'',
                 tableData:[{
                     // RID:1, //UID, QID, rDate 
                     // savedReflection:"234",
@@ -68,13 +77,13 @@
 
         methods:{
             allAjax(){
-                console.log(this.RID)
-                console.log(this.userId)
+                console.log("RID 是", this.RID)
+                console.log("userId 是", this.userId)
                 this.axios.get(`/api/record/getRecord/${this.RID}`).then((res) => {  //API need insert
                 console.log("res = ", res);
                 let data = res.data.data;                                                                            // check the path
                 this.tableData = data;
-                this.feedback = data.rFeedBack;
+                this.feedback = data.feedback;
                 this.reflection = data.savedReflection;
                 
             });
@@ -105,6 +114,7 @@
         }
         .feedback{
             font-family: 'Acme', sans-serif; 
+            font-size: 20px;
             width: 80%; 
             border-radius: 15px;
             margin: 40px auto;
@@ -119,6 +129,7 @@
         }
         .reflection{
             font-family: 'Acme', sans-serif;
+            font-size: 20px;
             width: 80%;
             margin: 40px auto;
             .reflectionTitle{

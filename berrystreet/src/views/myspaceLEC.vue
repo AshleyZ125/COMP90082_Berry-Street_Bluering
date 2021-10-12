@@ -13,38 +13,51 @@
             </el-dropdown-menu>
           </el-dropdown>
         </div>
-
+        <div class = "takeQuiz">
+            <el-button @click="takeQuiz()" >Take a Quiz</el-button>
+        </div>
         <div class ="space-container">
-            <el-table 
-                :data="tableData"
-                style="width: 100%"> <!-- :span= "1" v-for="item in tableData"    :key="item.quizTopic " :offset="1"  -->
-                
-                <el-table-column
-                    prop="rTopic"
-                    label="Quiz Topic"
-                    width="180">
-                </el-table-column>
-                <el-table-column
-                    prop="rDate"
-                    label="Date"
-                    width="180">
-                </el-table-column>
-                <el-table-column
-                    prop="RID"
-                    label="View">
-                    <el-button @click="gotoView(RID)" type="text" > View </el-button>
+            
+            <!-- <div class = "table"> -->
+                <el-table 
+                    :data="tableData"
+                    style="width: 100%;"
+                    empty-text="You don't have records yet!"> <!-- :span= "1" v-for="item in tableData"    :key="item.quizTopic " :offset="1"  -->
                     
-                </el-table-column>
-            </el-table>
+                    
+                    <el-table-column  label="Quiz Topic" width="500">
+                        <template slot-scope="scope">
+                            <div slot="reference" class="name-wrapper">
+                                <span style="font-size:15px">{{ scope.row.topic }}</span>
+                            </div>
+                        </template>
+                    </el-table-column>
 
+                    <el-table-column  label="Date" width="400">
+                        <template slot-scope="scope">
+                            <div slot="reference" class="name-wrapper">
+                                <span style="font-size:15px">{{ scope.row.date }}</span>
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column  label="View">
+                        <template slot-scope="scope">
+                            <el-button  type="primary" @click="gotoView(scope.$index, scope.row)">View</el-button>
+                            
+                        </template>
+                        <!-- <el-button @click="gotoView(RID)" type="text" > View </el-button> -->
+                        
+                    </el-table-column>
+                </el-table>
+            <!-- </div> -->
             <!-- <div class = "takeQuiz">
                 <el-button @click="startQuiz" style = "background-color:lightblue;font-size:35px"> Start the quiz </el-button>
             </div> -->
         </div>
-
-        <div class = "takeQuiz">
-            <el-button @click="takeQuiz()" style="margin:20px 0 0 100px">Start Quiz</el-button>
-        </div>
+        
+        <!-- <div class = "takeQuiz">
+            <el-button @click="takeQuiz()" >Start Quiz</el-button>
+        </div> -->
 
         <FeedbackFooter></FeedbackFooter>
     </div>
@@ -64,8 +77,8 @@ export default {
             //     {
             //     RID:1,
             //     savedReflection:"234",
-            //     rFeedBack:"234",
-            //     rTopic:"234",
+            //     feedBack:"234",
+            //     topic:"234",
             //     userID:2,
             //     rDate:"",
             //     quizContent:[{"qContent":"234","option":"234"}]
@@ -73,14 +86,7 @@ export default {
             //     // qid:'1',
             //     // date: '2021-01-01',
             //     // view: 'view'
-            //  }, {
-            //     RID:1,
-            //     savedReflection:"234",
-            //     rFeedBack:"234",
-            //     rTopic:"tranining",
-            //     userID:2,
-            //     rDate:"2021-02-02",
-            //     quizContent:[{"qContent":"234","option":"234"}],
+            //  }],
             // }
              ]
          };
@@ -113,12 +119,14 @@ export default {
             })
         },
 
-        gotoView(RID){
-            alert("go to see pastquiz and feedback and diary")                        // add 跳转页面
+        gotoView(index, row){
+            // alert("go to see pastquiz and feedback and diary")                        // add 跳转页面
+            console.log("row = ", row),
             this.$router.push({
+                
                 name: 'pastFeedbackLEC',
                 params: {
-                    RID: this.RID,
+                    RID: row.rid,
                     userId: this.userId,
                 }
             })
@@ -134,7 +142,7 @@ export default {
             console.log("res = ", res);
             let data = res.data.data;                                                                            // check the path
             this.tableData = data;
-            this.RID = data.RID;
+           
             });
         },
     }
@@ -149,7 +157,22 @@ export default {
 
 
 <style lang="scss">
-    .takeQuiz{
+    .myspaceLEC-main{
+        .drop-div{
+
+        }
+        // .space-container{
+        //     top: 10%;
+        //     height: 250px;
+
+
+        // }
+        .takeQuiz{
+        // position: relative;
+        // margin:20px 0 0 100px;
+        margin-bottom: 20px;
         text-align: center
+        }
     }
+    
 </style>

@@ -85,7 +85,7 @@ export default {
                         duration:2000,
                         type: 'success',
                          onClose:()=>{
-                            this.$router.push('/signin')
+                            this.$router.push('/signinLEC')
                          }
                         
                     })
