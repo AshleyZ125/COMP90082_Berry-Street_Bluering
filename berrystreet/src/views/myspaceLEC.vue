@@ -166,15 +166,7 @@ export default {
 
 <style lang="scss">
     .myspaceLEC-main{
-        .drop-div{
 
-        }
-        // .space-container{
-        //     top: 10%;
-        //     height: 250px;
-
-
-        // }
         .takeQuiz{
         // position: relative;
         // margin:20px 0 0 100px;
