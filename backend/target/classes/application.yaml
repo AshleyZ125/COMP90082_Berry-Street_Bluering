@@ -1,7 +1,7 @@
 spring:
   datasource:
     username: root
-    password: 105699371Gyj,
+    password: navicat2019
     #password: 123456
     #?serverTimezone=UTC解决时区的报错
     url: jdbc:mysql://localhost:3306/project?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
@@ -22,14 +22,6 @@ spring:
     testOnBorrow: false
     testOnReturn: false
     poolPreparedStatements: true
-  mail:
-    username: 498295243@qq.com
-    host: smtp.qq.com
-    password:
-    port: 465
-    properties:
-      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
-      from: 498295243@qq.com
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
@@ -40,6 +32,3 @@ admin:
     - 123123123
     - 1513212
     - 123123
-
-server:
-  port: 8081
