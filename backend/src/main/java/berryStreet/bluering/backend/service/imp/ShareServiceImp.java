@@ -35,7 +35,6 @@ public class ShareServiceImp implements ShareService {
         LocalDate date = LocalDate.now();
         Record record = Record.builder()
                 .quizContent(quizContent)
-                .savedReflection(shareVO.getShareReflection())
                 .rFeedback(shareVO.getFeedback())
                 .rTopic(shareVO.getTopic())
                 .rDate(date)
@@ -65,7 +64,8 @@ public class ShareServiceImp implements ShareService {
                     return Constant.SAVE_SUCCESS;
                 }
             } else {
-                if (shareMapper.updateShare(share, RID) == 1 && setRecordService.updateRecord(record, RID) == 1) {
+                if (shareMapper.insertShare(share) == 1 && setRecordService.updateRecord(record,
+                        RID) == 1) {
                     return Constant.SAVE_SUCCESS;
                 }
             }
