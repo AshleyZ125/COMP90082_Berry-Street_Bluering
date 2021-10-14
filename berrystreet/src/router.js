@@ -19,6 +19,12 @@ import myLec from './views/mylec'
 import  lecDetail from './views/lecDetail'
 import uxComment from './views/uxComment'
 
+import SigninLEC from './views/signinLEC'
+import RegisterLEC from './views/registerLEC'
+import myspaceLEC from './views/myspaceLEC'
+import pastFeedbackLEC from './views/pastFeedbackLEC'
+import GetFeedback from './views/getFeedback'
+
 Vue.use(Router);
 export default new Router({
     mode:'history',
@@ -112,6 +118,31 @@ export default new Router({
             path:'/uxcomment',
             name:'uxcomment',
             component: uxComment,
+        },
+        {
+            path:'/signinLEC',
+            name:'signinLEC',
+            component: SigninLEC,
+        },
+        {
+            path:'/registerLEC',
+            name:'registerLEC',
+            component: RegisterLEC,
+        },
+        {
+            path:'/myspaceLEC',
+            name:'myspaceLEC',
+            component:myspaceLEC,
+        },
+        {
+            path:'/pastFeedbackLEC',
+            name:'pastFeedbackLEC',
+            component: pastFeedbackLEC,
+        },
+        {
+            path:'/getFeedback',
+            name:'getFeedback',
+            component: GetFeedback,
         }
         
         

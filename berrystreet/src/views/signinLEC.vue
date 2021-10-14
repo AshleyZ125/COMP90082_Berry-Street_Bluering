@@ -46,7 +46,7 @@ export default {
             userId:''
         }
     },
-    name:'signin',
+    name:'signinLEC',
     components:{
         NavHeader
     },
@@ -55,7 +55,7 @@ export default {
         //     this.$router.push('/')
         // },
         gotoRegister(){
-            this.$router.push('/register')
+            this.$router.push('/registerLEC')
         },
         signin(){
              console.log(this.signinForm.email,this.signinForm.password)
@@ -63,23 +63,27 @@ export default {
                  email:this.signinForm.email,
                  password:this.signinForm.password
              }).then((res)=>{
-                 console.log(res)
+                 //console.log(res)
                  if(res.data.status==0){
                      console.log(res.data.data.username)
                      //console.log(res.data.data.uid)
+                     this.userId=res.data.data.uid;
                      this.$cookie.set('userId',res.data.data.uid,{expires: '1M'});
                      this.$cookie.set('userName',res.data.data.username,{expires: '1M'});
                      this.$store.dispatch('saveUserName',res.data.data.username)
-
-                     if(res.data.data.role==='supervisor'){
-                         this.$router.push('/myspace')
-                     }else{
-                         this.$message({
-                            showClose: true,
-                            message: 'Access deny, please sign in as LEx',
+                    if(res.data.data.role==='LEC'){
+                        this.$router.push({
+                         name: 'myspaceLEC',
+                         params: {
+                            userId: this.userId
+                         }
+                     }) // go to my spaceLEC  
+                    }else{
+                        this.$message({
+                            message: 'Please go to supervisor sign in page',
                             type: 'error'
-                        });
-                     }
+                        })
+                    }
                      
                      
 				}

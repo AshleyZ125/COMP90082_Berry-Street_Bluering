@@ -7,7 +7,7 @@
                 <el-table-column label="Question" align="center">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
-                            <span style="font-size:24px">{{ scope.row.qcontent }}</span>
+                            <span style="font-size:24px">{{ scope.row.content }}</span>
                         </div>
                     </template>
                 </el-table-column>
@@ -62,7 +62,7 @@ export default {
                 this.axios.get(`/api/record/getSharedFeedback/${shareId}`).then((res)=>{
                     console.log(res.data)
                     this.quiz = res.data.data.quizContent
-                    this.feedback = res.data.data.rfeedback
+                    this.feedback = res.data.data.feedback
                     this.diary = res.data.data.savedReflection
                 })
         },

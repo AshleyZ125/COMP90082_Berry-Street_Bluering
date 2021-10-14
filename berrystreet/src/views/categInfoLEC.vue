@@ -6,7 +6,7 @@
         <div class="main"> 
             <div class = "main-back"> 
                 <h2 class = "title"> {{topic}} </h2><br>
-                
+                <p class = "overview"> Overview </p>
             </div>
             <div class="main-content">
                 <p class = "content"> {{overview}} </p>
@@ -48,7 +48,9 @@ export default {
             this.$router.push({
                 name: 'selectQuestion',
                 params: {
-                    id: this.quizid
+                    userId: this.userId,
+                    id: this.quizid,
+                    topic: this.topic
                 }
             })
         },
@@ -62,6 +64,7 @@ export default {
     },
     mounted(){
         this.quizid = this.$route.params.id;
+        this.userId = this.$route.params.userId;
         this.loadQuizOverview();
     }
     
@@ -87,7 +90,9 @@ export default {
                 font-family: 'Acme', sans-serif;
                 font-size: 50px;
                 text-align: center;
+                margin-right: 50px;
                 display: inline-block;
+                margin-top: 25px;
             }
             .overview{
                 font-family: 'Acme', sans-serif;
@@ -104,7 +109,7 @@ export default {
             font-family: 'Acme', sans-serif;  
             background-color: lightblue;
             .content{
-                padding: 40px 0 0 0;
+                padding: 0 30px 0 0;
                 font-family:'Acme', sans-serif ;
                 font-size: 30px;
                 margin-top: 3%;

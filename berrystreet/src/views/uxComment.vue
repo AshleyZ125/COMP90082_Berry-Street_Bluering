@@ -3,18 +3,18 @@
       <main-header title="UX Comments"></main-header>
       <div class="pageBody">
           <div class="pageContainer">
-            <el-table :data="allLec" style="width: 100%" empty-text="You don't have any LECs yet!"  :header-cell-style="{background:'#eee',color:'#606266',fontSize: '20px'}">
+            <el-table :data="allComments" style="width: 100%" empty-text="You don't have any UX Comments yet!"  :header-cell-style="{background:'#eee',color:'#606266',fontSize: '20px'}">
                 <el-table-column label="Date" align="center">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
-                            <span style="font-size:24px">{{ scope.row.rdate }}</span>
+                            <span style="font-size:24px">{{ scope.row.edate }}</span>
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="Content" align="center">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
-                            <span style="font-size:24px">{{ scope.row.rtopic }}</span>
+                            <span style="font-size:24px">{{ scope.row.econtent }}</span>
                         </div>
                     </template>
                 </el-table-column>
@@ -27,6 +27,9 @@
             <div style="text-align:center;margin-top:30px">
                  <el-button type="primary" @click="goBack">Back</el-button>
             </div>
+            <el-dialog title="Comment" :visible.sync="dialogTableVisible">
+                <el-input type="textarea" :rows="4" v-model="comment" readonly></el-input>
+            </el-dialog>
           </div>
       </div>
   </div>
@@ -39,13 +42,9 @@ export default {
     data(){
         return{
             userId:'',
-            allLec:[
-                {
-                    username:'tommy',
-                    topic:'cooking',
-                    date:'2021-02-04'
-                }
-            ]
+            allComments:[],
+            dialogTableVisible:false,
+            comment:''
         }
     },
     components:{
@@ -59,15 +58,14 @@ export default {
      getCommentList(){
           let userId = this.$cookie.get('userId');
           console.log(userId)
-            this.axios.get(`/api/record/sharedList/${userId}`).then((res)=>{
+            this.axios.get('/api/userExp/expList').then((res)=>{
                 console.log(res)
-                this.allLec = res.data.data;
+                this.allComments = res.data.data;
             })
       },
       gotoLecDetail(index, row) {
-          this.$router.push({
-                path: '/lecDetail/'+row.username+'/'+row.sid,
-            });
+          this.dialogTableVisible = true;
+          this.comment = row.econtent;
       },
     goBack(){
         this.$router.push('/myspace')
