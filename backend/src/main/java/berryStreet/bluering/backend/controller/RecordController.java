@@ -4,6 +4,7 @@ import berryStreet.bluering.backend.Constant.Constant;
 import berryStreet.bluering.backend.Utils.AjaxResult;
 import berryStreet.bluering.backend.entity.*;
 import berryStreet.bluering.backend.service.GetRecordService;
+import berryStreet.bluering.backend.service.Response;
 import berryStreet.bluering.backend.service.SetRecordService;
 import berryStreet.bluering.backend.service.ShareService;
 import com.alibaba.fastjson.JSON;
@@ -148,10 +149,9 @@ public class RecordController {
 
     @PostMapping("/api/record/saveShare/{RID}")
     public AjaxResult saveShare(@RequestBody ShareVO shareVO, @PathVariable("RID") int RID) {
-        if (shareService.saveShare(RID, shareVO).getResult() == Constant.SAVE_SUCCESS) {
-            return AjaxResult.success(getRecordService.queryRID(shareVO.getSender(),
-                    shareVO.getTopic(),
-                    LocalDate.now()));
+        Response<Integer> res = shareService.saveShare(RID, shareVO);
+        if (res.getResult() == Constant.SAVE_SUCCESS) {
+            return AjaxResult.success(res.getData());
         } else {
             return AjaxResult.error("not success,save again.");
         }
