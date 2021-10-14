@@ -39,7 +39,7 @@ public class UserController {
             User result = loginService.checkUserExist(user);
             if (result != null) {
                 System.out.println(result.toString());
-                if(result.getUID()>=0)
+                if(result.getUID()>0)
                     return AjaxResult.success(result);
                 else{
                     return AjaxResult.warn(" Login fail! Please check your password!");
