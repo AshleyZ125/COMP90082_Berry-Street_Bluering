@@ -7,6 +7,7 @@ import berryStreet.bluering.backend.entity.ShareVO;
 import berryStreet.bluering.backend.mapper.ShareMapper;
 import berryStreet.bluering.backend.mapper.UserMapper;
 import berryStreet.bluering.backend.service.GetRecordService;
+import berryStreet.bluering.backend.service.Response;
 import berryStreet.bluering.backend.service.SetRecordService;
 import berryStreet.bluering.backend.service.ShareService;
 import com.alibaba.fastjson.JSON;
@@ -27,9 +28,9 @@ public class ShareServiceImp implements ShareService {
     UserMapper userMapper;
 
     @Override
-    public int saveShare(int RID, ShareVO shareVO) {
+    public Response<Integer> saveShare(int RID, ShareVO shareVO) {
         if (RID <= 0 && RID != -1) {
-            return Constant.SAVE_FAIL;
+            return new Response<>(Constant.SAVE_FAIL, -1);
         }
         String quizContent = JSON.toJSONString(shareVO.getQuizContent());
         LocalDate date = LocalDate.now();
@@ -43,7 +44,7 @@ public class ShareServiceImp implements ShareService {
                 .build();
         int receiver = userMapper.queryUserByEmail(shareVO.getReceiver()).getUID();
         if (receiver == 0) {
-            return Constant.SAVE_FAIL;
+            return new Response<>(Constant.SAVE_FAIL, -1);
         }
         Share share = Share.builder()
                 .sender(shareVO.getSender())
@@ -51,26 +52,19 @@ public class ShareServiceImp implements ShareService {
                 .receiver(receiver)
                 .build();
         if (RID == -1) {
-            if (setRecordService.saveRecord(record) == 1) {
-                share.setRecordID(getRecordService.queryRID(shareVO.getUserID(),
-                        shareVO.getTopic(), date));
+            int res = setRecordService.saveRecord(record);
+            if (res >= 1) {
+                share.setRecordID(res);
                 if (shareMapper.insertShare(share) == 1) {
-                    return Constant.SAVE_SUCCESS;
+                    return new Response<Integer>(Constant.SAVE_SUCCESS, res);
                 }
             }
         } else {
-            if (shareMapper.queryShareByRID(RID) == null) {
-                share.setRecordID(RID);
-                if (setRecordService.updateRecord(record, RID) == 1 && shareMapper.insertShare(share) == 1) {
-                    return Constant.SAVE_SUCCESS;
-                }
-            } else {
-                if (shareMapper.updateShare(share, RID) == 1 && setRecordService.updateRecord(record, RID) == 1) {
-                    return Constant.SAVE_SUCCESS;
-                }
+            share.setRecordID(RID);
+            if (setRecordService.updateRecord(record, RID) == 1 && shareMapper.insertShare(share) == 1) {
+                return new Response<Integer>(Constant.SAVE_SUCCESS, RID);
             }
-
         }
-        return Constant.SAVE_FAIL;
+        return new Response<>(Constant.SAVE_FAIL, -1);
     }
 }

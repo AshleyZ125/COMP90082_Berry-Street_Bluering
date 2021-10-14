@@ -123,10 +123,8 @@ public class RecordController {
                     .userID(recordVO.getUserID())
                     .build();
             int res = setRecordService.saveRecord(record);
-            if (res == 1) {
-                return AjaxResult.success(getRecordService.queryRID(record.getUserID(),
-                        record.getRTopic(),
-                        record.getRDate()));
+            if (res >= 1) {
+                return AjaxResult.success(res);
             } else {
                 return AjaxResult.error("not success,save again.");
             }
@@ -150,7 +148,7 @@ public class RecordController {
 
     @PostMapping("/api/record/saveShare/{RID}")
     public AjaxResult saveShare(@RequestBody ShareVO shareVO, @PathVariable("RID") int RID) {
-        if (shareService.saveShare(RID, shareVO) == Constant.SAVE_SUCCESS) {
+        if (shareService.saveShare(RID, shareVO).getResult() == Constant.SAVE_SUCCESS) {
             return AjaxResult.success(getRecordService.queryRID(shareVO.getSender(),
                     shareVO.getTopic(),
                     LocalDate.now()));
