@@ -6,8 +6,8 @@
       <h1 class="title">Quizzes</h1>
       <div class="cards" style="font-family: 'Acme', sans-serif; font-size: 50px">
         <el-row>
-          <el-col   :span="4"   v-for="item in tabledata"    :key="item.qid"     :offset="1">
-            <div @click="gotoCateg(item)" style="margin-top: 30px">
+          <el-col   :span="4"   v-for="item in tabledata"    :key="item.qid"     :offset="1" style="margin-right:100px;text-align:center" >
+            <div @click="gotoCateg(item)" style="margin-top: 30px;cursor:pointer">
               <el-card
                 shadow="hover"
                 :body-style="{
@@ -21,23 +21,16 @@
           </el-col>
         </el-row>
       </div>
-    <div class="bottom">
-        <div class="desc">
-           <p style = "font-family: 'Acme', sans-serif;font-size:15px;">
-              How do you feel about using LEx Mirror? Tell us how you think we can improve 
-            </p>
-        </div>
-        <div class="btn">
-          <el-button @click="gotoComment()"> Feedback </el-button>
-            
-        </div>
-    </div>
+    
+    <Footer></Footer>
     </div>
   </div>
 </template>
 
 <script>
 import NonTextHeader from "./../components/NonTextHeader.vue";
+
+import Footer from "./../components/Footer.vue";
 
 export default {
   data() {
@@ -57,8 +50,10 @@ export default {
   name: "categPanel",
   components: {
     NonTextHeader,
+    Footer,
   },
  mounted() {
+    this.userId = this.$route.params.userId;
     this.allAjax();
  },
   methods: {
@@ -67,7 +62,8 @@ export default {
         this.$router.push({
                 name: 'categInfoLEC',
                 params: {
-                    id: item.qid
+                    id: item.qid,
+                    userId: this.userId
                 }
             })
     },
@@ -78,9 +74,7 @@ export default {
         this.tabledata = data;
       });
     },
-    gotoComment(){
-      alert("go to comment")
-    }
+    
   },
 };
 </script>
@@ -98,34 +92,9 @@ export default {
 }
 .el-card{
   width:400px;
-  cursor: pointer;
 }
 .el-card, .el-message{
     border-radius: 10px !important;
 }
-.bottom{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    height: 50px;
-    width: 100%;
-    background: #50A7C2;
-    display: flex;
-    color: white;
-    justify-content: center;
-    align-items: center;
-    .btn{
-        margin-left: 20px;
-        margin-right: 30px;
-        //width: 200px;
-        // height: 0px;
-        text-align: center;
-        // line-height: 50px;
-        color: black;
-        padding: 5px 0;
-        //background: white;
-        //box-shadow: 0 0 20px rgba(255,255,255,0.3);
-        //justify-content: end;
-    }
-}
+
 </style>

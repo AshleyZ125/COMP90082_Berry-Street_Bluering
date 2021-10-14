@@ -4,14 +4,14 @@
         <div class = "personal_container">
             <div class = "reset_panel">
                 <div class = "title_container"><span class = "title"> Personal Settings</span></div>
-                <el-form :model="resetInfoForm" status-icon ref="resetInfoForm"  label-width="100px" label-position="top" :rules="resetInfoFormRules" style="margin:30px 0 0 50px">
+                <el-form :model="resetInfoForm" status-icon ref="resetInfoForm"  label-width="100px" label-position="top" :rules="resetInfoFormRules" style="margin:30px 0 50px 50px">
                     <el-form-item label = "New Username" prop = "new_username">
-                        <el-input style="width:300px" v-model="resetInfoForm.new_username" autocomplete = "off"></el-input>
-                    </el-form-item>
-                    <el-form-item style="margin-top:70px">
-                        <el-button  @click="submitForm('resetInfoForm')">Submit</el-button>
+                        <el-input style="width:200px;margin-right:30px" v-model="resetInfoForm.new_username" autocomplete = "off"></el-input>
+                        <el-button  size="small" round @click="submitForm('resetInfoForm')">Submit</el-button>
                     </el-form-item>
                 </el-form>
+                <el-button  style="color:#F56C6C;margin-left:50px" @click="deleteAccount">Delete Account</el-button>
+                <h4 style="color:red;margin-left:50px;margin-top:10px">Warning, You cannot recover your account after deleted!</h4>
             </div>
         </div>
     </div>
@@ -47,17 +47,19 @@ export default {
     methods:{
         resetUsername(){
             let id = Number(this.$cookie.get('userId'))
-             this.axios.post('/api/user/superResetPassword',{
-                 oldPassword:this.resetPasswordForm.old_password,
-                 newPassword:this.resetPasswordForm.new_password,
+             this.axios.post('/api/user/resetUsername',{
+                 username:this.resetInfoForm.new_username,
                  UID:id,
-
              }).then((res)=>{
-                 if(res.data.status==200){
+                 if(res.data.status==0){
+                     this.$cookie.set('userName',this.resetInfoForm.new_username,{expires: '1M'});
+                     this.$store.dispatch('saveUserName',this.resetInfoForm.new_username)
+                    //this.$router.push('/myspace')
                      this.$message({
-                        message: 'Reset password successfully!',
-                        type: 'success'
-                    })
+                        message: 'Reset username successfully!',
+                        type: 'success',
+                        showClose: true,
+                     })
 				}
 				else{
                     this.$message({
@@ -82,6 +84,38 @@ export default {
           }
         });
       },
+      deleteAccount(){
+          let id = Number(this.$cookie.get('userId'))
+          this.$confirm('Are you sure you wanna delete account? You can not undo this action!', 'Warning', {
+                type: 'warning',
+                confirmButtonText: 'Yes, I am sure!',
+                cancelButtonText: 'Cancel',
+            }).then(() => {
+                this.axios.post('/api/user/delete',{
+                    UID:id
+                }).then((res)=>{
+                    console.log(res)
+                    if(res.data.status==0){
+                        this.$message({
+                            message: 'Your account has been deleted!',
+                            showClose: true,
+                            type: 'success', 
+                        })
+                        this.$cookie.set('userId','',{expires: '-1'})
+                        this.$cookie.set('userName','',{expires: '-1'})
+                        this.$store.dispatch('saveUserName','')
+                        this.$router.push('/')
+                    }
+                    else{
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'error'
+                        })
+                    }
+                })
+            }).catch(() => {
+            })
+      }
     }
 }
 </script>
