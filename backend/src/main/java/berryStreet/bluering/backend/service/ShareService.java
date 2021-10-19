@@ -1,8 +1,7 @@
 package berryStreet.bluering.backend.service;
 
-import berryStreet.bluering.backend.entity.RecordVO;
-import berryStreet.bluering.backend.entity.Share;
+import berryStreet.bluering.backend.entity.ShareVO;
 
 public interface ShareService {
-    public int saveShare(Share share, int RID, RecordVO recordVO);
+    public Response<Integer> saveShare(int RID, ShareVO shareVO);
 }

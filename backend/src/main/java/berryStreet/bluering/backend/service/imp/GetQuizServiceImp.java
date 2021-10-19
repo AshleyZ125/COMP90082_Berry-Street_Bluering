@@ -84,7 +84,7 @@ public class GetQuizServiceImp implements GetQuizService {
         for (Feedback feedback : feedbacks) {
             String range = feedback.getScoreRange();
             String[] borders = range.split(";");
-            if (score >= Integer.parseInt(borders[0]) && score < Integer.parseInt(borders[1])) {
+            if (score >= Integer.parseInt(borders[0]) && score <= Integer.parseInt(borders[1])) {
                 scoreRange = range;
                 break;
             }
