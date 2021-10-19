@@ -4,7 +4,7 @@ UID int not null auto_increment primary key,
 email varchar(50) not null,
 username varchar(20) not null,
 password varchar(20) not null,
-role varchar(20) not null check(role in ('supervisor', 'LEC'))
+role varchar(20) not null check(role in ('supervisor', 'LEC', 'deleted'))
 );
 create table project.quiz(
 QID int not null auto_increment primary key,
