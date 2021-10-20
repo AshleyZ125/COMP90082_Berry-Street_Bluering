@@ -34,6 +34,6 @@ public interface UserMapper {
     @Update("update user set username = #{username} where UID = #{UID}")
     public int resetUsername(@Param("UID") int UID, @Param("username") String username);
 
-    @Delete("delete from user where UID = #{UID}")
+    @Delete("update user set role='deleted' where UID = #{UID} and role='LEC'")
     public int deleteUserByUID(@Param("UID") int UID);
 }

@@ -52,7 +52,7 @@ public class QuizController {
         if (QID == 0)
             return AjaxResult.error("Input empty!");
         Quiz result = getQuizService.queryQuizByQID(QID);
-        if (result.getQID()==0) {
+        if (result==null||result.getQID()==0) {
             return AjaxResult.warn("No this quiz!");
         } else
             return AjaxResult.success(result);
@@ -91,7 +91,7 @@ public class QuizController {
         }
         try {
             Feedback feedback = getQuizService.queryFeedbackByResult(QID, score);
-            if (feedback.getFID()==0) {
+            if (feedback==null||feedback.getFID()==0) {
                 return AjaxResult.warn("No feedback in this quiz!");
             }
             return AjaxResult.success(feedback);
@@ -194,6 +194,8 @@ public class QuizController {
             return AjaxResult.error("Input empty!");
         int QID = quiz.getQID();
         Quiz currQuiz = getQuizService.queryQuizByQID(QID);
+        if(currQuiz==null||currQuiz.getQID()==0)
+            return AjaxResult.warn("No this quiz!");
         switch (quiz.getStatus()) {
             case QuizStatus.QUIZ_SAVED:
                 if (currQuiz.getStatus() == QuizStatus.QUIZ_PUBLIC) {
