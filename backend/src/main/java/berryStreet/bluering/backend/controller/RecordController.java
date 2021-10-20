@@ -53,6 +53,7 @@ public class RecordController {
                 .quizContent(quizSelections)
                 .feedback(feedback.getRFeedback())
                 .savedReflection(feedback.getSavedReflection())
+                .topic(feedback.getRTopic())
                 .build();
         return AjaxResult.success(result);
     }
