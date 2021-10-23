@@ -125,8 +125,8 @@ public class RecordController {
                     .userID(recordVO.getUserID())
                     .build();
             int res = setRecordService.saveRecord(record);
-            if (res >= 1) {
-                return AjaxResult.success(res);
+            if (res == 1) {
+                return AjaxResult.success(record.getRID());
             } else {
                 return AjaxResult.error("not success,save again.");
             }
