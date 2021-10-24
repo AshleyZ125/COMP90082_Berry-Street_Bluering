@@ -24,7 +24,9 @@ By applying the LEx Mirror platform, the application is able to provide online t
       - Database creation and data insertion script
   /documents
       - API documents for system 
-      - Project documents including user stories, architecture and so on. (Shown as PDF)
+      - Project design documents including user stories, architecture and so on.(Shown as PDF)
+  /test
+      - Document for test case and data entry.(Shown as PDF)
 ```
 ## **Installation**
 ### **System Requirements**
