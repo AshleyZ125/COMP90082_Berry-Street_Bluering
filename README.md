@@ -3,12 +3,12 @@
 ## **Table of contents**
 * [Overview](#Overview)
 * [Contributors](#Contributors)
-* [Project Structure](#Project_Structure)
+* [Project Structure](#Project-Structure)
 * [Installation](#Installation)
-     * [System Requirements](#System_Requirements)
-     * [Front-end Setting](#Front-end_Setting)
-     * [Back-end Setting](#Back-end_Setting)
-     * [Database Setting](#Database_Setting)
+     * [System Requirements](#System-Requirements)
+     * [Front-end Setting](#Front-end-Setting)
+     * [Back-end Setting](#Back-end-Setting)
+     * [Database Setting](#Database-Setting)
 * [Change Log](#Change_Log)
  
 ## **Overview**
