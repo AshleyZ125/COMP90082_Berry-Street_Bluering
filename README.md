@@ -1,6 +1,9 @@
 # **COMP90082_Berry-Street_Bluering**
 ## **Software Project 2021 - Team Bluering**
-## **Project Overview**
+## **Table of contents**
+* [Overview](#Overview)
+* 
+## **Overview**
 This repository contains the source code for the COMP90082 Software Project course at the University of Melbourne. The LEx Mirror application for Y-change's strategy.
 
 Y-change's strategy is to recruit, train and hire young life experience consultants (LEC) for external consulting. LEC provides professional advice and guidance and establishes solutions for the community system that affects disadvantaged youth. Y-change is currently seeking to create a tool to help LEC reflect on and improve their professional and personal skills. The project will implement an online testing platform for LEC specific skill areas, which is called LEx Mirror.
