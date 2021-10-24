@@ -44,7 +44,7 @@ export default {
             feedback:'',
             diary:'',
             username:'',
-            topic:'cooking learning',
+            topic:'',
             title:''
         }
     },
@@ -63,6 +63,7 @@ export default {
                     console.log(res.data)
                     this.quiz = res.data.data.quizContent
                     this.feedback = res.data.data.feedback
+                    this.topic = res.data.data.topic
                     this.diary = res.data.data.savedReflection
                 })
         },

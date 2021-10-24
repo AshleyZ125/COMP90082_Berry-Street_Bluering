@@ -82,14 +82,17 @@ export default {
 
 <style lang="scss">
 //@import "./categPanel.scss";
-
-.title{
-  font-family: 'Acme', sans-serif;  
-  font-size:30px;
-  margin-left:30px;
-  margin-top:10px;
- 
+.categPanel{
+    .title{
+    font-family: 'Acme', sans-serif;  
+    font-size:30px;
+    margin-left:30px;
+    margin-top:10px;
+  
+  }
 }
+
+
 .el-card{
   width:400px;
 }
