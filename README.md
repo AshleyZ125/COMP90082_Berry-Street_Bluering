@@ -2,7 +2,15 @@
 ## **Software Project 2021 - Team Bluering**
 ## **Table of contents**
 * [Overview](#Overview)
-* 
+* [Contributors](#Contributors)
+* [Project Structure](#Project_Structure)
+* [Installation](#Installation)
+     * [System Requirements](#System_Requirements)
+     * [Front-end Setting](#Front-end_Setting)
+     * [Back-end Setting](#Back-end_Setting)
+     * [Database Setting](#Database_Setting)
+* [Change Log](#Change_Log)
+ 
 ## **Overview**
 This repository contains the source code for the COMP90082 Software Project course at the University of Melbourne. The LEx Mirror application for Y-change's strategy.
 
