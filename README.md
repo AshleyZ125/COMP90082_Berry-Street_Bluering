@@ -7,10 +7,6 @@ Y-change's strategy is to recruit, train and hire young life experience consulta
 
 By applying the LEx Mirror platform, the application is able to provide online tests for professional and personal skills. The interface of the project is easy to use, interactive,visually engaging, and access because young people with life experience tend to stay in the comfort zone. In addition, the project is able to achieve the ability to test and reflect on feedback without logging in, as well as to protect privacy, and the system will only share the content that participants want to share. 
 
-## **Project Demo**
-
-Demo Link: [https://confluence.cis.unimelb.edu.au:8443/pages/viewpage.action?pageId=83149268](https://confluence.cis.unimelb.edu.au:8443/pages/viewpage.action?pageId=83149268)
-
 ## **Contributors**
 - Zixin Zhang
 - He Yang
