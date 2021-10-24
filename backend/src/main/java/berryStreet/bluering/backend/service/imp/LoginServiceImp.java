@@ -14,6 +14,7 @@ public class LoginServiceImp implements LoginService {
     public User checkUserExist(User user) {
         User result=userMapper.queryUserByEmail(user.getEmail());
         if(result==null)return null;
+        if("deleted".equals(result.getRole()))return null;
         if(user.getPassword().equals(result.getPassword())){
             result.setPassword(null);
         }else{

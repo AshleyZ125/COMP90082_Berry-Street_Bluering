@@ -13,8 +13,8 @@ import java.util.List;
 @Mapper
 public interface RecordMapper {
 
-    @Select("select s.SID SID, r.rTopic rTopic, r.rDate rDate,CASE WHEN r.userID=0 THEN 'Anonymous' ELSE (" +
-            "select username from user where UID=r.userID) END username " +
+    @Select("select s.SID SID, r.rTopic rTopic, r.rDate rDate,CASE WHEN s.sender=0 THEN 'Anonymous' ELSE (" +
+            "select username from user where UID=s.sender) END username " +
             "from share s inner join record r " +
             "on s.recordID=r.RID where s.receiver=#{UID}")
     public List<SharedRecord> querySharedList(@Param("UID") int UID);

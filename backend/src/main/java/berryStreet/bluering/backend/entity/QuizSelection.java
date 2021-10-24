@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class QuizSelection {
     //"qContent":"b"
-    private String qContent;
+    private String content;
     //{"content":"aaaaaa","point":1}
     private String option;
 }

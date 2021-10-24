@@ -11,8 +11,11 @@ public interface ShareMapper {
             " values (#{share.sender},#{share.receiver},#{share.shareReflection},#{share.recordID})")
     @Options(useGeneratedKeys = true, keyProperty = "SID", keyColumn = "SID")
     public int insertShare(@Param("share") Share share);
+
     @Update("update share set sender = #{share.sender},receiver = #{share.receiver}," +
             "shareReflection = #{share.shareReflection} where " +
             "recordID = #{RID}")
-    public int updateShare(@Param("share") Share share,@Param("RID") int RID);
+    public int updateShare(@Param("share") Share share, @Param("RID") int RID);
+    @Select("select * from share where recordID = #{RID}")
+    public Share queryShareByRID(@Param("RID") int RID);
 }

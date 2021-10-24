@@ -1,7 +1,6 @@
 package berryStreet.bluering.backend.controller;
 
 import berryStreet.bluering.backend.Constant.QuizStatus;
-import berryStreet.bluering.backend.Constant.TestCase;
 import berryStreet.bluering.backend.Exceptions.QuizQueryException;
 import berryStreet.bluering.backend.Exceptions.ScoreRangeException;
 import berryStreet.bluering.backend.Utils.AjaxResult;
@@ -33,7 +32,7 @@ public class QuizController {
         if (creatorID <= 0)
             return AjaxResult.error("Input empty!");
         HashMap<String, List<Quiz>> quizList = getQuizService.querySuperList(creatorID);
-        if (quizList == null) {
+        if (quizList.isEmpty()) {
             return AjaxResult.warn("No quiz now.");
         }
         return AjaxResult.success(quizList);
@@ -42,7 +41,7 @@ public class QuizController {
     @PostMapping("/api/quiz/lecQuizList")
     public AjaxResult lecQuizList() {
         List<Quiz> quizList = getQuizService.queryLecList();
-        if (quizList == null) {
+        if (quizList.isEmpty()) {
             return AjaxResult.warn("No quiz now.");
         }
         return AjaxResult.success(quizList);
@@ -53,7 +52,7 @@ public class QuizController {
         if (QID == 0)
             return AjaxResult.error("Input empty!");
         Quiz result = getQuizService.queryQuizByQID(QID);
-        if (result == null) {
+        if (result==null||result.getQID()==0) {
             return AjaxResult.warn("No this quiz!");
         } else
             return AjaxResult.success(result);
@@ -67,7 +66,7 @@ public class QuizController {
         List<Question> questions = getQuizService.queryQuestionByQID(QID);
         System.out.println("questions:" + questions);
         List<QuestionVO> questionVOs = convert(questions);
-        if (questions == null) {
+        if (questions.isEmpty()) {
             return AjaxResult.warn("No question in this quiz!");
         } else
             return AjaxResult.success(questionVOs);
@@ -78,7 +77,7 @@ public class QuizController {
         if (QID == 0)
             return AjaxResult.error("Input empty!");
         List<Feedback> feedbacks = getQuizService.queryFeedbackByQID(QID);
-        if (feedbacks == null) {
+        if (feedbacks.isEmpty()) {
             return AjaxResult.warn("No feedback in this quiz!");
         } else
             return AjaxResult.success(feedbacks);
@@ -92,7 +91,7 @@ public class QuizController {
         }
         try {
             Feedback feedback = getQuizService.queryFeedbackByResult(QID, score);
-            if (null == feedback) {
+            if (feedback==null||feedback.getFID()==0) {
                 return AjaxResult.warn("No feedback in this quiz!");
             }
             return AjaxResult.success(feedback);
@@ -195,6 +194,8 @@ public class QuizController {
             return AjaxResult.error("Input empty!");
         int QID = quiz.getQID();
         Quiz currQuiz = getQuizService.queryQuizByQID(QID);
+        if(currQuiz==null||currQuiz.getQID()==0)
+            return AjaxResult.warn("No this quiz!");
         switch (quiz.getStatus()) {
             case QuizStatus.QUIZ_SAVED:
                 if (currQuiz.getStatus() == QuizStatus.QUIZ_PUBLIC) {
